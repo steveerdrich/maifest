@@ -6,131 +6,342 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="color-scheme" content="dark">
 <title>Maifest 2026</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap');
-:root{
-  --bg:#141412;--surface:#1e1e1b;--surface2:#272724;
-  --border:#404038;--accent:#e09020;--accent2:#f5b840;
-  --green:#4a9e62;--orange:#e07830;--red:#c04848;
-  --text:#f5f2e8;--text2:#b8b4a8;--radius:12px;
+
+/* Alle Farben explizit – keine Browser-Defaults */
+html, body {
+width: 100%;
+height: 100%;
+overflow: hidden;
+background: #141412;
+color: #f0ede6;
+font-family: ‘DM Sans’, sans-serif;
+-webkit-text-size-adjust: 100%;
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
-body{font-family:'DM Sans',sans-serif;color:var(--text);}
 
-#app{position:fixed;inset:0;overflow-y:scroll;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+- { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-.header{background:var(–surface);border-bottom:1px solid var(–border);padding:3px 12px;position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:6px;}
-.header-title{font-family:‘DM Serif Display’,serif;font-size:13px;color:var(–accent);line-height:1;}
-.header-sub{font-size:10px;color:var(–text2);}
-
-.tisch-nav{display:flex;gap:7px;padding:5px 12px;overflow-x:auto;background:var(–surface);border-bottom:1px solid var(–border);scrollbar-width:none;}
-.tisch-nav::-webkit-scrollbar{display:none;}
-.tisch-btn{flex-shrink:0;padding:4px 12px;border-radius:20px;border:1.5px solid var(–border);background:transparent;color:var(–text2);font-family:‘DM Sans’,sans-serif;font-size:12px;font-weight:600;cursor:pointer;position:relative;transition:all 0.12s;}
-.tisch-btn.active{background:var(–accent);border-color:var(–accent);color:#1a1a18;}
-.tisch-btn .badge{position:absolute;top:-5px;right:-5px;background:var(–orange);color:white;font-size:9px;font-weight:700;min-width:15px;height:15px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;}
-
-.bestellung-panel{padding:4px 12px;border-bottom:1px solid var(–border);}
-.bestellung-leer{color:var(–text2);font-size:12px;text-align:center;padding:10px 0;}
-
-.schnell-bar{display:none;gap:5px;padding:3px 0 5px;flex-wrap:wrap;}
-.schnell-bar.vis{display:flex;}
-.s-pill{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;cursor:pointer;font-family:‘DM Sans’,sans-serif;border:1.5px solid;}
-.s-pill.o{border-color:var(–text2);color:var(–text2);background:transparent;}
-.s-pill.b{border-color:var(–accent);color:var(–accent);background:rgba(200,160,74,0.1);}
-.s-pill.g{border-color:var(–green);color:var(–green);background:rgba(90,158,111,0.1);}
-
-.bl-kat-titel{font-size:9px;font-weight:700;color:var(–accent2);text-transform:uppercase;letter-spacing:1.2px;padding:5px 0 2px;border-bottom:1px solid var(–border);margin-bottom:1px;}
-.bl-gruppe{display:flex;align-items:center;gap:5px;padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
-.bl-gruppe:last-child{border-bottom:none;}
-.bl-icon{font-size:13px;width:18px;text-align:center;flex-shrink:0;}
-.bl-name{font-size:12px;font-weight:600;flex:1;line-height:1.2;color:var(–text);}
-.bl-status-row{display:flex;gap:2px;flex-shrink:0;}
-.mini-pill{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:5px;font-size:9px;font-weight:700;cursor:pointer;border:1.5px solid;flex-shrink:0;}
-.mini-pill.offen{background:transparent;border-color:var(–text2);color:var(–text2);}
-.mini-pill.bestellt{background:rgba(200,160,74,0.18);border-color:var(–accent);color:var(–accent);}
-.mini-pill.geliefert{background:rgba(90,158,111,0.18);border-color:var(–green);color:var(–green);}
-.bl-preis{font-size:12px;color:var(–accent);font-weight:700;min-width:46px;text-align:right;}
-.bl-del{color:var(–text2);font-size:14px;cursor:pointer;padding:0 2px;background:none;border:none;flex-shrink:0;}
-.bl-del:active{color:var(–red);}
-.bl-quick-row{display:flex;gap:3px;padding:1px 0 2px 22px;flex-wrap:wrap;}
-.bl-quick{font-size:9px;font-weight:600;padding:1px 6px;border-radius:20px;border:1px solid var(–border);background:var(–surface2);color:var(–text2);cursor:pointer;font-family:‘DM Sans’,sans-serif;}
-
-.status-legend{display:flex;gap:10px;padding:2px 12px;background:var(–surface2);border-bottom:1px solid var(–border);font-size:9px;color:var(–text);}
-.status-legend span{display:flex;align-items:center;gap:2px;}
-
-.summen-bar{padding:5px 14px;display:flex;align-items:center;justify-content:space-between;background:var(–surface);border-bottom:1px solid var(–border);}
-.summen-bar .label{font-size:11px;color:var(–text);}
-.summen-bar .betrag{font-size:18px;font-family:‘DM Serif Display’,serif;color:var(–accent2);}
-
-.abrechnung-row{display:flex;gap:6px;padding:5px 12px;background:var(–surface);border-bottom:2px solid var(–border);}
-.btn-abrechnen{flex:1;padding:7px;border-radius:var(–radius);border:none;font-family:‘DM Sans’,sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
-.btn-alles{background:var(–green);color:white;}
-.btn-auswahl{background:var(–surface2);color:var(–accent);border:1.5px solid var(–accent)!important;}
-.btn-reset{background:var(–surface2);color:var(–red);border:1.5px solid var(–red);padding:7px 12px;border-radius:var(–radius);font-family:‘DM Sans’,sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
-
-.artikel-section{padding-bottom:80px;}
-.kategorie-titel{padding:7px 12px 3px;font-size:10px;font-weight:700;color:var(–text2);text-transform:uppercase;letter-spacing:1.3px;}
-.artikel-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0 12px 5px;}
-.artikel-btn{background:var(–surface2);border:1.5px solid #505048;border-radius:var(–radius);padding:7px 9px;text-align:left;cursor:pointer;color:var(–text);font-family:‘DM Sans’,sans-serif;position:relative;display:flex;align-items:center;gap:7px;transition:border-color 0.1s;}
-.artikel-btn:active{border-color:var(–accent);background:var(–surface);}
-.artikel-count{position:absolute;top:4px;right:4px;background:var(–orange);color:#fff;font-size:12px;font-weight:800;min-width:22px;height:22px;border-radius:11px;display:none;align-items:center;justify-content:center;padding:0 5px;box-shadow:0 1px 4px rgba(0,0,0,0.6);}
-.artikel-count.visible{display:flex;}
-.artikel-btn-icon{font-size:20px;flex-shrink:0;line-height:1;}
-.artikel-btn-right{flex:1;min-width:0;}
-.artikel-btn-name{font-size:11px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(–text);}
-.artikel-btn-preis{font-size:13px;font-weight:700;color:var(–accent);margin-top:2px;}
-
-/* MODALS – funktionieren auf iOS mit display:none/flex */
-.modal-overlay{
-display:none;
-position:fixed;
-top:0;left:0;right:0;bottom:0;
-background:rgba(0,0,0,0.82);
-z-index:999;
-flex-direction:column;
-justify-content:flex-end;
-align-items:stretch;
+#app {
+position: fixed;
+inset: 0;
+overflow-y: scroll;
+overflow-x: hidden;
+-webkit-overflow-scrolling: touch;
+background: #141412;
 }
-.modal-overlay.open{display:flex;}
-.modal{
-background:var(–surface);
-border-radius:18px 18px 0 0;
-border-top:1px solid var(–border);
-padding:16px 16px 38px;
-max-height:80vh;
-overflow-y:auto;
--webkit-overflow-scrolling:touch;
+
+/* HEADER */
+.header {
+background: #1e1e1b;
+border-bottom: 1px solid #3a3a30;
+padding: 4px 14px;
+position: sticky;
+top: 0;
+z-index: 50;
+display: flex;
+align-items: center;
+gap: 7px;
 }
-.modal-titel{font-family:‘DM Serif Display’,serif;font-size:19px;color:var(–accent);margin-bottom:3px;}
-.modal-sub{font-size:11px;color:var(–text2);margin-bottom:14px;}
-.modal-gruppe{border-bottom:1px solid var(–border);padding:8px 0;}
-.modal-gruppe:last-child{border-bottom:none;}
-.modal-gruppe-name{font-size:13px;font-weight:700;margin-bottom:5px;}
-.modal-gruppe-actions{display:flex;gap:5px;margin-bottom:5px;}
-.modal-quick-btn{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;border:1px solid var(–border);background:var(–surface2);color:var(–text2);cursor:pointer;font-family:‘DM Sans’,sans-serif;}
-.modal-stueck-row{display:flex;align-items:center;gap:10px;padding:4px 0;}
-.modal-check{width:21px;height:21px;border-radius:5px;border:2px solid var(–border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.12s;}
-.modal-check.checked{background:var(–green);border-color:var(–green);}
-.modal-check.checked::after{content:‘✓’;color:white;font-size:12px;font-weight:700;}
-.modal-stueck-label{flex:1;font-size:12px;color:var(–text2);}
-.modal-stueck-status{font-size:10px;margin-right:3px;}
-.modal-stueck-preis{font-size:12px;font-weight:700;color:var(–accent);}
-.modal-summe{display:flex;justify-content:space-between;align-items:center;padding:12px 0 10px;border-top:1px solid var(–border);margin-top:4px;}
-.modal-summe span{font-size:14px;font-weight:700;}
-.modal-summe .betrag{font-family:‘DM Serif Display’,serif;font-size:22px;color:var(–accent2);}
-.modal-buttons{display:flex;gap:8px;}
-.modal-btn{flex:1;padding:13px;border-radius:var(–radius);border:none;font-family:‘DM Sans’,sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
-.modal-btn-ok{background:var(–green);color:white;}
-.modal-btn-ab{background:var(–surface2);color:var(–text2);border:1.5px solid var(–border);}
+.header-title {
+font-family: ‘DM Serif Display’, serif;
+font-size: 14px;
+color: #e09020;
+line-height: 1;
+}
+.header-dot { font-size: 10px; color: #3a3a30; }
+.header-sub { font-size: 10px; color: #a0a090; }
 
-.sonstiges-input{background:var(–surface2);border:1.5px solid var(–border);border-radius:var(–radius);padding:11px 13px;color:var(–text);font-family:‘DM Sans’,sans-serif;font-size:15px;width:100%;outline:none;margin-bottom:10px;display:block;}
-.sonstiges-input:focus{border-color:var(–accent);}
-.sonstiges-input::placeholder{color:var(–text2);}
+/* TISCH NAV */
+.tisch-nav {
+display: flex;
+gap: 7px;
+padding: 6px 12px;
+overflow-x: auto;
+background: #1e1e1b;
+border-bottom: 1px solid #3a3a30;
+scrollbar-width: none;
+}
+.tisch-nav::-webkit-scrollbar { display: none; }
+.tisch-btn {
+flex-shrink: 0;
+padding: 5px 13px;
+border-radius: 20px;
+border: 1.5px solid #4a4a40;
+background: transparent;
+color: #a0a090;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 12px;
+font-weight: 600;
+cursor: pointer;
+position: relative;
+}
+.tisch-btn.active {
+background: #e09020;
+border-color: #e09020;
+color: #141412;
+}
+.tisch-btn .badge {
+position: absolute;
+top: -5px; right: -5px;
+background: #d06020;
+color: #fff;
+font-size: 9px;
+font-weight: 700;
+min-width: 15px;
+height: 15px;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 0 3px;
+}
 
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(70px);background:var(–green);color:white;padding:9px 20px;border-radius:30px;font-weight:700;font-size:13px;transition:transform 0.28s;z-index:9999;white-space:nowrap;pointer-events:none;}
-.toast.show{transform:translateX(-50%) translateY(0);}
+/* BESTELLUNG PANEL */
+.bestellung-panel {
+padding: 4px 12px;
+border-bottom: 1px solid #3a3a30;
+background: #141412;
+}
+.bestellung-leer {
+color: #6a6a60;
+font-size: 12px;
+text-align: center;
+padding: 10px 0;
+}
+
+/* SCHNELL STATUS */
+.schnell-bar { display: none; gap: 5px; padding: 4px 0 6px; flex-wrap: wrap; }
+.schnell-bar.vis { display: flex; }
+.s-pill {
+font-size: 10px;
+font-weight: 700;
+padding: 3px 10px;
+border-radius: 20px;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+border: 1.5px solid;
+}
+.s-pill.o { border-color: #6a6a60; color: #b0b0a0; background: transparent; }
+.s-pill.b { border-color: #e09020; color: #e09020; background: rgba(224,144,32,0.12); }
+.s-pill.g { border-color: #4a9e62; color: #4a9e62; background: rgba(74,158,98,0.12); }
+
+/* BESTELLLISTE */
+.bl-kat-titel {
+font-size: 9px;
+font-weight: 700;
+color: #e8b840;
+text-transform: uppercase;
+letter-spacing: 1.2px;
+padding: 5px 0 2px;
+border-bottom: 1px solid #2e2e28;
+margin-bottom: 2px;
+}
+.bl-gruppe {
+display: flex;
+align-items: center;
+gap: 6px;
+padding: 3px 0;
+border-bottom: 1px solid #1e1e1a;
+}
+.bl-gruppe:last-child { border-bottom: none; }
+.bl-icon { font-size: 13px; width: 18px; text-align: center; flex-shrink: 0; }
+.bl-name { font-size: 12px; font-weight: 600; flex: 1; line-height: 1.2; color: #f0ede6; }
+.bl-status-row { display: flex; gap: 3px; flex-shrink: 0; }
+.mini-pill {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 20px; height: 20px;
+border-radius: 5px;
+font-size: 9px;
+font-weight: 700;
+cursor: pointer;
+border: 1.5px solid;
+flex-shrink: 0;
+}
+.mini-pill.offen   { background: transparent; border-color: #5a5a50; color: #9a9a88; }
+.mini-pill.bestellt { background: rgba(224,144,32,0.2); border-color: #e09020; color: #e09020; }
+.mini-pill.geliefert { background: rgba(74,158,98,0.2); border-color: #4a9e62; color: #4a9e62; }
+.bl-preis { font-size: 12px; color: #e8b840; font-weight: 700; min-width: 46px; text-align: right; }
+.bl-del { color: #5a5a50; font-size: 15px; cursor: pointer; padding: 0 2px; background: none; border: none; flex-shrink: 0; }
+.bl-del:active { color: #c04848; }
+.bl-quick-row { display: flex; gap: 3px; padding: 1px 0 3px 22px; flex-wrap: wrap; }
+.bl-quick {
+font-size: 9px; font-weight: 600; padding: 1px 7px;
+border-radius: 20px; border: 1px solid #3a3a30;
+background: #252520; color: #909080;
+cursor: pointer; font-family: ‘DM Sans’, sans-serif;
+}
+
+/* STATUS LEGENDE */
+.status-legend {
+display: flex;
+gap: 12px;
+padding: 3px 12px;
+background: #1a1a16;
+border-bottom: 1px solid #3a3a30;
+font-size: 9px;
+color: #909080;
+}
+.status-legend span { display: flex; align-items: center; gap: 3px; }
+
+/* SUMME */
+.summen-bar {
+padding: 5px 14px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: #1e1e1b;
+border-bottom: 1px solid #3a3a30;
+}
+.summen-bar .label { font-size: 11px; color: #c0bdb0; }
+.summen-bar .betrag { font-size: 20px; font-family: ‘DM Serif Display’, serif; color: #f5c040; }
+
+/* ABRECHNUNG */
+.abrechnung-row {
+display: flex;
+gap: 6px;
+padding: 6px 12px;
+background: #1e1e1b;
+border-bottom: 2px solid #3a3a30;
+}
+.btn-abrechnen {
+flex: 1; padding: 8px;
+border-radius: 10px; border: none;
+font-family: ‘DM Sans’, sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+.btn-alles { background: #4a9e62; color: #fff; }
+.btn-auswahl { background: transparent; color: #e09020; border: 1.5px solid #e09020 !important; }
+.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 8px 13px; border-radius: 10px; font-family: ‘DM Sans’, sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; }
+
+/* ARTIKEL */
+.artikel-section { padding-bottom: 80px; background: #141412; }
+.kategorie-titel {
+padding: 8px 14px 4px;
+font-size: 10px; font-weight: 700;
+color: #808070;
+text-transform: uppercase; letter-spacing: 1.3px;
+background: #141412;
+}
+.artikel-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 6px;
+padding: 0 12px 6px;
+background: #141412;
+}
+.artikel-btn {
+background: #252520;
+border: 1.5px solid #3a3a30;
+border-radius: 10px;
+padding: 8px 10px;
+text-align: left;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 8px;
+position: relative;
+/* Verhindert hellen Safari-Default */
+-webkit-appearance: none;
+appearance: none;
+color: #f0ede6;
+font-family: ‘DM Sans’, sans-serif;
+}
+.artikel-btn:active { border-color: #e09020; background: #2e2e28; }
+.artikel-btn-icon { font-size: 20px; flex-shrink: 0; line-height: 1; }
+.artikel-btn-right { flex: 1; min-width: 0; }
+.artikel-btn-name {
+font-size: 11px; font-weight: 600;
+line-height: 1.25;
+white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+color: #f0ede6;
+}
+.artikel-btn-preis {
+font-size: 14px; font-weight: 700;
+color: #e8a030;
+margin-top: 2px;
+}
+.artikel-count {
+position: absolute;
+top: 4px; right: 4px;
+background: #d06020;
+color: #fff;
+font-size: 12px; font-weight: 800;
+min-width: 22px; height: 22px;
+border-radius: 11px;
+display: none;
+align-items: center;
+justify-content: center;
+padding: 0 5px;
+box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.artikel-count.visible { display: flex; }
+
+/* MODALS */
+.modal-overlay {
+display: none;
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(0,0,0,0.85);
+z-index: 999;
+flex-direction: column;
+justify-content: flex-end;
+align-items: stretch;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+background: #1e1e1b;
+border-radius: 18px 18px 0 0;
+border-top: 1px solid #3a3a30;
+padding: 16px 16px 40px;
+max-height: 80vh;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+color: #f0ede6;
+}
+.modal-titel { font-family: ‘DM Serif Display’, serif; font-size: 20px; color: #e09020; margin-bottom: 3px; }
+.modal-sub { font-size: 11px; color: #808070; margin-bottom: 14px; }
+.modal-gruppe { border-bottom: 1px solid #2e2e28; padding: 8px 0; }
+.modal-gruppe:last-child { border-bottom: none; }
+.modal-gruppe-name { font-size: 13px; font-weight: 700; color: #f0ede6; margin-bottom: 5px; }
+.modal-gruppe-actions { display: flex; gap: 5px; margin-bottom: 5px; }
+.modal-quick-btn { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid #3a3a30; background: #252520; color: #909080; cursor: pointer; font-family: ‘DM Sans’, sans-serif; }
+.modal-stueck-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+.modal-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #4a4a40; background: #252520; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.modal-check.checked { background: #4a9e62; border-color: #4a9e62; }
+.modal-check.checked::after { content: ‘✓’; color: #fff; font-size: 13px; font-weight: 700; }
+.modal-stueck-label { flex: 1; font-size: 13px; color: #c0bdb0; }
+.modal-stueck-status { font-size: 11px; margin-right: 3px; }
+.modal-stueck-preis { font-size: 13px; font-weight: 700; color: #e8a030; }
+.modal-summe { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 10px; border-top: 1px solid #2e2e28; margin-top: 4px; }
+.modal-summe span { font-size: 14px; font-weight: 700; color: #f0ede6; }
+.modal-summe .betrag { font-family: ‘DM Serif Display’, serif; font-size: 24px; color: #f5c040; }
+.modal-buttons { display: flex; gap: 8px; }
+.modal-btn { flex: 1; padding: 13px; border-radius: 10px; border: none; font-family: ‘DM Sans’, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
+.modal-btn-ok { background: #4a9e62; color: #fff; }
+.modal-btn-ab { background: #252520; color: #909080; border: 1.5px solid #3a3a30; }
+
+.sonstiges-input {
+background: #252520; border: 1.5px solid #3a3a30; border-radius: 10px;
+padding: 11px 13px; color: #f0ede6; font-family: ‘DM Sans’, sans-serif;
+font-size: 15px; width: 100%; outline: none; margin-bottom: 10px; display: block;
+-webkit-appearance: none; appearance: none;
+}
+.sonstiges-input:focus { border-color: #e09020; }
+.sonstiges-input::placeholder { color: #5a5a50; }
+
+.toast {
+position: fixed; bottom: 28px; left: 50%;
+transform: translateX(-50%) translateY(70px);
+background: #4a9e62; color: #fff;
+padding: 9px 20px; border-radius: 30px;
+font-weight: 700; font-size: 13px;
+transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 
 </head>
@@ -139,7 +350,7 @@ overflow-y:auto;
 
 <div class="header">
   <span class="header-title">⛷ Maifest 2026</span>
-  <span style="font-size:9px;color:var(--border);">·</span>
+  <span class="header-dot">·</span>
   <span class="header-sub">Ski-Club Oppenau</span>
 </div>
 
@@ -159,7 +370,7 @@ overflow-y:auto;
   <span><span class="mini-pill offen" style="width:12px;height:12px;font-size:7px;">O</span>&nbsp;Offen</span>
   <span><span class="mini-pill bestellt" style="width:12px;height:12px;font-size:7px;">B</span>&nbsp;Bestellt</span>
   <span><span class="mini-pill geliefert" style="width:12px;height:12px;font-size:7px;">G</span>&nbsp;Geliefert</span>
-  <span style="margin-left:auto;font-size:9px;">Pille = wechseln</span>
+  <span style="margin-left:auto;font-size:9px;color:#606058;">Pille = wechseln</span>
 </div>
 
 <div class="summen-bar">
@@ -175,7 +386,7 @@ overflow-y:auto;
 
 <div class="artikel-section" id="artikelSection"></div>
 
-</div><!-- #app -->
+</div>
 
 <!-- Modal Teilabrechnung -->
 
@@ -262,15 +473,21 @@ let T=Array.from({length:TISCHE},()=>[]);
 let aktiv=0,nid=1,mAuswahl=new Set(),bdg={};
 const SR=['offen','bestellt','geliefert'];
 const SL={offen:'O',bestellt:'B',geliefert:'G'};
-const SC={offen:'var(--text2)',bestellt:'var(--accent)',geliefert:'var(--green)'};
+const SC={offen:'#6a6a58',bestellt:'#e09020',geliefert:'#4a9e62'};
 const SN={offen:'● Offen',bestellt:'● Bestellt',geliefert:'● Geliefert'};
 
 function ns(n,p,i){return{id:nid++,name:n,preis:p,icon:i||'📋',status:'offen'};}
 function fmt(v){return v.toFixed(2).replace('.',',')+' €';}
 
 function iEl(ic,sz){
-  if(ic==='curry'){const s=document.createElement('span');s.style.cssText=`display:inline-flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;flex-shrink:0;`;s.innerHTML=CURRY_SVG;return s;}
-  const s=document.createElement('span');s.style.cssText=`font-size:${sz}px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;`;s.textContent=ic;return s;
+  if(ic==='curry'){
+    const s=document.createElement('span');
+    s.style.cssText=`display:inline-flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;flex-shrink:0;`;
+    s.innerHTML=CURRY_SVG;return s;
+  }
+  const s=document.createElement('span');
+  s.style.cssText=`font-size:${sz}px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;`;
+  s.textContent=ic;return s;
 }
 
 function init(){renderNav();renderArt();renderB();}
@@ -278,7 +495,8 @@ function init(){renderNav();renderArt();renderB();}
 function renderNav(){
   const nav=document.getElementById('tischNav');nav.innerHTML='';
   for(let i=0;i<TISCHE;i++){
-    const b=document.createElement('button');b.className='tisch-btn'+(i===aktiv?' active':'');
+    const b=document.createElement('button');
+    b.className='tisch-btn'+(i===aktiv?' active':'');
     b.onclick=()=>{aktiv=i;renderNav();renderB();updAllBdg();};
     b.appendChild(document.createTextNode('Tisch '+(i+1)));
     if(T[i].length){const bd=document.createElement('span');bd.className='badge';bd.textContent=T[i].length>9?'9+':T[i].length;b.appendChild(bd);}
@@ -287,19 +505,27 @@ function renderNav(){
 }
 
 function renderArt(){
-  bdg={};const sec=document.getElementById('artikelSection');sec.innerHTML='';
+  bdg={};
+  const sec=document.getElementById('artikelSection');sec.innerHTML='';
   KAT_ORDER.forEach(k=>{
     const items=ARTIKEL.filter(a=>a.kat===k);if(!items.length)return;
     const t=document.createElement('div');t.className='kategorie-titel';t.textContent=k;sec.appendChild(t);
     const g=document.createElement('div');g.className='artikel-grid';
     items.forEach(a=>{
       const btn=document.createElement('button');btn.className='artikel-btn';
+      // Explizite Farben via style um Safari-Overrides zu verhindern
+      btn.style.cssText='background:#252520;color:#f0ede6;';
       const ic=iEl(a.icon,20);ic.className='artikel-btn-icon';btn.appendChild(ic);
       const r=document.createElement('div');r.className='artikel-btn-right';
-      r.innerHTML=`<div class="artikel-btn-name">${a.name}</div><div class="artikel-btn-preis">${a.sx?'Frei':fmt(a.preis)}</div>`;
-      btn.appendChild(r);
+      const nm=document.createElement('div');nm.className='artikel-btn-name';nm.style.color='#f0ede6';nm.textContent=a.name;
+      const px=document.createElement('div');px.className='artikel-btn-preis';px.style.color='#e8a030';px.textContent=a.sx?'Frei':fmt(a.preis);
+      r.appendChild(nm);r.appendChild(px);btn.appendChild(r);
       const cb=document.createElement('div');cb.className='artikel-count';btn.appendChild(cb);bdg[a.name]=cb;
-      btn.onclick=()=>{if(a.sx){sonstAuf();return;}T[aktiv].push(ns(a.name,a.preis,a.icon));renderB();renderNav();updBdg(a.name);};
+      btn.onclick=()=>{
+        if(a.sx){sonstAuf();return;}
+        T[aktiv].push(ns(a.name,a.preis,a.icon));
+        renderB();renderNav();updBdg(a.name);
+      };
       g.appendChild(btn);
     });
     sec.appendChild(g);
@@ -307,7 +533,12 @@ function renderArt(){
   updAllBdg();
 }
 
-function updBdg(n){const c=T[aktiv].filter(s=>s.name===n).length;const b=bdg[n];if(!b)return;b.textContent=c;c?b.classList.add('visible'):b.classList.remove('visible');}
+function updBdg(n){
+  const c=T[aktiv].filter(s=>s.name===n).length;
+  const b=bdg[n];if(!b)return;
+  b.textContent=c;
+  c?b.classList.add('visible'):b.classList.remove('visible');
+}
 function updAllBdg(){ARTIKEL.forEach(a=>{if(!a.sx)updBdg(a.name);});}
 
 function renderB(){
@@ -407,18 +638,28 @@ function teilBezahlen(){
   showToast('Teilzahlung: '+fmt(sum));
 }
 
-function sonstAuf(){document.getElementById('sName').value='';document.getElementById('sPreis').value='';document.getElementById('sonstigesOverlay').classList.add('open');setTimeout(()=>document.getElementById('sName').focus(),300);}
+function sonstAuf(){
+  document.getElementById('sName').value='';
+  document.getElementById('sPreis').value='';
+  document.getElementById('sonstigesOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('sName').focus(),300);
+}
 function sonstZu(){document.getElementById('sonstigesOverlay').classList.remove('open');}
 function sonstAdd(){
   const n=document.getElementById('sName').value.trim();
   const p=parseFloat(document.getElementById('sPreis').value);
   if(!n){document.getElementById('sName').focus();return;}
   if(isNaN(p)||p<0){document.getElementById('sPreis').focus();return;}
-  N2K[n]='Sonstiges';T[aktiv].push(ns(n,p,'✏️'));
+  N2K[n]='Sonstiges';
+  T[aktiv].push(ns(n,p,'✏️'));
   sonstZu();renderB();renderNav();
 }
 
-function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+function showToast(m){
+  const t=document.getElementById('toast');
+  t.textContent=m;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
 
 init();
 </script>
