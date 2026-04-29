@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="color-scheme" content="dark">
@@ -13,116 +12,120 @@
 
 /* Alle Farben explizit – keine Browser-Defaults */
 html, body {
-width: 100%;
-height: 100%;
-overflow: hidden;
-background: #141412;
-color: #f0ede6;
-font-family: ‘DM Sans’, sans-serif;
--webkit-text-size-adjust: 100%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #141412;
+  color: #f0ede6;
+  font-family: 'DM Sans', sans-serif;
+  -webkit-text-size-adjust: 100%;
 }
-
-- { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-action: manipulation; }
 
 #app {
-position: fixed;
-inset: 0;
-overflow-y: scroll;
-overflow-x: hidden;
--webkit-overflow-scrolling: touch;
-background: #141412;
+  position: fixed;
+  inset: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: #141412;
 }
 
 /* HEADER */
 .header {
-background: #1e1e1b;
-border-bottom: 1px solid #3a3a30;
-padding: 4px 14px;
-position: sticky;
-top: 0;
-z-index: 50;
-display: flex;
-align-items: center;
-gap: 7px;
+  background: #1e1e1b;
+  border-bottom: 1px solid #3a3a30;
+  padding: 4px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 .header-title {
-font-family: ‘DM Serif Display’, serif;
-font-size: 14px;
-color: #e09020;
-line-height: 1;
+  font-family: 'DM Serif Display', serif;
+  font-size: 14px;
+  color: #e09020;
+  line-height: 1;
 }
 .header-dot { font-size: 10px; color: #3a3a30; }
 .header-sub { font-size: 10px; color: #a0a090; }
 
 /* TISCH NAV */
 .tisch-nav {
-display: flex;
-gap: 7px;
-padding: 6px 12px;
-overflow-x: auto;
-background: #1e1e1b;
-border-bottom: 1px solid #3a3a30;
-scrollbar-width: none;
+  display: flex;
+  gap: 7px;
+  padding: 6px 12px;
+  overflow-x: auto;
+  background: #1e1e1b;
+  border-bottom: 1px solid #3a3a30;
+  scrollbar-width: none;
+  position: sticky;
+  top: 26px;
+  z-index: 49;
 }
 .tisch-nav::-webkit-scrollbar { display: none; }
 .tisch-btn {
-flex-shrink: 0;
-padding: 5px 13px;
-border-radius: 20px;
-border: 1.5px solid #4a4a40;
-background: transparent;
-color: #a0a090;
-font-family: ‘DM Sans’, sans-serif;
-font-size: 12px;
-font-weight: 600;
-cursor: pointer;
-position: relative;
+  flex-shrink: 0;
+  padding: 5px 13px;
+  border-radius: 20px;
+  border: 1.5px solid #4a4a40;
+  background: transparent;
+  color: #a0a090;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
 }
 .tisch-btn.active {
-background: #e09020;
-border-color: #e09020;
-color: #141412;
+  background: #e09020;
+  border-color: #e09020;
+  color: #141412;
 }
 .tisch-btn .badge {
-position: absolute;
-top: -5px; right: -5px;
-background: #d06020;
-color: #fff;
-font-size: 9px;
-font-weight: 700;
-min-width: 15px;
-height: 15px;
-border-radius: 8px;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 0 3px;
+  position: absolute;
+  top: -5px; right: -5px;
+  background: #d06020;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
 }
 
 /* BESTELLUNG PANEL */
 .bestellung-panel {
-padding: 4px 12px;
-border-bottom: 1px solid #3a3a30;
-background: #141412;
+  padding: 4px 12px;
+  border-bottom: 1px solid #3a3a30;
+  background: #141412;
+  padding-bottom: 80px;
 }
 .bestellung-leer {
-color: #6a6a60;
-font-size: 12px;
-text-align: center;
-padding: 10px 0;
+  color: #6a6a60;
+  font-size: 12px;
+  text-align: center;
+  padding: 10px 0;
 }
 
 /* SCHNELL STATUS */
 .schnell-bar { display: none; gap: 5px; padding: 4px 0 6px; flex-wrap: wrap; }
 .schnell-bar.vis { display: flex; }
 .s-pill {
-font-size: 10px;
-font-weight: 700;
-padding: 3px 10px;
-border-radius: 20px;
-cursor: pointer;
-font-family: ‘DM Sans’, sans-serif;
-border: 1.5px solid;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  border: 1.5px solid;
 }
 .s-pill.o { border-color: #6a6a60; color: #b0b0a0; background: transparent; }
 .s-pill.b { border-color: #e09020; color: #e09020; background: rgba(224,144,32,0.12); }
@@ -130,37 +133,37 @@ border: 1.5px solid;
 
 /* BESTELLLISTE */
 .bl-kat-titel {
-font-size: 9px;
-font-weight: 700;
-color: #e8b840;
-text-transform: uppercase;
-letter-spacing: 1.2px;
-padding: 5px 0 2px;
-border-bottom: 1px solid #2e2e28;
-margin-bottom: 2px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #e8b840;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 5px 0 2px;
+  border-bottom: 1px solid #2e2e28;
+  margin-bottom: 2px;
 }
 .bl-gruppe {
-display: flex;
-align-items: center;
-gap: 6px;
-padding: 3px 0;
-border-bottom: 1px solid #1e1e1a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+  border-bottom: 1px solid #1e1e1a;
 }
 .bl-gruppe:last-child { border-bottom: none; }
 .bl-icon { font-size: 13px; width: 18px; text-align: center; flex-shrink: 0; }
 .bl-name { font-size: 12px; font-weight: 600; flex: 1; line-height: 1.2; color: #f0ede6; }
 .bl-status-row { display: flex; gap: 3px; flex-shrink: 0; }
 .mini-pill {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-width: 20px; height: 20px;
-border-radius: 5px;
-font-size: 9px;
-font-weight: 700;
-cursor: pointer;
-border: 1.5px solid;
-flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid;
+  flex-shrink: 0;
 }
 .mini-pill.offen   { background: transparent; border-color: #5a5a50; color: #9a9a88; }
 .mini-pill.bestellt { background: rgba(224,144,32,0.2); border-color: #e09020; color: #e09020; }
@@ -170,180 +173,191 @@ flex-shrink: 0;
 .bl-del:active { color: #c04848; }
 .bl-quick-row { display: flex; gap: 3px; padding: 1px 0 3px 22px; flex-wrap: wrap; }
 .bl-quick {
-font-size: 9px; font-weight: 600; padding: 1px 7px;
-border-radius: 20px; border: 1px solid #3a3a30;
-background: #252520; color: #909080;
-cursor: pointer; font-family: ‘DM Sans’, sans-serif;
+  font-size: 9px; font-weight: 600; padding: 1px 7px;
+  border-radius: 20px; border: 1px solid #3a3a30;
+  background: #252520; color: #909080;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
 }
 
 /* STATUS LEGENDE */
 .status-legend {
-display: flex;
-gap: 12px;
-padding: 3px 12px;
-background: #1a1a16;
-border-bottom: 1px solid #3a3a30;
-font-size: 9px;
-color: #909080;
+  display: flex;
+  gap: 12px;
+  padding: 3px 12px;
+  background: #1a1a16;
+  border-bottom: 1px solid #3a3a30;
+  font-size: 9px;
+  color: #909080;
 }
 .status-legend span { display: flex; align-items: center; gap: 3px; }
 
 /* SUMME */
 .summen-bar {
-padding: 5px 14px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-background: #1e1e1b;
-border-bottom: 1px solid #3a3a30;
+  padding: 5px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e1e1b;
+  border-bottom: 1px solid #3a3a30;
 }
 .summen-bar .label { font-size: 11px; color: #c0bdb0; }
-.summen-bar .betrag { font-size: 20px; font-family: ‘DM Serif Display’, serif; color: #f5c040; }
+.summen-bar .betrag { font-size: 20px; font-family: 'DM Serif Display', serif; color: #f5c040; }
 
 /* ABRECHNUNG */
 .abrechnung-row {
-display: flex;
-gap: 6px;
-padding: 6px 12px;
-background: #1e1e1b;
-border-bottom: 2px solid #3a3a30;
+  display: flex;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #1e1e1b;
+  border-bottom: 2px solid #3a3a30;
 }
 .btn-abrechnen {
-flex: 1; padding: 8px;
-border-radius: 10px; border: none;
-font-family: ‘DM Sans’, sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;
+  flex: 1; padding: 8px;
+  border-radius: 10px; border: none;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;
 }
 .btn-alles { background: #4a9e62; color: #fff; }
 .btn-auswahl { background: transparent; color: #e09020; border: 1.5px solid #e09020 !important; }
-.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 8px 13px; border-radius: 10px; font-family: ‘DM Sans’, sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; }
+.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 8px 13px; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; }
 
 /* ARTIKEL */
-.artikel-section { padding-bottom: 80px; background: #141412; }
+.artikel-section { padding-bottom: 6px; background: #141412; }
 .kategorie-titel {
-padding: 8px 14px 4px;
-font-size: 10px; font-weight: 700;
-color: #808070;
-text-transform: uppercase; letter-spacing: 1.3px;
-background: #141412;
+  padding: 8px 14px 4px;
+  font-size: 10px; font-weight: 700;
+  color: #808070;
+  text-transform: uppercase; letter-spacing: 1.3px;
+  background: #141412;
 }
 .artikel-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 6px;
-padding: 0 12px 6px;
-background: #141412;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 0 12px 6px;
+  background: #141412;
 }
 .artikel-btn {
-background: #252520;
-border: 1.5px solid #3a3a30;
-border-radius: 10px;
-padding: 8px 10px;
-text-align: left;
-cursor: pointer;
-display: flex;
-align-items: center;
-gap: 8px;
-position: relative;
-/* Verhindert hellen Safari-Default */
--webkit-appearance: none;
-appearance: none;
-color: #f0ede6;
-font-family: ‘DM Sans’, sans-serif;
+  background: #252520;
+  border: 1.5px solid #3a3a30;
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  /* Verhindert hellen Safari-Default */
+  -webkit-appearance: none;
+  appearance: none;
+  color: #f0ede6;
+  font-family: 'DM Sans', sans-serif;
 }
 .artikel-btn:active { border-color: #e09020; background: #2e2e28; }
 .artikel-btn-icon { font-size: 20px; flex-shrink: 0; line-height: 1; }
 .artikel-btn-right { flex: 1; min-width: 0; }
 .artikel-btn-name {
-font-size: 11px; font-weight: 600;
-line-height: 1.25;
-white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-color: #f0ede6;
+  font-size: 11px; font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: #f0ede6;
 }
 .artikel-btn-preis {
-font-size: 14px; font-weight: 700;
-color: #e8a030;
-margin-top: 2px;
+  font-size: 14px; font-weight: 700;
+  color: #e8a030;
+  margin-top: 2px;
 }
 .artikel-count {
-position: absolute;
-top: 4px; right: 4px;
-background: #d06020;
-color: #fff;
-font-size: 12px; font-weight: 800;
-min-width: 22px; height: 22px;
-border-radius: 11px;
-display: none;
-align-items: center;
-justify-content: center;
-padding: 0 5px;
-box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  position: absolute;
+  top: 4px; right: 4px;
+  background: #d06020;
+  color: #fff;
+  font-size: 12px; font-weight: 800;
+  min-width: 22px; height: 22px;
+  border-radius: 11px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 .artikel-count.visible { display: flex; }
 
 /* MODALS */
 .modal-overlay {
-display: none;
-position: fixed;
-top: 0; left: 0; right: 0; bottom: 0;
-background: rgba(0,0,0,0.85);
-z-index: 999;
-flex-direction: column;
-justify-content: flex-end;
-align-items: stretch;
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 999;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
 }
 .modal-overlay.open { display: flex; }
 .modal {
-background: #1e1e1b;
-border-radius: 18px 18px 0 0;
-border-top: 1px solid #3a3a30;
-padding: 16px 16px 40px;
-max-height: 80vh;
-overflow-y: auto;
--webkit-overflow-scrolling: touch;
-color: #f0ede6;
+  background: #1e1e1b;
+  border-radius: 18px 18px 0 0;
+  border-top: 1px solid #3a3a30;
+  padding: 16px 16px 40px;
+  max-height: 80vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  color: #f0ede6;
 }
-.modal-titel { font-family: ‘DM Serif Display’, serif; font-size: 20px; color: #e09020; margin-bottom: 3px; }
+.modal-titel { font-family: 'DM Serif Display', serif; font-size: 20px; color: #e09020; margin-bottom: 3px; }
 .modal-sub { font-size: 11px; color: #808070; margin-bottom: 14px; }
 .modal-gruppe { border-bottom: 1px solid #2e2e28; padding: 8px 0; }
 .modal-gruppe:last-child { border-bottom: none; }
 .modal-gruppe-name { font-size: 13px; font-weight: 700; color: #f0ede6; margin-bottom: 5px; }
 .modal-gruppe-actions { display: flex; gap: 5px; margin-bottom: 5px; }
-.modal-quick-btn { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid #3a3a30; background: #252520; color: #909080; cursor: pointer; font-family: ‘DM Sans’, sans-serif; }
+.modal-quick-btn { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid #3a3a30; background: #252520; color: #909080; cursor: pointer; font-family: 'DM Sans', sans-serif; }
 .modal-stueck-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
 .modal-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #4a4a40; background: #252520; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .modal-check.checked { background: #4a9e62; border-color: #4a9e62; }
-.modal-check.checked::after { content: ‘✓’; color: #fff; font-size: 13px; font-weight: 700; }
+.modal-check.checked::after { content: '✓'; color: #fff; font-size: 13px; font-weight: 700; }
 .modal-stueck-label { flex: 1; font-size: 13px; color: #c0bdb0; }
 .modal-stueck-status { font-size: 11px; margin-right: 3px; }
 .modal-stueck-preis { font-size: 13px; font-weight: 700; color: #e8a030; }
 .modal-summe { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 10px; border-top: 1px solid #2e2e28; margin-top: 4px; }
 .modal-summe span { font-size: 14px; font-weight: 700; color: #f0ede6; }
-.modal-summe .betrag { font-family: ‘DM Serif Display’, serif; font-size: 24px; color: #f5c040; }
+.modal-summe .betrag { font-family: 'DM Serif Display', serif; font-size: 24px; color: #f5c040; }
 .modal-buttons { display: flex; gap: 8px; }
-.modal-btn { flex: 1; padding: 13px; border-radius: 10px; border: none; font-family: ‘DM Sans’, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
+.modal-btn { flex: 1; padding: 13px; border-radius: 10px; border: none; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
 .modal-btn-ok { background: #4a9e62; color: #fff; }
 .modal-btn-ab { background: #252520; color: #909080; border: 1.5px solid #3a3a30; }
 
 .sonstiges-input {
-background: #252520; border: 1.5px solid #3a3a30; border-radius: 10px;
-padding: 11px 13px; color: #f0ede6; font-family: ‘DM Sans’, sans-serif;
-font-size: 15px; width: 100%; outline: none; margin-bottom: 10px; display: block;
--webkit-appearance: none; appearance: none;
+  background: #252520; border: 1.5px solid #3a3a30; border-radius: 10px;
+  padding: 11px 13px; color: #f0ede6; font-family: 'DM Sans', sans-serif;
+  font-size: 15px; width: 100%; outline: none; margin-bottom: 10px; display: block;
+  -webkit-appearance: none; appearance: none;
 }
 .sonstiges-input:focus { border-color: #e09020; }
 .sonstiges-input::placeholder { color: #5a5a50; }
 
 .toast {
-position: fixed; bottom: 28px; left: 50%;
-transform: translateX(-50%) translateY(70px);
-background: #4a9e62; color: #fff;
-padding: 9px 20px; border-radius: 30px;
-font-weight: 700; font-size: 13px;
-transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events: none;
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: #4a9e62; color: #fff;
+  padding: 9px 20px; border-radius: 30px;
+  font-weight: 700; font-size: 13px;
+  transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events: none;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 
+<script>
+// Prevent double-tap zoom
+var lastTap = 0;
+document.addEventListener('touchend', function(e) {
+  var now = Date.now();
+  if (now - lastTap < 300) {
+    e.preventDefault();
+  }
+  lastTap = now;
+}, { passive: false });
+</script>
 </head>
 <body>
 <div id="app">
@@ -356,13 +370,15 @@ transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events:
 
 <div class="tisch-nav" id="tischNav"></div>
 
+<div class="artikel-section" id="artikelSection"></div>
+
 <div class="bestellung-panel">
   <div class="schnell-bar" id="schnellBar">
     <button class="s-pill o" onclick="alleStatus('offen')">● Gesamt offen</button>
     <button class="s-pill b" onclick="alleStatus('bestellt')">● Gesamt bestellt</button>
     <button class="s-pill g" onclick="alleStatus('geliefert')">● Gesamt geliefert</button>
   </div>
-  <div class="bestellung-leer" id="bestellLeer">Noch nichts bestellt – unten antippen</div>
+  <div class="bestellung-leer" id="bestellLeer">Noch nichts bestellt – oben antippen</div>
   <div id="bestellListe"></div>
 </div>
 
@@ -384,12 +400,9 @@ transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events:
   <button class="btn-reset" onclick="tischLeeren()">✕</button>
 </div>
 
-<div class="artikel-section" id="artikelSection"></div>
-
 </div>
 
 <!-- Modal Teilabrechnung -->
-
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-titel">Teilabrechnung</div>
@@ -407,7 +420,6 @@ transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events:
 </div>
 
 <!-- Modal Sonstiges -->
-
 <div class="modal-overlay" id="sonstigesOverlay">
   <div class="modal">
     <div class="modal-titel">✏️ Sonstiges</div>
@@ -468,7 +480,7 @@ const ARTIKEL=[
 ];
 
 const N2K={};ARTIKEL.forEach(a=>N2K[a.name]=a.kat);
-const TISCHE=6;
+const TISCHE=5;
 let T=Array.from({length:TISCHE},()=>[]);
 let aktiv=0,nid=1,mAuswahl=new Set(),bdg={};
 const SR=['offen','bestellt','geliefert'];
@@ -663,6 +675,5 @@ function showToast(m){
 
 init();
 </script>
-
 </body>
 </html>
