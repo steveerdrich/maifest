@@ -35,14 +35,11 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
 /* HEADER */
 .header {
   background: #1e1e1b;
-  border-bottom: 1px solid #3a3a30;
-  padding: 4px 14px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  border-bottom: none;
+  padding: 3px 12px 2px;
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
 }
 .header-title {
   font-family: 'DM Serif Display', serif;
@@ -57,14 +54,11 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
 .tisch-nav {
   display: flex;
   gap: 7px;
-  padding: 6px 12px;
+  padding: 5px 12px;
   overflow-x: auto;
   background: #1e1e1b;
   border-bottom: 1px solid #3a3a30;
   scrollbar-width: none;
-  position: sticky;
-  top: 26px;
-  z-index: 49;
 }
 .tisch-nav::-webkit-scrollbar { display: none; }
 .tisch-btn {
@@ -158,9 +152,10 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
   flex-wrap: wrap;
   gap: 3px;
   min-width: 0;
+  justify-content: space-between;
 }
 .bl-name { font-size: 12px; font-weight: 600; line-height: 1.3; color: #f0ede6; white-space: nowrap; }
-.bl-status-row { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; }
+.bl-status-row { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; margin-left: auto; }
 .mini-pill {
   display: inline-flex;
   align-items: center;
@@ -275,21 +270,42 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
   color: #e8a030;
   margin-top: 2px;
 }
-.artikel-count {
+.artikel-count-wrap {
   position: absolute;
-  top: 4px; right: 4px;
+  bottom: 4px; right: 4px;
+  display: none;
+  align-items: center;
+  gap: 3px;
+  z-index: 5;
+}
+.artikel-count-wrap.visible { display: flex; }
+.artikel-count {
   background: #d06020;
   color: #fff;
   font-size: 12px; font-weight: 800;
   min-width: 22px; height: 22px;
   border-radius: 11px;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 5px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
-.artikel-count.visible { display: flex; }
+.art-minus-btn {
+  background: #3a3028;
+  color: #e09020;
+  border: 1.5px solid #e09020;
+  border-radius: 8px;
+  font-size: 14px; font-weight: 700;
+  width: 22px; height: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: DM Sans, sans-serif;
+  line-height: 1;
+  touch-action: manipulation;
+}
 
 /* MODALS */
 .modal-overlay {
@@ -370,13 +386,14 @@ document.addEventListener('touchend', function(e) {
 <body>
 <div id="app">
 
-<div class="header">
-  <span class="header-title">⛷ Maifest 2026</span>
-  <span class="header-dot">·</span>
-  <span class="header-sub">Ski-Club Oppenau</span>
+<div style="position:sticky;top:0;z-index:50;background:#1e1e1b;">
+  <div class="header">
+    <span class="header-title">⛷ Maifest 2026</span>
+    <span class="header-dot">·</span>
+    <span class="header-sub">Ski-Club Oppenau</span>
+  </div>
+  <div class="tisch-nav" id="tischNav"></div>
 </div>
-
-<div class="tisch-nav" id="tischNav"></div>
 
 <div class="artikel-section" id="artikelSection"></div>
 
@@ -589,22 +606,17 @@ function renderArt(){
       const px=document.createElement('div');px.className='artikel-btn-preis';px.style.color='#e8a030';px.textContent=a.sx?'Frei':fmt(a.preis);
       r.appendChild(nm);r.appendChild(px);btn.appendChild(r);
 
-      // Count badge shows number ordered
-      const cb=document.createElement('div');cb.className='artikel-count';btn.appendChild(cb);bdg[a.name]=cb;
-
       btn.onclick=()=>{
         if(a.sx){sonstAuf();return;}
         T[aktiv].push(ns(a.name,a.preis,a.icon));
-        renderB();renderNav();updBdg(a.name);
+        renderB();renderNav();updBdg(a.name);saveState();
       };
 
-      // Minus button - only shown when count > 0
+      // Count + minus widget (top-right corner of wrap, outside btn)
       if(!a.sx){
-        const mbtn=document.createElement('button');
-        mbtn.className='art-minus';
-        mbtn.id='minus-'+a.name.replace(/\s/g,'_');
-        mbtn.textContent='−';
-        mbtn.style.cssText='display:none;position:absolute;top:22px;right:4px;background:#3a3028;color:#e09020;border:1.5px solid #e09020;border-radius:8px;font-size:14px;font-weight:700;width:22px;height:22px;cursor:pointer;align-items:center;justify-content:center;z-index:5;font-family:DM Sans,sans-serif;line-height:1;';
+        const cntWrap=document.createElement('div');cntWrap.className='artikel-count-wrap';
+        const cb=document.createElement('div');cb.className='artikel-count';
+        const mbtn=document.createElement('button');mbtn.className='art-minus-btn';mbtn.textContent='−';
         mbtn.onclick=(e)=>{
           e.stopPropagation();
           const arr=T[aktiv].filter(s=>s.name===a.name);
@@ -612,12 +624,14 @@ function renderArt(){
             const last=arr[arr.length-1];
             const idx=T[aktiv].findIndex(x=>x.id===last.id);
             if(idx>-1)T[aktiv].splice(idx,1);
-            renderB();renderNav();updBdg(a.name);
+            renderB();renderNav();updBdg(a.name);saveState();
           }
         };
-        // Store minus button ref alongside badge
-        bdg['__minus__'+a.name]=mbtn;
-        wrap.appendChild(mbtn);
+        cntWrap.appendChild(cb);
+        cntWrap.appendChild(mbtn);
+        wrap.appendChild(cntWrap);
+        bdg[a.name]=cb;
+        bdg['__wrap__'+a.name]=cntWrap;
       }
 
       wrap.appendChild(btn);
@@ -633,9 +647,9 @@ function updBdg(n){
   const b=bdg[n];if(!b)return;
   b.textContent=c;
   c?b.classList.add('visible'):b.classList.remove('visible');
-  // Show/hide minus button
-  const mb=bdg['__minus__'+n];
-  if(mb){mb.style.display=c>0?'flex':'none';}
+  // Show/hide count+minus widget
+  const ww=bdg['__wrap__'+n];
+  if(ww){ww.classList.toggle('visible',c>0);}
 }
 function updAllBdg(){ARTIKEL.forEach(a=>{if(!a.sx)updBdg(a.name);});}
 
@@ -656,7 +670,7 @@ function renderB(){
     const katQr=document.createElement('div');katQr.className='bl-quick-row';
     [['Alle offen','offen'],['Alle bestellt','bestellt'],['Alle geliefert','geliefert']].forEach(([l,st2])=>{
       const b=document.createElement('button');b.className='bl-quick';b.textContent=l;
-      b.onclick=()=>{st.forEach(s=>s.status=st2);renderB();};katQr.appendChild(b);
+      b.onclick=()=>{st.forEach(s=>s.status=st2);renderB();saveState();};katQr.appendChild(b);
     });
     kb.appendChild(katQr);
 
@@ -668,11 +682,11 @@ function renderB(){
       const pills=document.createElement('div');pills.className='bl-status-row';
       gs.forEach(s=>{
         const p=document.createElement('div');p.className=`mini-pill ${s.status}`;p.textContent=SL[s.status];
-        p.onclick=()=>{s.status=SR[(SR.indexOf(s.status)+1)%SR.length];renderB();};pills.appendChild(p);
+        p.onclick=()=>{s.status=SR[(SR.indexOf(s.status)+1)%SR.length];renderB();saveState();};pills.appendChild(p);
       });
       const px=document.createElement('div');px.className='bl-preis';px.textContent=fmt(gs.reduce((a,x)=>a+x.preis,0));
       const del=document.createElement('button');del.className='bl-del';del.textContent='×';
-      del.onclick=()=>{gs.forEach(s=>{const idx=T[aktiv].findIndex(x=>x.id===s.id);if(idx>-1)T[aktiv].splice(idx,1);});renderB();renderNav();updBdg(nm);};
+      del.onclick=()=>{gs.forEach(s=>{const idx=T[aktiv].findIndex(x=>x.id===s.id);if(idx>-1)T[aktiv].splice(idx,1);});renderB();renderNav();updBdg(nm);saveState();};
       const namePills=document.createElement('div');namePills.className='bl-name-pills';
       // Add spacer between name and pills so pills push right
       const spacer=document.createElement('div');spacer.style.cssText='flex:1;min-width:4px;';
@@ -686,18 +700,18 @@ function renderB(){
 }
 
 function updSumme(){document.getElementById('gesamtSumme').textContent=fmt(T[aktiv].reduce((s,a)=>s+a.preis,0));}
-function alleStatus(st){T[aktiv].forEach(s=>s.status=st);renderB();}
+function alleStatus(st){T[aktiv].forEach(s=>s.status=st);renderB();saveState();}
 
 function allesAbrechnen(){
   const t=T[aktiv];if(!t.length)return;
   const sum=t.reduce((s,a)=>s+a.preis,0);
-  T[aktiv]=[];renderB();renderNav();updAllBdg();
+  T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
   showToast('Tisch '+(aktiv+1)+' bezahlt: '+fmt(sum));
 }
 function tischLeeren(){
   if(!T[aktiv].length)return;
   if(!confirm('Tisch '+(aktiv+1)+' wirklich leeren?'))return;
-  T[aktiv]=[];renderB();renderNav();updAllBdg();
+  T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
 }
 
 function teilAuf(){if(!T[aktiv].length)return;mAuswahl=new Set();renderMod();document.getElementById('modalOverlay').classList.add('open');}
@@ -736,7 +750,7 @@ function teilBezahlen(){
   if(!mAuswahl.size)return;
   const sum=[...mAuswahl].reduce((s,id)=>{const it=T[aktiv].find(x=>x.id===id);return s+(it?it.preis:0);},0);
   T[aktiv]=T[aktiv].filter(s=>!mAuswahl.has(s.id));
-  teilZu();renderB();renderNav();updAllBdg();
+  teilZu();renderB();renderNav();updAllBdg();saveState();
   showToast('Teilzahlung: '+fmt(sum));
 }
 
@@ -757,13 +771,36 @@ function sonstAdd(){
   sonstZu();renderB();renderNav();
 }
 
+
+// ── PERSISTENZ via localStorage ──
+function saveState(){
+  try{
+    localStorage.setItem('maifest_T', JSON.stringify(T));
+    localStorage.setItem('maifest_nid', String(nid));
+  }catch(e){}
+}
+
+function loadState(){
+  try{
+    const saved=localStorage.getItem('maifest_T');
+    const savedNid=localStorage.getItem('maifest_nid');
+    if(saved){
+      const parsed=JSON.parse(saved);
+      if(Array.isArray(parsed) && parsed.length===TISCHE){
+        T=parsed;
+      }
+    }
+    if(savedNid) nid=parseInt(savedNid)||1;
+  }catch(e){}
+}
+
 function showToast(m){
   const t=document.getElementById('toast');
   t.textContent=m;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 
-init();
+loadState();init();
 </script>
 </body>
 </html>
