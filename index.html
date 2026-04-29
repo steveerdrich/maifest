@@ -439,7 +439,7 @@ document.addEventListener('touchend', function(e) {
 <script>
 const KAT_ORDER=["Alkoholfrei","Bier","Wein","Weitere alkohol.","Speisen","Kaffee & Kuchen","Sonstiges"];
 const KAT_LABEL={"Alkoholfrei":"💧 Alkoholfreie Getränke","Bier":"🍺 Bier","Wein":"🍷 Wein","Weitere alkohol.":"🥃 Weitere alkoholische Getränke","Speisen":"🍽️ Speisen","Kaffee & Kuchen":"☕ Kaffee & Kuchen","Sonstiges":"✏️ Sonstiges"};
-const CURRY_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="20" height="20"><path d="M6 20 Q8 14 18 16 Q28 18 30 16" stroke="#c07030" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M9 17 Q12 13 16 15 Q20 17 24 14 Q27 12 29 14" stroke="#d03010" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9"/></svg>`;
+
 
 const ARTIKEL=[
   {kat:"Alkoholfrei",icon:"💧",name:"Sprudel sauer",preis:2.50},
@@ -491,30 +491,59 @@ const SN={offen:'● Offen',bestellt:'● Bestellt',geliefert:'● Geliefert'};
 function ns(n,p,i){return{id:nid++,name:n,preis:p,icon:i||'📋',status:'offen'};}
 function fmt(v){return v.toFixed(2).replace('.',',')+' €';}
 
-// Twemoji codepoint map
-const TWEMOJI_MAP = {
-  '🫙':'1fad9','🍊':'1f34a','🍎':'1f34e','🍏':'1f34f','🍋':'1f34b',
-  '🍺':'1f37a','🥂':'1f942','🍾':'1f37e','🍷':'1f377','🥃':'1f943',
-  '🥗':'1f957','🍟':'1f35f','🌭':'1f32d','🥩':'1f969','🍗':'1f357',
-  '🦃':'1f983','☕':'2615','🎂':'1f382','🍰':'1f370','✏️':'270f-fe0f',
-  '🌾':'1f33e','🧃':'1f9c3',
-  'curry':'1f32d',
+const SVG_ICONS = {
+  "Sprudel sauer": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#3060a0"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#b8d8f0"/><circle cx="18" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/><circle cx="21" cy="20" r="0.9" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="17" r="1" fill="rgba(255,255,255,0.5)"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#e8f4ff" opacity="0.85"/></svg>`,
+  "Sprudel s\u00fc\u00df": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#c03030"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#f0c8c8"/><circle cx="18" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/><circle cx="21" cy="20" r="0.9" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="17" r="1" fill="rgba(255,255,255,0.5)"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#fff0f0" opacity="0.85"/></svg>`,
+  "Fanta": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#c05000"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#f08010"/><circle cx="18" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/><circle cx="21" cy="20" r="0.9" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="17" r="1" fill="rgba(255,255,255,0.5)"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#fff8e0" opacity="0.85"/></svg>`,
+  "Cola": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#100000"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#200c04"/><circle cx="18" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/><circle cx="21" cy="20" r="0.9" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="17" r="1" fill="rgba(255,255,255,0.5)"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#c0302e" opacity="0.85"/></svg>`,
+  "Apfelsaftschorle": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#5a8020"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#d4c830"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#fffff0" opacity="0.85"/></svg>`,
+  "Paulaner Spezi": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 24 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 24 Z" fill="#280c04"/><path d="M10.8 14 L11.2 24 L25.2 24 L25.6 14 Z" fill="#f08010"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Bier vom Fass": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 14 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 14 Z" fill="#e8a020"/><ellipse cx="18" cy="13" rx="8" ry="3.5" fill="#f5f0e0"/><ellipse cx="15" cy="11.5" rx="3" ry="2" fill="#fff"/><ellipse cx="21" cy="11" rx="2.5" ry="1.8" fill="#fff"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Radler s\u00fc\u00df": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 14 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 14 Z" fill="#e8c840"/><ellipse cx="18" cy="13" rx="8" ry="3.5" fill="#f5f0e0"/><ellipse cx="15" cy="11.5" rx="3" ry="2" fill="#fff"/><ellipse cx="21" cy="11" rx="2.5" ry="1.8" fill="#fff"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Radler sauer": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 14 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 14 Z" fill="#d4b428"/><ellipse cx="18" cy="13" rx="8" ry="3.5" fill="#f5f0e0"/><ellipse cx="15" cy="11.5" rx="3" ry="2" fill="#fff"/><ellipse cx="21" cy="11" rx="2.5" ry="1.8" fill="#fff"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Weizen": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 38 Q12 40 11 42 L25 42 Q24 40 23 38 L22 14 Q22 10 18 10 Q14 10 14 14 Z" fill="#d8d0b0"/><path d="M13.3 38 Q12.5 39.5 11.5 41.5 L24.5 41.5 Q23.5 39.5 22.7 38 L21.7 14.5 Q21.5 11 18 11 Q14.5 11 14.3 14.5 Z" fill="#e8c050"/><ellipse cx="18" cy="9" rx="6" ry="3" fill="#f5f0e0"/><ellipse cx="15" cy="7.5" rx="2.5" ry="1.8" fill="#fff"/><ellipse cx="21" cy="7" rx="2" ry="1.5" fill="#fff"/><ellipse cx="18" cy="10" rx="8" ry="2" stroke="#b0a880" stroke-width="1.2" fill="none"/></svg>`,
+  "Colaweizen": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 38 Q12 40 11 42 L25 42 Q24 40 23 38 L22 14 Q22 10 18 10 Q14 10 14 14 Z" fill="#d8d0b0"/><path d="M13.3 38 Q12.5 39.5 11.5 41.5 L24.5 41.5 Q23.5 39.5 22.7 38 L21.7 14.5 Q21.5 11 18 11 Q14.5 11 14.3 14.5 Z" fill="#280c04"/><ellipse cx="18" cy="9" rx="6" ry="3" fill="#f5f0e0"/><ellipse cx="15" cy="7.5" rx="2.5" ry="1.8" fill="#fff"/><ellipse cx="21" cy="7" rx="2" ry="1.5" fill="#fff"/><ellipse cx="18" cy="10" rx="8" ry="2" stroke="#b0a880" stroke-width="1.2" fill="none"/></svg>`,
+  "Alkoholfreies Weizen": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 38 Q12 40 11 42 L25 42 Q24 40 23 38 L22 14 Q22 10 18 10 Q14 10 14 14 Z" fill="#d8d0b0"/><path d="M13.3 38 Q12.5 39.5 11.5 41.5 L24.5 41.5 Q23.5 39.5 22.7 38 L21.7 14.5 Q21.5 11 18 11 Q14.5 11 14.3 14.5 Z" fill="#f0e080"/><ellipse cx="18" cy="10" rx="8" ry="2" stroke="#b0a880" stroke-width="1.2" fill="none"/></svg>`,
+  "Wei\u00dfwein": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f0f8e0" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#e8e060"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
+  "Wei\u00dfwein Flasche": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="6" width="6" height="9" rx="1" fill="#7a9840"/><rect x="14" y="3" width="8" height="5" rx="2" fill="#3a5010"/><path d="M11 16 Q10 18 10 21 L10 36 Q10 40 18 40 Q26 40 26 36 L26 21 Q26 18 25 16 Z" fill="#7a9840"/><path d="M11.5 22 L11.5 36 Q11.5 39 18 39 Q24.5 39 24.5 36 L24.5 22 Z" fill="#ccc030"/><rect x="13" y="24" width="10" height="10" rx="2" fill="rgba(255,255,255,0.7)"/></svg>`,
+  "Rotwein": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f8f0f4" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#880818"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
+  "Rotwein Flasche": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="6" width="6" height="9" rx="1" fill="#1e1028"/><rect x="14" y="3" width="8" height="5" rx="2" fill="#180008"/><path d="M11 16 Q10 18 10 21 L10 36 Q10 40 18 40 Q26 40 26 36 L26 21 Q26 18 25 16 Z" fill="#1e1028"/><path d="M11.5 22 L11.5 36 Q11.5 39 18 39 Q24.5 39 24.5 36 L24.5 22 Z" fill="#580010"/><rect x="13" y="24" width="10" height="10" rx="2" fill="rgba(255,255,255,0.7)"/></svg>`,
+  "Weinschorle wei\u00df": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f0f8e0" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#c8d840"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
+  "Weinschorle rot": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f8f0f4" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#a83050"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
+  "Aperol": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M9 10 Q9 30 18 36 Q27 30 27 10 Z" fill="#ffe0b0" opacity="0.4"/><path d="M10 22 Q10 30 18 35 Q26 30 26 22 Z" fill="#f06010"/><rect x="13" y="18" width="5" height="5" rx="1" fill="rgba(255,255,255,0.55)" transform="rotate(-15 15.5 20.5)"/><line x1="22" y1="10" x2="26" y2="36" stroke="#f0a030" stroke-width="2" stroke-linecap="round"/><path d="M9 10 L27 10" stroke="#c0a070" stroke-width="1.2" fill="none"/><circle cx="25" cy="12" r="4" fill="#f07818" opacity="0.9"/><circle cx="25" cy="12" r="2" fill="#f5a040" opacity="0.7"/></svg>`,
+  "Lillet": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="6" fill="#c0bca0"/><ellipse cx="18" cy="40" rx="6" ry="1.5" fill="#c0bca0"/><path d="M11 10 Q11 28 18 33 Q25 28 25 10 Z" fill="#e8d870" opacity="0.55"/><path d="M12 20 Q12 28 18 32 Q24 28 24 20 Z" fill="#d0bc28"/><path d="M11 10 L25 10" stroke="#b0a870" stroke-width="1.2" fill="none"/></svg>`,
+  "Schnaps": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 20 L14 34 Q14 36 18 36 Q22 36 22 34 L23 20 Z" fill="#d8d0b0" opacity="0.7"/><path d="M13.5 24 L14.3 34 Q14.3 35.5 18 35.5 Q21.7 35.5 21.7 34 L22.5 24 Z" fill="#f0e870" opacity="0.85"/><path d="M13 20 L23 20" stroke="#b0a880" stroke-width="1.5" fill="none"/><ellipse cx="18" cy="20" rx="5" ry="1.5" fill="#d0c8a0"/></svg>`,
+  "Salatteller": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="30" rx="14" ry="5" fill="#d0c8a0"/><ellipse cx="18" cy="26" rx="12" ry="9" fill="#e8e4d0"/><ellipse cx="18" cy="23" rx="10" ry="7" fill="#4a8830"/><ellipse cx="13" cy="21" rx="4" ry="3" fill="#6aaa40" transform="rotate(-20 13 21)"/><ellipse cx="22" cy="22" rx="3.5" ry="2.5" fill="#3a7820" transform="rotate(15 22 22)"/><circle cx="16" cy="19" r="2.5" fill="#e03030"/><circle cx="22" cy="18" r="2" fill="#e84040"/><ellipse cx="18" cy="20" rx="2" ry="1.5" fill="#f0e030" transform="rotate(10 18 20)"/></svg>`,
+  "Portion Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M11 22 L13 40 L23 40 L25 22 Z" fill="#e03030"/><path d="M11 22 L25 22 L23 20 L13 20 Z" fill="#c02020"/><path d="M13 22 L14 40" stroke="#fff" stroke-width="2" opacity="0.35"/><path d="M20 22 L21.5 40" stroke="#fff" stroke-width="2" opacity="0.35"/><rect x="14" y="8" width="3" height="16" rx="1.5" fill="#f0c030"/><rect x="18" y="6" width="3" height="18" rx="1.5" fill="#e8b820"/><rect x="22" y="9" width="3" height="15" rx="1.5" fill="#f0c030"/><rect x="10" y="10" width="3" height="14" rx="1.5" fill="#e8b820"/></svg>`,
+  "Bratwurst mit Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 28 Q6 36 18 36 Q30 36 30 28 Z" fill="#d4a050"/><path d="M6 26 Q6 18 18 18 Q30 18 30 26 Z" fill="#e8b860"/><ellipse cx="13" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-20 13 21)"/><ellipse cx="20" cy="20" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(10 20 20)"/><ellipse cx="25" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-10 25 21)"/><path d="M7 26 Q7 30 18 30 Q29 30 29 26" stroke="#c06020" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M9 25 Q13 23 18 23" stroke="#d88040" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Bratwurst mit Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 28 Q6 36 18 36 Q30 36 30 28 Z" fill="#d4a050"/><path d="M6 26 Q6 18 18 18 Q30 18 30 26 Z" fill="#e8b860"/><ellipse cx="13" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-20 13 21)"/><ellipse cx="20" cy="20" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(10 20 20)"/><ellipse cx="25" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-10 25 21)"/><path d="M7 26 Q7 30 18 30 Q29 30 29 26" stroke="#c06020" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M9 25 Q13 23 18 23" stroke="#d88040" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Currywurst mit Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 30 L8 42 L28 42 L30 30 Z" fill="#e8d0a0"/><ellipse cx="12" cy="30" rx="5" ry="3" fill="#c05820"/><ellipse cx="18" cy="29" rx="5" ry="3" fill="#b84818"/><ellipse cx="24" cy="30" rx="5" ry="3" fill="#c05820"/><path d="M8 28 Q12 24 18 25 Q24 24 28 28" stroke="#e08010" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M9 30 Q14 27 19 28 Q24 27 27 30" stroke="#f09020" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="13" cy="26" r="1" fill="#d4a000"/><circle cx="19" cy="25" r="1.2" fill="#c89000"/><circle cx="24" cy="26" r="0.9" fill="#d4a000"/></svg>`,
+  "Currywurst mit Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 30 L8 42 L28 42 L30 30 Z" fill="#e8d0a0"/><ellipse cx="12" cy="30" rx="5" ry="3" fill="#c05820"/><ellipse cx="18" cy="29" rx="5" ry="3" fill="#b84818"/><ellipse cx="24" cy="30" rx="5" ry="3" fill="#c05820"/><path d="M8 28 Q12 24 18 25 Q24 24 28 28" stroke="#e08010" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M9 30 Q14 27 19 28 Q24 27 27 30" stroke="#f09020" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="13" cy="26" r="1" fill="#d4a000"/><circle cx="19" cy="25" r="1.2" fill="#c89000"/><circle cx="24" cy="26" r="0.9" fill="#d4a000"/></svg>`,
+  "Steak mit Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="36" rx="14" ry="4" fill="#d8d0b8"/><ellipse cx="18" cy="34" rx="12" ry="3" fill="#e8e0c8"/><path d="M8 22 Q8 34 18 34 Q28 34 28 22 Q25 16 18 16 Q11 16 8 22 Z" fill="#8a3010"/><path d="M11 20 Q14 28 12 33" stroke="#601808" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M17 18 Q20 26 18 33" stroke="#601808" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M23 20 Q25 28 24 33" stroke="#601808" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`,
+  "Steak mit Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="36" rx="14" ry="4" fill="#d8d0b8"/><ellipse cx="18" cy="34" rx="12" ry="3" fill="#e8e0c8"/><path d="M8 22 Q8 34 18 34 Q28 34 28 22 Q25 16 18 16 Q11 16 8 22 Z" fill="#8a3010"/><path d="M11 20 Q14 28 12 33" stroke="#601808" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M17 18 Q20 26 18 33" stroke="#601808" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M23 20 Q25 28 24 33" stroke="#601808" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`,
+  "Putensteak mit Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="36" rx="13" ry="3.5" fill="#d8d0b8"/><path d="M9 20 Q8 32 18 34 Q28 32 27 20 Q24 14 18 14 Q12 14 9 20 Z" fill="#c8803a"/><path d="M12 19 Q13 27 11 33" stroke="#a06020" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M18 17 Q19 25 17 33" stroke="#a06020" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M24 19 Q25 27 23 33" stroke="#a06020" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`,
+  "Putensteak mit Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="36" rx="13" ry="3.5" fill="#d8d0b8"/><path d="M9 20 Q8 32 18 34 Q28 32 27 20 Q24 14 18 14 Q12 14 9 20 Z" fill="#c8803a"/><path d="M12 19 Q13 27 11 33" stroke="#a06020" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M18 17 Q19 25 17 33" stroke="#a06020" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M24 19 Q25 27 23 33" stroke="#a06020" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`,
+  "Tasse Kaffee": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 8 Q11 4 13 2" stroke="#c0b8a0" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M18 8 Q16 3 18 1" stroke="#c0b8a0" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M23 8 Q21 4 23 2" stroke="#c0b8a0" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="18" cy="38" rx="13" ry="3.5" fill="#e0d8c0"/><path d="M10 20 L11 36 Q11 38 18 38 Q25 38 25 36 L26 20 Z" fill="#f0ece0"/><ellipse cx="18" cy="22" rx="7" ry="2.5" fill="#5a3010"/><path d="M11.5 22 L12 36 Q12 37.5 18 37.5 Q24 37.5 24 36 L24.5 22 Z" fill="#4a2808"/><path d="M25 24 Q31 24 31 29 Q31 34 25 34" stroke="#d0c8b0" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Torte": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M5 32 Q5 40 18 40 Q31 40 31 32 L31 28 Q31 22 18 22 Q5 22 5 28 Z" fill="#c8803a"/><path d="M5 28 Q5 34 18 34 Q31 34 31 28" fill="#f5f0e0"/><path d="M5 25 Q5 29 18 29 Q31 29 31 25 L31 22 Q31 18 18 18 Q5 18 5 22 Z" fill="#d09040"/><rect x="16.5" y="10" width="3" height="10" rx="1.5" fill="#f5c030"/><path d="M18 10 Q16 7 18 5 Q20 7 18 10 Z" fill="#f08010"/><circle cx="10" cy="20" r="1.2" fill="#e03030"/><circle cx="16" cy="19" r="1" fill="#3050e0"/><circle cx="22" cy="19" r="1.2" fill="#e0a000"/><circle cx="27" cy="20" r="1" fill="#30a030"/></svg>`,
+  "Kuchen": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M18 18 L6 40 L30 40 Z" fill="#d09040"/><path d="M18 18 L6 40 L30 40 Z" fill="none" stroke="#c07830" stroke-width="1"/><path d="M9 33 L27 33" stroke="#f5e8c0" stroke-width="2.5"/><path d="M7.5 37 L28.5 37" stroke="#f5e8c0" stroke-width="2"/><circle cx="18" cy="16" r="3" fill="#d02020"/><path d="M18 13 Q20 9 22 10" stroke="#508030" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Sonstiges": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="20" height="28" rx="3" fill="#3a3a30"/><line x1="12" y1="16" x2="24" y2="16" stroke="#e09020" stroke-width="2"/><line x1="12" y1="21" x2="24" y2="21" stroke="#e09020" stroke-width="2"/><line x1="12" y1="26" x2="20" y2="26" stroke="#e09020" stroke-width="2"/><circle cx="26" cy="32" r="6" fill="#e09020"/><text x="26" y="36" text-anchor="middle" font-size="9" font-weight="bold" fill="#141412">+</text></svg>`,
 };
-const TWEMOJI_BASE='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/';
 
-function iEl(ic,sz){
-  const cp = TWEMOJI_MAP[ic] || null;
-  const s=document.createElement('span');
-  s.style.cssText=`display:inline-flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;flex-shrink:0;`;
-  if(cp){
-    const img=document.createElement('img');
-    img.src=TWEMOJI_BASE+cp+'.png';
-    img.width=sz;img.height=sz;
-    img.style.cssText='object-fit:contain;display:block;';
-    s.appendChild(img);
+function iEl(name, sz) {
+  const s = document.createElement('span');
+  s.style.cssText = `display:inline-flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;flex-shrink:0;`;
+  const svgStr = SVG_ICONS[name] || null;
+  if (svgStr) {
+    s.innerHTML = svgStr;
+    const svgEl = s.querySelector('svg');
+    if (svgEl) {
+      svgEl.setAttribute('width', sz);
+      svgEl.setAttribute('height', sz);
+      svgEl.style.display = 'block';
+    }
   } else {
-    s.style.fontSize=sz+'px';
-    s.textContent=ic;
+    s.style.fontSize = sz + 'px';
+    s.textContent = name;
   }
   return s;
 }
@@ -544,7 +573,7 @@ function renderArt(){
       const btn=document.createElement('button');btn.className='artikel-btn';
       // Explizite Farben via style um Safari-Overrides zu verhindern
       btn.style.cssText='background:#252520;color:#f0ede6;';
-      const ic=iEl(a.icon,20);ic.className='artikel-btn-icon';btn.appendChild(ic);
+      const ic=iEl(a.name,20);ic.className='artikel-btn-icon';btn.appendChild(ic);
       const r=document.createElement('div');r.className='artikel-btn-right';
       const nm=document.createElement('div');nm.className='artikel-btn-name';nm.style.color='#f0ede6';nm.textContent=a.name;
       const px=document.createElement('div');px.className='artikel-btn-preis';px.style.color='#e8a030';px.textContent=a.sx?'Frei':fmt(a.preis);
@@ -583,18 +612,18 @@ function renderB(){
     const st=tisch.filter(s=>(N2K[s.name]||'Sonstiges')===k);if(!st.length)return;
     const kb=document.createElement('div');
     const kt=document.createElement('div');kt.className='bl-kat-titel';kt.textContent=KAT_LABEL[k]||k;kb.appendChild(kt);
+    // Kategorie-level quick buttons
+    const katQr=document.createElement('div');katQr.className='bl-quick-row';
+    [['Alle offen','offen'],['Alle bestellt','bestellt'],['Alle geliefert','geliefert']].forEach(([l,st2])=>{
+      const b=document.createElement('button');b.className='bl-quick';b.textContent=l;
+      b.onclick=()=>{st.forEach(s=>s.status=st2);renderB();};katQr.appendChild(b);
+    });
+    kb.appendChild(katQr);
+
     const gm=new Map();st.forEach(s=>{if(!gm.has(s.name))gm.set(s.name,[]);gm.get(s.name).push(s);});
     gm.forEach((gs,nm)=>{
-      if(gs.length>1){
-        const qr=document.createElement('div');qr.className='bl-quick-row';
-        [['Alle offen','offen'],['Alle bestellt','bestellt'],['Alle geliefert','geliefert']].forEach(([l,st2])=>{
-          const b=document.createElement('button');b.className='bl-quick';b.textContent=l;
-          b.onclick=()=>{gs.forEach(s=>s.status=st2);renderB();};qr.appendChild(b);
-        });
-        kb.appendChild(qr);
-      }
       const row=document.createElement('div');row.className='bl-gruppe';
-      const ic=iEl(gs[0].icon,13);ic.style.cssText='width:18px;text-align:center;flex-shrink:0;';
+      const ic=iEl(gs[0].name,13);ic.style.cssText='width:18px;text-align:center;flex-shrink:0;';
       const nmEl=document.createElement('div');nmEl.className='bl-name';nmEl.textContent=gs.length>1?`${nm} ×${gs.length}`:nm;
       const pills=document.createElement('div');pills.className='bl-status-row';
       gs.forEach(s=>{
@@ -638,7 +667,7 @@ function renderMod(){
     gm.forEach((gs,nm)=>{
       const g=document.createElement('div');g.className='modal-gruppe';
       const gn=document.createElement('div');gn.className='modal-gruppe-name';
-      gn.textContent=(gs[0].icon==='curry'?'🌭':gs[0].icon)+' '+nm+' ('+fmt(gs[0].preis)+'/Stk.)';g.appendChild(gn);
+      gn.textContent=nm+' ('+fmt(gs[0].preis)+'/Stk.'+')';g.appendChild(gn);
       const ga=document.createElement('div');ga.className='modal-gruppe-actions';
       const ab=document.createElement('button');ab.className='modal-quick-btn';ab.textContent='Alle';ab.onclick=()=>{gs.forEach(s=>mAuswahl.add(s.id));renderMod();};
       const kb=document.createElement('button');kb.className='modal-quick-btn';kb.textContent='Keine';kb.onclick=()=>{gs.forEach(s=>mAuswahl.delete(s.id));renderMod();};
