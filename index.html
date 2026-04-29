@@ -717,6 +717,7 @@ function alleStatus(st){T[aktiv].forEach(s=>s.status=st);renderB();saveState();}
 function allesAbrechnen(){
   const t=T[aktiv];if(!t.length)return;
   const sum=t.reduce((s,a)=>s+a.preis,0);
+  logAbrechnung(aktiv+1, gruppiereArtikel(t), 'Gesamt', bedienungName);
   T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
   showToast('Tisch '+(aktiv+1)+' bezahlt: '+fmt(sum));
 }
@@ -791,6 +792,8 @@ function renderMod(){
 function teilBezahlen(){
   if(!mAuswahl.size)return;
   const sum=[...mAuswahl].reduce((s,id)=>{const it=T[aktiv].find(x=>x.id===id);return s+(it?it.preis:0);},0);
+  const bezahlteItems=T[aktiv].filter(s=>mAuswahl.has(s.id));
+  logAbrechnung(aktiv+1, gruppiereArtikel(bezahlteItems), 'Teilzahlung', bedienungName);
   T[aktiv]=T[aktiv].filter(s=>!mAuswahl.has(s.id));
   teilZu();renderB();renderNav();updAllBdg();saveState();
   showToast('Teilzahlung: '+fmt(sum));
@@ -836,10 +839,53 @@ function loadState(){
   }catch(e){}
 }
 
+
+// ── LOGGING zu Google Sheets ──
+const LOG_URL = 'https://script.google.com/macros/s/AKfycbypwTDfmXZ8u-HR7GEipPWproR_kwcT1d0WQndI4lcrIwj2ZKkJYTZMqb4FsUvae30u/exec';
+
+function logAbrechnung(tischNr, artikel, art, bedienung) {
+  // artikel = Array von {name, preis, menge}
+  const jetzt = new Date().toLocaleString('de-DE');
+  const rows = artikel.map(a => ({
+    zeitpunkt: jetzt,
+    bedienung: bedienung || 'Unbekannt',
+    tisch: 'Tisch ' + tischNr,
+    artikel: a.name,
+    menge: a.menge,
+    einzelpreis: a.preis,
+    gesamt: a.preis * a.menge,
+    art: art
+  }));
+  
+  fetch(LOG_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({rows})
+  }).catch(()=>{});
+}
+
+function gruppiereArtikel(stuecke) {
+  const map = new Map();
+  stuecke.forEach(s => {
+    if (!map.has(s.name)) map.set(s.name, {name: s.name, preis: s.preis, menge: 0});
+    map.get(s.name).menge++;
+  });
+  return [...map.values()];
+}
+
 function showToast(m){
   const t=document.getElementById('toast');
   t.textContent=m;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+
+// Bedienungsname abfragen
+let bedienungName = localStorage.getItem('maifest_bedienung') || '';
+if(!bedienungName){
+  bedienungName = prompt('Wie heißt du? (wird für die Auswertung gespeichert)', '') || 'Unbekannt';
+  localStorage.setItem('maifest_bedienung', bedienungName);
 }
 
 loadState();init();
