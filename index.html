@@ -491,15 +491,32 @@ const SN={offen:'● Offen',bestellt:'● Bestellt',geliefert:'● Geliefert'};
 function ns(n,p,i){return{id:nid++,name:n,preis:p,icon:i||'📋',status:'offen'};}
 function fmt(v){return v.toFixed(2).replace('.',',')+' €';}
 
+// Twemoji codepoint map
+const TWEMOJI_MAP = {
+  '🫙':'1fad9','🍊':'1f34a','🍎':'1f34e','🍏':'1f34f','🍋':'1f34b',
+  '🍺':'1f37a','🥂':'1f942','🍾':'1f37e','🍷':'1f377','🥃':'1f943',
+  '🥗':'1f957','🍟':'1f35f','🌭':'1f32d','🥩':'1f969','🍗':'1f357',
+  '🦃':'1f983','☕':'2615','🎂':'1f382','🍰':'1f370','✏️':'270f-fe0f',
+  '🌾':'1f33e','🧃':'1f9c3',
+  'curry':'1f32d',
+};
+const TWEMOJI_BASE='https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/';
+
 function iEl(ic,sz){
-  if(ic==='curry'){
-    const s=document.createElement('span');
-    s.style.cssText=`display:inline-flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;flex-shrink:0;`;
-    s.innerHTML=CURRY_SVG;return s;
-  }
+  const cp = TWEMOJI_MAP[ic] || null;
   const s=document.createElement('span');
-  s.style.cssText=`font-size:${sz}px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;`;
-  s.textContent=ic;return s;
+  s.style.cssText=`display:inline-flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;flex-shrink:0;`;
+  if(cp){
+    const img=document.createElement('img');
+    img.src=TWEMOJI_BASE+cp+'.png';
+    img.width=sz;img.height=sz;
+    img.style.cssText='object-fit:contain;display:block;';
+    s.appendChild(img);
+  } else {
+    s.style.fontSize=sz+'px';
+    s.textContent=ic;
+  }
+  return s;
 }
 
 function init(){renderNav();renderArt();renderB();}
