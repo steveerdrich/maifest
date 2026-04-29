@@ -144,15 +144,23 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
 }
 .bl-gruppe {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  align-items: flex-start;
+  gap: 5px;
   padding: 3px 0;
   border-bottom: 1px solid #1e1e1a;
 }
 .bl-gruppe:last-child { border-bottom: none; }
-.bl-icon { font-size: 13px; width: 18px; text-align: center; flex-shrink: 0; }
-.bl-name { font-size: 12px; font-weight: 600; flex: 1; line-height: 1.2; color: #f0ede6; }
-.bl-status-row { display: flex; gap: 3px; flex-shrink: 0; }
+.bl-icon { font-size: 13px; width: 20px; text-align: center; flex-shrink: 0; margin-top: 2px; }
+.bl-name-pills {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+  min-width: 0;
+}
+.bl-name { font-size: 12px; font-weight: 600; line-height: 1.3; color: #f0ede6; white-space: nowrap; }
+.bl-status-row { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; }
 .mini-pill {
   display: inline-flex;
   align-items: center;
@@ -168,10 +176,10 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
 .mini-pill.offen   { background: transparent; border-color: #5a5a50; color: #9a9a88; }
 .mini-pill.bestellt { background: rgba(224,144,32,0.2); border-color: #e09020; color: #e09020; }
 .mini-pill.geliefert { background: rgba(74,158,98,0.2); border-color: #4a9e62; color: #4a9e62; }
-.bl-preis { font-size: 12px; color: #e8b840; font-weight: 700; min-width: 46px; text-align: right; }
+.bl-preis { font-size: 12px; color: #e8b840; font-weight: 700; min-width: 46px; text-align: right; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
 .bl-del { color: #5a5a50; font-size: 15px; cursor: pointer; padding: 0 2px; background: none; border: none; flex-shrink: 0; }
 .bl-del:active { color: #c04848; }
-.bl-quick-row { display: flex; gap: 3px; padding: 1px 0 3px 22px; flex-wrap: wrap; }
+.bl-quick-row { display: flex; gap: 3px; padding: 2px 0 3px; flex-wrap: wrap; }
 .bl-quick {
   font-size: 9px; font-weight: 600; padding: 1px 7px;
   border-radius: 20px; border: 1px solid #3a3a30;
@@ -596,7 +604,7 @@ function renderArt(){
         mbtn.className='art-minus';
         mbtn.id='minus-'+a.name.replace(/\s/g,'_');
         mbtn.textContent='−';
-        mbtn.style.cssText='display:none;position:absolute;bottom:4px;left:4px;background:#3a3028;color:#e09020;border:1.5px solid #e09020;border-radius:8px;font-size:14px;font-weight:700;width:26px;height:26px;cursor:pointer;align-items:center;justify-content:center;z-index:5;font-family:DM Sans,sans-serif;';
+        mbtn.style.cssText='display:none;position:absolute;top:22px;right:4px;background:#3a3028;color:#e09020;border:1.5px solid #e09020;border-radius:8px;font-size:14px;font-weight:700;width:22px;height:22px;cursor:pointer;align-items:center;justify-content:center;z-index:5;font-family:DM Sans,sans-serif;line-height:1;';
         mbtn.onclick=(e)=>{
           e.stopPropagation();
           const arr=T[aktiv].filter(s=>s.name===a.name);
@@ -665,7 +673,11 @@ function renderB(){
       const px=document.createElement('div');px.className='bl-preis';px.textContent=fmt(gs.reduce((a,x)=>a+x.preis,0));
       const del=document.createElement('button');del.className='bl-del';del.textContent='×';
       del.onclick=()=>{gs.forEach(s=>{const idx=T[aktiv].findIndex(x=>x.id===s.id);if(idx>-1)T[aktiv].splice(idx,1);});renderB();renderNav();updBdg(nm);};
-      row.appendChild(ic);row.appendChild(nmEl);row.appendChild(pills);row.appendChild(px);row.appendChild(del);
+      const namePills=document.createElement('div');namePills.className='bl-name-pills';
+      // Add spacer between name and pills so pills push right
+      const spacer=document.createElement('div');spacer.style.cssText='flex:1;min-width:4px;';
+      namePills.appendChild(nmEl);namePills.appendChild(spacer);namePills.appendChild(pills);
+      row.appendChild(ic);row.appendChild(namePills);row.appendChild(px);row.appendChild(del);
       kb.appendChild(row);
     });
     liste.appendChild(kb);
