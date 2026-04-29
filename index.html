@@ -323,26 +323,38 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
   background: #1e1e1b;
   border-radius: 18px 18px 0 0;
   border-top: 1px solid #3a3a30;
-  padding: 16px 16px 40px;
+  padding: 12px 14px 36px;
   max-height: 80vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   color: #f0ede6;
 }
-.modal-titel { font-family: 'DM Serif Display', serif; font-size: 20px; color: #e09020; margin-bottom: 3px; }
-.modal-sub { font-size: 11px; color: #808070; margin-bottom: 14px; }
+.modal-titel { font-family: 'DM Serif Display', serif; font-size: 17px; color: #e09020; margin-bottom: 2px; }
+.modal-sub { font-size: 10px; color: #808070; margin-bottom: 8px; }
 .modal-gruppe { border-bottom: 1px solid #2e2e28; padding: 8px 0; }
 .modal-gruppe:last-child { border-bottom: none; }
 .modal-gruppe-name { font-size: 13px; font-weight: 700; color: #f0ede6; margin-bottom: 5px; }
-.modal-gruppe-actions { display: flex; gap: 5px; margin-bottom: 5px; }
+.modal-gruppe-actions { display: flex; gap: 4px; margin-bottom: 3px; }
 .modal-quick-btn { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid #3a3a30; background: #252520; color: #909080; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-.modal-stueck-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
-.modal-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #4a4a40; background: #252520; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.modal-check.checked { background: #4a9e62; border-color: #4a9e62; }
-.modal-check.checked::after { content: '✓'; color: #fff; font-size: 13px; font-weight: 700; }
-.modal-stueck-label { flex: 1; font-size: 13px; color: #c0bdb0; }
-.modal-stueck-status { font-size: 11px; margin-right: 3px; }
-.modal-stueck-preis { font-size: 13px; font-weight: 700; color: #e8a030; }
+.modal-stueck-row { display: flex; align-items: center; gap: 6px; padding: 3px 0; flex-wrap: wrap; }
+.modal-check {
+  width: 32px; height: 28px; border-radius: 6px;
+  border: 2px solid #4a4a40; background: #252520;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; flex-direction: column; gap: 1px;
+  font-size: 9px; color: #808070; transition: all 0.1s;
+}
+.modal-check.checked { background: #4a9e62; border-color: #4a9e62; color: #fff; }
+.modal-check.checked .mchk-num { color: #fff; }
+.modal-check .mchk-tick { font-size: 11px; font-weight: 700; display: none; }
+.modal-check.checked .mchk-tick { display: block; }
+.modal-check .mchk-num { font-size: 9px; font-weight: 700; }
+.modal-stueck-label { font-size: 12px; color: #c0bdb0; flex-shrink: 0; }
+.modal-stueck-status { font-size: 10px; }
+.modal-stueck-preis { font-size: 13px; font-weight: 700; color: #e8a030; margin-left: auto; white-space: nowrap; }
+.modal-gruppe-name { font-size: 12px; font-weight: 700; color: #f0ede6; margin-bottom: 3px; }
+.modal-gruppe { border-bottom: 1px solid #2e2e28; padding: 5px 0; }
+.modal-gruppe:last-child { border-bottom: none; }
 .modal-summe { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 10px; border-top: 1px solid #2e2e28; margin-top: 4px; }
 .modal-summe span { font-size: 14px; font-weight: 700; color: #f0ede6; }
 .modal-summe .betrag { font-family: 'DM Serif Display', serif; font-size: 24px; color: #f5c040; }
@@ -725,20 +737,35 @@ function renderMod(){
     gm.forEach((gs,nm)=>{
       const g=document.createElement('div');g.className='modal-gruppe';
       const gn=document.createElement('div');gn.className='modal-gruppe-name';
-      gn.textContent=nm+' ('+fmt(gs[0].preis)+'/Stk.'+')';g.appendChild(gn);
-      const ga=document.createElement('div');ga.className='modal-gruppe-actions';
-      const ab=document.createElement('button');ab.className='modal-quick-btn';ab.textContent='Alle';ab.onclick=()=>{gs.forEach(s=>mAuswahl.add(s.id));renderMod();};
-      const kb=document.createElement('button');kb.className='modal-quick-btn';kb.textContent='Keine';kb.onclick=()=>{gs.forEach(s=>mAuswahl.delete(s.id));renderMod();};
-      ga.appendChild(ab);ga.appendChild(kb);g.appendChild(ga);
+      gn.textContent=nm;g.appendChild(gn);
+      // One row: [Alle] [1] [2] [3] ... [Preis]
+      const row=document.createElement('div');row.className='modal-stueck-row';
       gs.forEach((s,i)=>{
-        const row=document.createElement('div');row.className='modal-stueck-row';
-        const chk=document.createElement('div');chk.className='modal-check'+(mAuswahl.has(s.id)?' checked':'');
-        chk.onclick=()=>{if(mAuswahl.has(s.id))mAuswahl.delete(s.id);else mAuswahl.add(s.id);renderMod();};
-        const lbl=document.createElement('div');lbl.className='modal-stueck-label';lbl.textContent='Stück '+(i+1);
-        const sb=document.createElement('span');sb.className='modal-stueck-status';sb.style.color=SC[s.status];sb.textContent=SN[s.status];
-        const px=document.createElement('div');px.className='modal-stueck-preis';px.textContent=fmt(s.preis);
-        row.appendChild(chk);row.appendChild(lbl);row.appendChild(sb);row.appendChild(px);g.appendChild(row);
+        const chk=document.createElement('div');
+        chk.className='modal-check'+(mAuswahl.has(s.id)?' checked':'');
+        const tick=document.createElement('span');tick.className='mchk-tick';tick.textContent='✓';
+        const num=document.createElement('span');num.className='mchk-num';num.textContent=(i+1);
+        chk.appendChild(tick);chk.appendChild(num);
+        chk.title=SN[s.status];
+        chk.style.borderColor=mAuswahl.has(s.id)?'#4a9e62':SC[s.status];
+        chk.onclick=()=>{
+          // Clicking i selects 0..i, clicking already-selected i deselects i..end
+          if(mAuswahl.has(s.id)){
+            // deselect from i onwards
+            for(let j=i;j<gs.length;j++) mAuswahl.delete(gs[j].id);
+          } else {
+            // select 0..i
+            for(let j=0;j<=i;j++) mAuswahl.add(gs[j].id);
+          }
+          renderMod();
+        };
+        row.appendChild(chk);
       });
+      // Price at the end of the row
+      const px=document.createElement('div');px.className='modal-stueck-preis';
+      px.textContent=fmt(gs.reduce((a,x)=>a+(mAuswahl.has(x.id)?x.preis:0),0)||gs[0].preis)+' / Stk.';
+      row.appendChild(px);
+      g.appendChild(row);
       liste.appendChild(g);
     });
   });
