@@ -736,9 +736,17 @@ function renderMod(){
     const gm=new Map();st.forEach(s=>{if(!gm.has(s.name))gm.set(s.name,[]);gm.get(s.name).push(s);});
     gm.forEach((gs,nm)=>{
       const g=document.createElement('div');g.className='modal-gruppe';
+      // Header row: icon + name + price per piece left, selected sum right
+      const gnRow=document.createElement('div');gnRow.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;gap:6px;';
+      const gnLeft=document.createElement('div');gnLeft.style.cssText='display:flex;align-items:center;gap:5px;min-width:0;';
+      const gnIco=iEl(gs[0].name,18);gnLeft.appendChild(gnIco);
       const gn=document.createElement('div');gn.className='modal-gruppe-name';
-      gn.textContent=nm;g.appendChild(gn);
-      // One row: [Alle] [1] [2] [3] ... [Preis]
+      gn.textContent=nm+' · '+fmt(gs[0].preis);
+      gnLeft.appendChild(gn);
+      const gsum=document.createElement('div');gsum.style.cssText='font-size:13px;font-weight:700;color:#e8b840;white-space:nowrap;';
+      gsum.id='gsum-'+gs[0].id;
+      gnRow.appendChild(gnLeft);gnRow.appendChild(gsum);g.appendChild(gnRow);
+      // One row: [1] [2] [3] ...
       const row=document.createElement('div');row.className='modal-stueck-row';
       gs.forEach((s,i)=>{
         const chk=document.createElement('div');
@@ -761,16 +769,23 @@ function renderMod(){
         };
         row.appendChild(chk);
       });
-      // Price at the end of the row
-      const px=document.createElement('div');px.className='modal-stueck-preis';
-      px.textContent=fmt(gs.reduce((a,x)=>a+(mAuswahl.has(x.id)?x.preis:0),0)||gs[0].preis)+' / Stk.';
-      row.appendChild(px);
       g.appendChild(row);
       liste.appendChild(g);
     });
   });
   const sum=[...mAuswahl].reduce((s,id)=>{const it=T[aktiv].find(x=>x.id===id);return s+(it?it.preis:0);},0);
   document.getElementById('modalSumme').textContent=fmt(sum);
+  // Update per-gruppe sums
+  T[aktiv].forEach(s=>{});
+  const gsumEls=document.querySelectorAll('[id^="gsum-"]');
+  gsumEls.forEach(el=>{
+    const firstId=parseInt(el.id.replace('gsum-',''));
+    const it=T[aktiv].find(x=>x.id===firstId);
+    if(!it)return;
+    const grpItems=T[aktiv].filter(x=>x.name===it.name);
+    const sel=grpItems.filter(x=>mAuswahl.has(x.id));
+    el.textContent=sel.length>0?fmt(sel.reduce((a,x)=>a+x.preis,0)):'';
+  });
 }
 
 function teilBezahlen(){
