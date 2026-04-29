@@ -1,1 +1,663 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="color-scheme" content="dark">
+<title>Maifest 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap');
 
+/* Alle Farben explizit – keine Browser-Defaults */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #141412;
+  color: #f0ede6;
+  font-family: 'DM Sans', sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+#app {
+  position: fixed;
+  inset: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: #141412;
+}
+
+/* HEADER */
+.header {
+  background: #1e1e1b;
+  border-bottom: 1px solid #3a3a30;
+  padding: 4px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.header-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 14px;
+  color: #e09020;
+  line-height: 1;
+}
+.header-dot { font-size: 10px; color: #3a3a30; }
+.header-sub { font-size: 10px; color: #a0a090; }
+
+/* TISCH NAV */
+.tisch-nav {
+  display: flex;
+  gap: 7px;
+  padding: 6px 12px;
+  overflow-x: auto;
+  background: #1e1e1b;
+  border-bottom: 1px solid #3a3a30;
+  scrollbar-width: none;
+}
+.tisch-nav::-webkit-scrollbar { display: none; }
+.tisch-btn {
+  flex-shrink: 0;
+  padding: 5px 13px;
+  border-radius: 20px;
+  border: 1.5px solid #4a4a40;
+  background: transparent;
+  color: #a0a090;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+}
+.tisch-btn.active {
+  background: #e09020;
+  border-color: #e09020;
+  color: #141412;
+}
+.tisch-btn .badge {
+  position: absolute;
+  top: -5px; right: -5px;
+  background: #d06020;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+}
+
+/* BESTELLUNG PANEL */
+.bestellung-panel {
+  padding: 4px 12px;
+  border-bottom: 1px solid #3a3a30;
+  background: #141412;
+  padding-bottom: 80px;
+}
+.bestellung-leer {
+  color: #6a6a60;
+  font-size: 12px;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* SCHNELL STATUS */
+.schnell-bar { display: none; gap: 5px; padding: 4px 0 6px; flex-wrap: wrap; }
+.schnell-bar.vis { display: flex; }
+.s-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  border: 1.5px solid;
+}
+.s-pill.o { border-color: #6a6a60; color: #b0b0a0; background: transparent; }
+.s-pill.b { border-color: #e09020; color: #e09020; background: rgba(224,144,32,0.12); }
+.s-pill.g { border-color: #4a9e62; color: #4a9e62; background: rgba(74,158,98,0.12); }
+
+/* BESTELLLISTE */
+.bl-kat-titel {
+  font-size: 9px;
+  font-weight: 700;
+  color: #e8b840;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 5px 0 2px;
+  border-bottom: 1px solid #2e2e28;
+  margin-bottom: 2px;
+}
+.bl-gruppe {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+  border-bottom: 1px solid #1e1e1a;
+}
+.bl-gruppe:last-child { border-bottom: none; }
+.bl-icon { font-size: 13px; width: 18px; text-align: center; flex-shrink: 0; }
+.bl-name { font-size: 12px; font-weight: 600; flex: 1; line-height: 1.2; color: #f0ede6; }
+.bl-status-row { display: flex; gap: 3px; flex-shrink: 0; }
+.mini-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid;
+  flex-shrink: 0;
+}
+.mini-pill.offen   { background: transparent; border-color: #5a5a50; color: #9a9a88; }
+.mini-pill.bestellt { background: rgba(224,144,32,0.2); border-color: #e09020; color: #e09020; }
+.mini-pill.geliefert { background: rgba(74,158,98,0.2); border-color: #4a9e62; color: #4a9e62; }
+.bl-preis { font-size: 12px; color: #e8b840; font-weight: 700; min-width: 46px; text-align: right; }
+.bl-del { color: #5a5a50; font-size: 15px; cursor: pointer; padding: 0 2px; background: none; border: none; flex-shrink: 0; }
+.bl-del:active { color: #c04848; }
+.bl-quick-row { display: flex; gap: 3px; padding: 1px 0 3px 22px; flex-wrap: wrap; }
+.bl-quick {
+  font-size: 9px; font-weight: 600; padding: 1px 7px;
+  border-radius: 20px; border: 1px solid #3a3a30;
+  background: #252520; color: #909080;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+
+/* STATUS LEGENDE */
+.status-legend {
+  display: flex;
+  gap: 12px;
+  padding: 3px 12px;
+  background: #1a1a16;
+  border-bottom: 1px solid #3a3a30;
+  font-size: 9px;
+  color: #909080;
+}
+.status-legend span { display: flex; align-items: center; gap: 3px; }
+
+/* SUMME */
+.summen-bar {
+  padding: 5px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e1e1b;
+  border-bottom: 1px solid #3a3a30;
+}
+.summen-bar .label { font-size: 11px; color: #c0bdb0; }
+.summen-bar .betrag { font-size: 20px; font-family: 'DM Serif Display', serif; color: #f5c040; }
+
+/* ABRECHNUNG */
+.abrechnung-row {
+  display: flex;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #1e1e1b;
+  border-bottom: 2px solid #3a3a30;
+}
+.btn-abrechnen {
+  flex: 1; padding: 8px;
+  border-radius: 10px; border: none;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+.btn-alles { background: #4a9e62; color: #fff; }
+.btn-auswahl { background: transparent; color: #e09020; border: 1.5px solid #e09020 !important; }
+.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 8px 13px; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; }
+
+/* ARTIKEL */
+.artikel-section { padding-bottom: 6px; background: #141412; }
+.kategorie-titel {
+  padding: 8px 14px 4px;
+  font-size: 10px; font-weight: 700;
+  color: #808070;
+  text-transform: uppercase; letter-spacing: 1.3px;
+  background: #141412;
+}
+.artikel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 0 12px 6px;
+  background: #141412;
+}
+.artikel-btn {
+  background: #252520;
+  border: 1.5px solid #3a3a30;
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  /* Verhindert hellen Safari-Default */
+  -webkit-appearance: none;
+  appearance: none;
+  color: #f0ede6;
+  font-family: 'DM Sans', sans-serif;
+}
+.artikel-btn:active { border-color: #e09020; background: #2e2e28; }
+.artikel-btn-icon { font-size: 20px; flex-shrink: 0; line-height: 1; }
+.artikel-btn-right { flex: 1; min-width: 0; }
+.artikel-btn-name {
+  font-size: 11px; font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: #f0ede6;
+}
+.artikel-btn-preis {
+  font-size: 14px; font-weight: 700;
+  color: #e8a030;
+  margin-top: 2px;
+}
+.artikel-count {
+  position: absolute;
+  top: 4px; right: 4px;
+  background: #d06020;
+  color: #fff;
+  font-size: 12px; font-weight: 800;
+  min-width: 22px; height: 22px;
+  border-radius: 11px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.artikel-count.visible { display: flex; }
+
+/* MODALS */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 999;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #1e1e1b;
+  border-radius: 18px 18px 0 0;
+  border-top: 1px solid #3a3a30;
+  padding: 16px 16px 40px;
+  max-height: 80vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  color: #f0ede6;
+}
+.modal-titel { font-family: 'DM Serif Display', serif; font-size: 20px; color: #e09020; margin-bottom: 3px; }
+.modal-sub { font-size: 11px; color: #808070; margin-bottom: 14px; }
+.modal-gruppe { border-bottom: 1px solid #2e2e28; padding: 8px 0; }
+.modal-gruppe:last-child { border-bottom: none; }
+.modal-gruppe-name { font-size: 13px; font-weight: 700; color: #f0ede6; margin-bottom: 5px; }
+.modal-gruppe-actions { display: flex; gap: 5px; margin-bottom: 5px; }
+.modal-quick-btn { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid #3a3a30; background: #252520; color: #909080; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.modal-stueck-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+.modal-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #4a4a40; background: #252520; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.modal-check.checked { background: #4a9e62; border-color: #4a9e62; }
+.modal-check.checked::after { content: '✓'; color: #fff; font-size: 13px; font-weight: 700; }
+.modal-stueck-label { flex: 1; font-size: 13px; color: #c0bdb0; }
+.modal-stueck-status { font-size: 11px; margin-right: 3px; }
+.modal-stueck-preis { font-size: 13px; font-weight: 700; color: #e8a030; }
+.modal-summe { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 10px; border-top: 1px solid #2e2e28; margin-top: 4px; }
+.modal-summe span { font-size: 14px; font-weight: 700; color: #f0ede6; }
+.modal-summe .betrag { font-family: 'DM Serif Display', serif; font-size: 24px; color: #f5c040; }
+.modal-buttons { display: flex; gap: 8px; }
+.modal-btn { flex: 1; padding: 13px; border-radius: 10px; border: none; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
+.modal-btn-ok { background: #4a9e62; color: #fff; }
+.modal-btn-ab { background: #252520; color: #909080; border: 1.5px solid #3a3a30; }
+
+.sonstiges-input {
+  background: #252520; border: 1.5px solid #3a3a30; border-radius: 10px;
+  padding: 11px 13px; color: #f0ede6; font-family: 'DM Sans', sans-serif;
+  font-size: 15px; width: 100%; outline: none; margin-bottom: 10px; display: block;
+  -webkit-appearance: none; appearance: none;
+}
+.sonstiges-input:focus { border-color: #e09020; }
+.sonstiges-input::placeholder { color: #5a5a50; }
+
+.toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: #4a9e62; color: #fff;
+  padding: 9px 20px; border-radius: 30px;
+  font-weight: 700; font-size: 13px;
+  transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div id="app">
+
+<div class="header">
+  <span class="header-title">⛷ Maifest 2026</span>
+  <span class="header-dot">·</span>
+  <span class="header-sub">Ski-Club Oppenau</span>
+</div>
+
+<div class="tisch-nav" id="tischNav"></div>
+
+<div class="artikel-section" id="artikelSection"></div>
+
+<div class="bestellung-panel">
+  <div class="schnell-bar" id="schnellBar">
+    <button class="s-pill o" onclick="alleStatus('offen')">● Gesamt offen</button>
+    <button class="s-pill b" onclick="alleStatus('bestellt')">● Gesamt bestellt</button>
+    <button class="s-pill g" onclick="alleStatus('geliefert')">● Gesamt geliefert</button>
+  </div>
+  <div class="bestellung-leer" id="bestellLeer">Noch nichts bestellt – oben antippen</div>
+  <div id="bestellListe"></div>
+</div>
+
+<div class="status-legend">
+  <span><span class="mini-pill offen" style="width:12px;height:12px;font-size:7px;">O</span>&nbsp;Offen</span>
+  <span><span class="mini-pill bestellt" style="width:12px;height:12px;font-size:7px;">B</span>&nbsp;Bestellt</span>
+  <span><span class="mini-pill geliefert" style="width:12px;height:12px;font-size:7px;">G</span>&nbsp;Geliefert</span>
+  <span style="margin-left:auto;font-size:9px;color:#606058;">Pille = wechseln</span>
+</div>
+
+<div class="summen-bar">
+  <div class="label">Gesamtsumme Tisch</div>
+  <div class="betrag" id="gesamtSumme">0,00 €</div>
+</div>
+
+<div class="abrechnung-row">
+  <button class="btn-abrechnen btn-alles" onclick="allesAbrechnen()">✓ Alles abrechnen</button>
+  <button class="btn-abrechnen btn-auswahl" onclick="teilAuf()">Teilabrechnung</button>
+  <button class="btn-reset" onclick="tischLeeren()">✕</button>
+</div>
+
+</div>
+
+<!-- Modal Teilabrechnung -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-titel">Teilabrechnung</div>
+    <div class="modal-sub">Stücke auswählen die bezahlt werden</div>
+    <div id="modalListe"></div>
+    <div class="modal-summe">
+      <span>Zu zahlen:</span>
+      <span class="betrag" id="modalSumme">0,00 €</span>
+    </div>
+    <div class="modal-buttons">
+      <button class="modal-btn modal-btn-ab" onclick="teilZu()">Abbrechen</button>
+      <button class="modal-btn modal-btn-ok" onclick="teilBezahlen()">Bezahlt ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Sonstiges -->
+<div class="modal-overlay" id="sonstigesOverlay">
+  <div class="modal">
+    <div class="modal-titel">✏️ Sonstiges</div>
+    <div class="modal-sub">Freie Beschreibung und Preis</div>
+    <input class="sonstiges-input" id="sName" type="text" placeholder="Beschreibung" maxlength="40">
+    <input class="sonstiges-input" id="sPreis" type="number" placeholder="Preis in €" step="0.10" min="0">
+    <div style="height:6px"></div>
+    <div class="modal-buttons">
+      <button class="modal-btn modal-btn-ab" onclick="sonstZu()">Abbrechen</button>
+      <button class="modal-btn modal-btn-ok" onclick="sonstAdd()">Hinzufügen ✓</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const KAT_ORDER=["Alkoholfrei","Bier","Wein","Weitere alkohol.","Speisen","Kaffee & Kuchen","Sonstiges"];
+const KAT_LABEL={"Alkoholfrei":"💧 Alkoholfreie Getränke","Bier":"🍺 Bier","Wein":"🍷 Wein","Weitere alkohol.":"🥃 Weitere alkoholische Getränke","Speisen":"🍽️ Speisen","Kaffee & Kuchen":"☕ Kaffee & Kuchen","Sonstiges":"✏️ Sonstiges"};
+const CURRY_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="20" height="20"><path d="M6 20 Q8 14 18 16 Q28 18 30 16" stroke="#c07030" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M9 17 Q12 13 16 15 Q20 17 24 14 Q27 12 29 14" stroke="#d03010" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9"/></svg>`;
+
+const ARTIKEL=[
+  {kat:"Alkoholfrei",icon:"💧",name:"Sprudel sauer",preis:2.50},
+  {kat:"Alkoholfrei",icon:"💧",name:"Sprudel süß",preis:3.00},
+  {kat:"Alkoholfrei",icon:"🥤",name:"Fanta",preis:3.00},
+  {kat:"Alkoholfrei",icon:"🥤",name:"Cola",preis:3.00},
+  {kat:"Alkoholfrei",icon:"🍋",name:"Paulaner Spezi",preis:3.00},
+  {kat:"Alkoholfrei",icon:"🍎",name:"Apfelsaftschorle",preis:3.00},
+  {kat:"Bier",icon:"🍺",name:"Bier vom Fass",preis:3.50},
+  {kat:"Bier",icon:"🍺",name:"Radler süß",preis:3.50},
+  {kat:"Bier",icon:"🍺",name:"Radler sauer",preis:3.50},
+  {kat:"Bier",icon:"🍺",name:"Weizen",preis:3.50},
+  {kat:"Bier",icon:"🍺",name:"Colaweizen",preis:3.50},
+  {kat:"Bier",icon:"🍺",name:"Alkoholfreies Weizen",preis:3.50},
+  {kat:"Wein",icon:"🥂",name:"Weißwein",preis:3.00},
+  {kat:"Wein",icon:"🥂",name:"Weißwein Flasche",preis:11.00},
+  {kat:"Wein",icon:"🍷",name:"Rotwein",preis:3.50},
+  {kat:"Wein",icon:"🍷",name:"Rotwein Flasche",preis:13.00},
+  {kat:"Wein",icon:"🥂",name:"Weinschorle weiß",preis:3.00},
+  {kat:"Wein",icon:"🍷",name:"Weinschorle rot",preis:3.00},
+  {kat:"Weitere alkohol.",icon:"🍊",name:"Aperol",preis:5.00},
+  {kat:"Weitere alkohol.",icon:"🌿",name:"Lillet",preis:5.00},
+  {kat:"Weitere alkohol.",icon:"🥃",name:"Schnaps",preis:2.00},
+  {kat:"Speisen",icon:"🥗",name:"Salatteller",preis:5.50},
+  {kat:"Speisen",icon:"🍟",name:"Portion Pommes",preis:3.00},
+  {kat:"Speisen",icon:"🌭",name:"Bratwurst mit Weck",preis:4.00},
+  {kat:"Speisen",icon:"🌭",name:"Bratwurst mit Pommes",preis:6.50},
+  {kat:"Speisen",icon:"curry",name:"Currywurst mit Weck",preis:4.50},
+  {kat:"Speisen",icon:"curry",name:"Currywurst mit Pommes",preis:7.00},
+  {kat:"Speisen",icon:"🥩",name:"Steak mit Weck",preis:6.50},
+  {kat:"Speisen",icon:"🥩",name:"Steak mit Pommes",preis:9.00},
+  {kat:"Speisen",icon:"🍗",name:"Putensteak mit Weck",preis:6.50},
+  {kat:"Speisen",icon:"🍗",name:"Putensteak mit Pommes",preis:9.00},
+  {kat:"Kaffee & Kuchen",icon:"☕",name:"Tasse Kaffee",preis:2.00},
+  {kat:"Kaffee & Kuchen",icon:"🎂",name:"Torte",preis:3.00},
+  {kat:"Kaffee & Kuchen",icon:"🍰",name:"Kuchen",preis:2.00},
+  {kat:"Sonstiges",icon:"✏️",name:"Sonstiges",preis:0,sx:true},
+];
+
+const N2K={};ARTIKEL.forEach(a=>N2K[a.name]=a.kat);
+const TISCHE=6;
+let T=Array.from({length:TISCHE},()=>[]);
+let aktiv=0,nid=1,mAuswahl=new Set(),bdg={};
+const SR=['offen','bestellt','geliefert'];
+const SL={offen:'O',bestellt:'B',geliefert:'G'};
+const SC={offen:'#6a6a58',bestellt:'#e09020',geliefert:'#4a9e62'};
+const SN={offen:'● Offen',bestellt:'● Bestellt',geliefert:'● Geliefert'};
+
+function ns(n,p,i){return{id:nid++,name:n,preis:p,icon:i||'📋',status:'offen'};}
+function fmt(v){return v.toFixed(2).replace('.',',')+' €';}
+
+function iEl(ic,sz){
+  if(ic==='curry'){
+    const s=document.createElement('span');
+    s.style.cssText=`display:inline-flex;align-items:center;justify-content:center;width:${sz}px;height:${sz}px;flex-shrink:0;`;
+    s.innerHTML=CURRY_SVG;return s;
+  }
+  const s=document.createElement('span');
+  s.style.cssText=`font-size:${sz}px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;`;
+  s.textContent=ic;return s;
+}
+
+function init(){renderNav();renderArt();renderB();}
+
+function renderNav(){
+  const nav=document.getElementById('tischNav');nav.innerHTML='';
+  for(let i=0;i<TISCHE;i++){
+    const b=document.createElement('button');
+    b.className='tisch-btn'+(i===aktiv?' active':'');
+    b.onclick=()=>{aktiv=i;renderNav();renderB();updAllBdg();};
+    b.appendChild(document.createTextNode('Tisch '+(i+1)));
+    if(T[i].length){const bd=document.createElement('span');bd.className='badge';bd.textContent=T[i].length>9?'9+':T[i].length;b.appendChild(bd);}
+    nav.appendChild(b);
+  }
+}
+
+function renderArt(){
+  bdg={};
+  const sec=document.getElementById('artikelSection');sec.innerHTML='';
+  KAT_ORDER.forEach(k=>{
+    const items=ARTIKEL.filter(a=>a.kat===k);if(!items.length)return;
+    const t=document.createElement('div');t.className='kategorie-titel';t.textContent=k;sec.appendChild(t);
+    const g=document.createElement('div');g.className='artikel-grid';
+    items.forEach(a=>{
+      const btn=document.createElement('button');btn.className='artikel-btn';
+      // Explizite Farben via style um Safari-Overrides zu verhindern
+      btn.style.cssText='background:#252520;color:#f0ede6;';
+      const ic=iEl(a.icon,20);ic.className='artikel-btn-icon';btn.appendChild(ic);
+      const r=document.createElement('div');r.className='artikel-btn-right';
+      const nm=document.createElement('div');nm.className='artikel-btn-name';nm.style.color='#f0ede6';nm.textContent=a.name;
+      const px=document.createElement('div');px.className='artikel-btn-preis';px.style.color='#e8a030';px.textContent=a.sx?'Frei':fmt(a.preis);
+      r.appendChild(nm);r.appendChild(px);btn.appendChild(r);
+      const cb=document.createElement('div');cb.className='artikel-count';btn.appendChild(cb);bdg[a.name]=cb;
+      btn.onclick=()=>{
+        if(a.sx){sonstAuf();return;}
+        T[aktiv].push(ns(a.name,a.preis,a.icon));
+        renderB();renderNav();updBdg(a.name);
+      };
+      g.appendChild(btn);
+    });
+    sec.appendChild(g);
+  });
+  updAllBdg();
+}
+
+function updBdg(n){
+  const c=T[aktiv].filter(s=>s.name===n).length;
+  const b=bdg[n];if(!b)return;
+  b.textContent=c;
+  c?b.classList.add('visible'):b.classList.remove('visible');
+}
+function updAllBdg(){ARTIKEL.forEach(a=>{if(!a.sx)updBdg(a.name);});}
+
+function renderB(){
+  const tisch=T[aktiv];
+  const leer=document.getElementById('bestellLeer');
+  const liste=document.getElementById('bestellListe');
+  const bar=document.getElementById('schnellBar');
+  liste.innerHTML='';
+  if(!tisch.length){leer.style.display='block';bar.classList.remove('vis');updSumme();return;}
+  leer.style.display='none';bar.classList.add('vis');
+
+  KAT_ORDER.forEach(k=>{
+    const st=tisch.filter(s=>(N2K[s.name]||'Sonstiges')===k);if(!st.length)return;
+    const kb=document.createElement('div');
+    const kt=document.createElement('div');kt.className='bl-kat-titel';kt.textContent=KAT_LABEL[k]||k;kb.appendChild(kt);
+    const gm=new Map();st.forEach(s=>{if(!gm.has(s.name))gm.set(s.name,[]);gm.get(s.name).push(s);});
+    gm.forEach((gs,nm)=>{
+      if(gs.length>1){
+        const qr=document.createElement('div');qr.className='bl-quick-row';
+        [['Alle offen','offen'],['Alle bestellt','bestellt'],['Alle geliefert','geliefert']].forEach(([l,st2])=>{
+          const b=document.createElement('button');b.className='bl-quick';b.textContent=l;
+          b.onclick=()=>{gs.forEach(s=>s.status=st2);renderB();};qr.appendChild(b);
+        });
+        kb.appendChild(qr);
+      }
+      const row=document.createElement('div');row.className='bl-gruppe';
+      const ic=iEl(gs[0].icon,13);ic.style.cssText='width:18px;text-align:center;flex-shrink:0;';
+      const nmEl=document.createElement('div');nmEl.className='bl-name';nmEl.textContent=gs.length>1?`${nm} ×${gs.length}`:nm;
+      const pills=document.createElement('div');pills.className='bl-status-row';
+      gs.forEach(s=>{
+        const p=document.createElement('div');p.className=`mini-pill ${s.status}`;p.textContent=SL[s.status];
+        p.onclick=()=>{s.status=SR[(SR.indexOf(s.status)+1)%SR.length];renderB();};pills.appendChild(p);
+      });
+      const px=document.createElement('div');px.className='bl-preis';px.textContent=fmt(gs.reduce((a,x)=>a+x.preis,0));
+      const del=document.createElement('button');del.className='bl-del';del.textContent='×';
+      del.onclick=()=>{const last=gs[gs.length-1];const idx=T[aktiv].findIndex(x=>x.id===last.id);if(idx>-1)T[aktiv].splice(idx,1);renderB();renderNav();updBdg(nm);};
+      row.appendChild(ic);row.appendChild(nmEl);row.appendChild(pills);row.appendChild(px);row.appendChild(del);
+      kb.appendChild(row);
+    });
+    liste.appendChild(kb);
+  });
+  updSumme();
+}
+
+function updSumme(){document.getElementById('gesamtSumme').textContent=fmt(T[aktiv].reduce((s,a)=>s+a.preis,0));}
+function alleStatus(st){T[aktiv].forEach(s=>s.status=st);renderB();}
+
+function allesAbrechnen(){
+  const t=T[aktiv];if(!t.length)return;
+  const sum=t.reduce((s,a)=>s+a.preis,0);
+  T[aktiv]=[];renderB();renderNav();updAllBdg();
+  showToast('Tisch '+(aktiv+1)+' bezahlt: '+fmt(sum));
+}
+function tischLeeren(){
+  if(!T[aktiv].length)return;
+  if(!confirm('Tisch '+(aktiv+1)+' wirklich leeren?'))return;
+  T[aktiv]=[];renderB();renderNav();updAllBdg();
+}
+
+function teilAuf(){if(!T[aktiv].length)return;mAuswahl=new Set();renderMod();document.getElementById('modalOverlay').classList.add('open');}
+function teilZu(){document.getElementById('modalOverlay').classList.remove('open');}
+
+function renderMod(){
+  const liste=document.getElementById('modalListe');liste.innerHTML='';
+  KAT_ORDER.forEach(k=>{
+    const st=T[aktiv].filter(s=>(N2K[s.name]||'Sonstiges')===k);if(!st.length)return;
+    const gm=new Map();st.forEach(s=>{if(!gm.has(s.name))gm.set(s.name,[]);gm.get(s.name).push(s);});
+    gm.forEach((gs,nm)=>{
+      const g=document.createElement('div');g.className='modal-gruppe';
+      const gn=document.createElement('div');gn.className='modal-gruppe-name';
+      gn.textContent=(gs[0].icon==='curry'?'🌭':gs[0].icon)+' '+nm+' ('+fmt(gs[0].preis)+'/Stk.)';g.appendChild(gn);
+      const ga=document.createElement('div');ga.className='modal-gruppe-actions';
+      const ab=document.createElement('button');ab.className='modal-quick-btn';ab.textContent='Alle';ab.onclick=()=>{gs.forEach(s=>mAuswahl.add(s.id));renderMod();};
+      const kb=document.createElement('button');kb.className='modal-quick-btn';kb.textContent='Keine';kb.onclick=()=>{gs.forEach(s=>mAuswahl.delete(s.id));renderMod();};
+      ga.appendChild(ab);ga.appendChild(kb);g.appendChild(ga);
+      gs.forEach((s,i)=>{
+        const row=document.createElement('div');row.className='modal-stueck-row';
+        const chk=document.createElement('div');chk.className='modal-check'+(mAuswahl.has(s.id)?' checked':'');
+        chk.onclick=()=>{if(mAuswahl.has(s.id))mAuswahl.delete(s.id);else mAuswahl.add(s.id);renderMod();};
+        const lbl=document.createElement('div');lbl.className='modal-stueck-label';lbl.textContent='Stück '+(i+1);
+        const sb=document.createElement('span');sb.className='modal-stueck-status';sb.style.color=SC[s.status];sb.textContent=SN[s.status];
+        const px=document.createElement('div');px.className='modal-stueck-preis';px.textContent=fmt(s.preis);
+        row.appendChild(chk);row.appendChild(lbl);row.appendChild(sb);row.appendChild(px);g.appendChild(row);
+      });
+      liste.appendChild(g);
+    });
+  });
+  const sum=[...mAuswahl].reduce((s,id)=>{const it=T[aktiv].find(x=>x.id===id);return s+(it?it.preis:0);},0);
+  document.getElementById('modalSumme').textContent=fmt(sum);
+}
+
+function teilBezahlen(){
+  if(!mAuswahl.size)return;
+  const sum=[...mAuswahl].reduce((s,id)=>{const it=T[aktiv].find(x=>x.id===id);return s+(it?it.preis:0);},0);
+  T[aktiv]=T[aktiv].filter(s=>!mAuswahl.has(s.id));
+  teilZu();renderB();renderNav();updAllBdg();
+  showToast('Teilzahlung: '+fmt(sum));
+}
+
+function sonstAuf(){
+  document.getElementById('sName').value='';
+  document.getElementById('sPreis').value='';
+  document.getElementById('sonstigesOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('sName').focus(),300);
+}
+function sonstZu(){document.getElementById('sonstigesOverlay').classList.remove('open');}
+function sonstAdd(){
+  const n=document.getElementById('sName').value.trim();
+  const p=parseFloat(document.getElementById('sPreis').value);
+  if(!n){document.getElementById('sName').focus();return;}
+  if(isNaN(p)||p<0){document.getElementById('sPreis').focus();return;}
+  N2K[n]='Sonstiges';
+  T[aktiv].push(ns(n,p,'✏️'));
+  sonstZu();renderB();renderNav();
+}
+
+function showToast(m){
+  const t=document.getElementById('toast');
+  t.textContent=m;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+init();
+</script>
+</body>
+</html>
