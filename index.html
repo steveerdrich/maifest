@@ -472,7 +472,6 @@ document.addEventListener('touchend', function(e) {
 </div>
 
 <div class="toast" id="toast"></div>
-<iframe name="log_iframe" style="display:none;"></iframe>
 
 <script>
 const KAT_ORDER=["Alkoholfrei","Bier","Wein","Weitere alkohol.","Speisen","Kaffee & Kuchen","Sonstiges"];
@@ -857,20 +856,14 @@ function logAbrechnung(tischNr, artikel, art, bedienung) {
     art: art
   }));
 
-  // Google Apps Script via Form-Submit (funktioniert ohne CORS-Probleme)
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = LOG_URL;
-  form.target = 'log_iframe';
-  form.style.display = 'none';
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = 'payload';
-  input.value = JSON.stringify({rows});
-  form.appendChild(input);
-  document.body.appendChild(form);
-  form.submit();
-  setTimeout(() => document.body.removeChild(form), 3000);
+  // Google Apps Script via URL-encoded fetch
+  const params = new URLSearchParams();
+  params.append('payload', JSON.stringify({rows}));
+  fetch(LOG_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: params
+  }).catch(()=>{});
 }
 
 function gruppiereArtikel(stuecke) {
