@@ -128,15 +128,18 @@ border: 1.5px solid;
 .s-pill.g { border-color: #4a9e62; color: #4a9e62; background: rgba(74,158,98,0.12); }
 
 /* BESTELLLISTE */
+.bl-kat-header {
+padding: 5px 0 0;
+border-bottom: 1px solid #2e2e28;
+margin-bottom: 2px;
+}
 .bl-kat-titel {
-font-size: 9px;
+font-size: 14px;
 font-weight: 700;
 color: #e8b840;
 text-transform: uppercase;
 letter-spacing: 1.2px;
-padding: 5px 0 2px;
-border-bottom: 1px solid #2e2e28;
-margin-bottom: 2px;
+margin-bottom: 3px;
 }
 .bl-gruppe {
 display: flex;
@@ -156,7 +159,7 @@ gap: 3px;
 min-width: 0;
 justify-content: space-between;
 }
-.bl-name { font-size: 12px; font-weight: 600; line-height: 1.3; color: #f0ede6; white-space: nowrap; }
+.bl-name { font-size: 14px; font-weight: 600; line-height: 1.3; color: #f0ede6; white-space: nowrap; }
 .bl-status-row { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; margin-left: auto; }
 .mini-pill {
 display: inline-flex;
@@ -173,16 +176,13 @@ flex-shrink: 0;
 .mini-pill.offen   { background: transparent; border-color: #5a5a50; color: #9a9a88; }
 .mini-pill.bestellt { background: rgba(224,144,32,0.2); border-color: #e09020; color: #e09020; }
 .mini-pill.geliefert { background: rgba(74,158,98,0.2); border-color: #4a9e62; color: #4a9e62; }
-.bl-preis { font-size: 12px; color: #e8b840; font-weight: 700; min-width: 46px; text-align: right; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+.bl-preis { font-size: 14px; color: #e8b840; font-weight: 700; min-width: 52px; text-align: right; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
 .bl-del { color: #5a5a50; font-size: 15px; cursor: pointer; padding: 0 2px; background: none; border: none; flex-shrink: 0; }
 .bl-del:active { color: #c04848; }
-.bl-quick-row { display: flex; gap: 3px; padding: 2px 0 3px; flex-wrap: wrap; }
-.bl-quick {
-font-size: 9px; font-weight: 600; padding: 1px 7px;
-border-radius: 20px; border: 1px solid #3a3a30;
-background: #252520; color: #909080;
-cursor: pointer; font-family: ‘DM Sans’, sans-serif;
-}
+.bl-quick-row { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-start; margin-bottom: 3px; }
+.bl-quick.o { font-size:8px;font-weight:600;padding:1px 6px;border-radius:20px;cursor:pointer;font-family:‘DM Sans’,sans-serif;border:1.5px solid #6a6a60;color:#b0b0a0;background:transparent; }
+.bl-quick.b { font-size:8px;font-weight:600;padding:1px 6px;border-radius:20px;cursor:pointer;font-family:‘DM Sans’,sans-serif;border:1.5px solid #e09020;color:#e09020;background:rgba(224,144,32,0.1); }
+.bl-quick.g { font-size:8px;font-weight:600;padding:1px 6px;border-radius:20px;cursor:pointer;font-family:‘DM Sans’,sans-serif;border:1.5px solid #4a9e62;color:#4a9e62;background:rgba(74,158,98,0.1); }
 
 /* STATUS LEGENDE */
 .status-legend {
@@ -262,13 +262,13 @@ font-family: ‘DM Sans’, sans-serif;
 .artikel-btn-icon { font-size: 20px; flex-shrink: 0; line-height: 1; }
 .artikel-btn-right { flex: 1; min-width: 0; }
 .artikel-btn-name {
-font-size: 11px; font-weight: 600;
+font-size: 13px; font-weight: 600;
 line-height: 1.25;
 white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 color: #f0ede6;
 }
 .artikel-btn-preis {
-font-size: 14px; font-weight: 700;
+font-size: 15px; font-weight: 700;
 color: #e8a030;
 margin-top: 2px;
 }
@@ -411,7 +411,7 @@ document.addEventListener('touchmove', function(e) {
     <span class="header-title">⛷ Maifest 2026</span>
     <span class="header-dot">·</span>
     <span class="header-sub">Ski-Club Oppenau</span>
-    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 07:24</span>
+    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 07:43</span>
   </div>
   <div class="tisch-nav" id="tischNav"></div>
 </div>
@@ -702,20 +702,22 @@ function renderB(){
   KAT_ORDER.forEach(k=>{
     const st=tisch.filter(s=>(N2K[s.name]||'Sonstiges')===k);if(!st.length)return;
     const kb=document.createElement('div');
-    const kt=document.createElement('div');kt.className='bl-kat-titel';kt.textContent=KAT_LABEL[k]||k;kb.appendChild(kt);
-    // Kategorie-level quick buttons
+    // Header row: titel + quick buttons in same line
+    const katHeader=document.createElement('div');katHeader.className='bl-kat-header';
+    const kt=document.createElement('div');kt.className='bl-kat-titel';kt.textContent=KAT_LABEL[k]||k;
     const katQr=document.createElement('div');katQr.className='bl-quick-row';
-    [['Alle offen','offen'],['Alle bestellt','bestellt'],['Alle geliefert','geliefert']].forEach(([l,st2])=>{
-      const b=document.createElement('button');b.className='bl-quick';b.textContent=l;
+    [['Alle offen','offen','o'],['Alle bestellt','bestellt','b'],['Alle geliefert','geliefert','g']].forEach(([l,st2,cls])=>{
+      const b=document.createElement('button');b.className='bl-quick '+cls;b.textContent=l;
       b.onclick=()=>{st.forEach(s=>s.status=st2);renderB();saveState();};katQr.appendChild(b);
     });
-    kb.appendChild(katQr);
+    katHeader.appendChild(kt);katHeader.appendChild(katQr);
+    kb.appendChild(katHeader);
 
     const gm=new Map();st.forEach(s=>{if(!gm.has(s.name))gm.set(s.name,[]);gm.get(s.name).push(s);});
     gm.forEach((gs,nm)=>{
       const row=document.createElement('div');row.className='bl-gruppe';
       const ic=iEl(gs[0].name,20);ic.style.cssText='width:20px;text-align:center;flex-shrink:0;';
-      const nmEl=document.createElement('div');nmEl.className='bl-name';nmEl.textContent=gs.length>1?`${nm} ×${gs.length}`:nm;
+      const nmEl=document.createElement('div');nmEl.className='bl-name';nmEl.textContent=gs.length>1?`${gs.length}× ${nm}`:nm;
       const pills=document.createElement('div');pills.className='bl-status-row';
       gs.forEach(s=>{
         const p=document.createElement('div');p.className=`mini-pill ${s.status}`;p.textContent=SL[s.status];
