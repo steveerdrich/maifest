@@ -466,7 +466,7 @@ document.addEventListener('touchmove', function(e) {
     <span class="header-title">⛷ Maifest 2026</span>
     <span class="header-dot">·</span>
     <span class="header-sub">Ski-Club Oppenau</span>
-    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 08:13</span>
+    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 08:17</span>
   </div>
   <div class="tisch-nav" id="tischNav"></div>
 </div>
@@ -607,8 +607,8 @@ const ARTIKEL=[
   {kat:"Speisen",icon:"🍗",name:"Putensteak / Weck",preis:6.50},
   {kat:"Speisen",icon:"🍗",name:"Putensteak / Pommes",preis:9.00},
   {kat:"Kaffee & Kuchen",icon:"☕",name:"Tasse Kaffee",preis:2.00},
-  {kat:"Kaffee & Kuchen",icon:"🎂",name:"Torte",preis:3.00,prompt:true},
-  {kat:"Kaffee & Kuchen",icon:"🍰",name:"Kuchen",preis:2.00,prompt:true},
+  {kat:"Kaffee & Kuchen",icon:"🎂",name:"Torte",preis:3.00},
+  {kat:"Kaffee & Kuchen",icon:"🍰",name:"Kuchen",preis:2.00},
   {kat:"Sonstiges",icon:"✏️",name:"Sonstiges",preis:0,sx:true},
 ];
 
@@ -716,16 +716,7 @@ function renderArt(){
 
       btn.onclick=()=>{
         if(a.sx){sonstAuf();return;}
-        if(a.prompt){
-          const detail=prompt(a.name+' – welche Sorte?','');
-          const finalName=detail&&detail.trim().length>0?a.name+' - '+detail.trim():a.name;
-          const s=ns(finalName,a.preis,a.icon);
-          s.baseName=a.name;
-          T[aktiv].push(s);
-          N2K[finalName]=a.kat;
-        } else {
-          T[aktiv].push(ns(a.name,a.preis,a.icon));
-        }
+        T[aktiv].push(ns(a.name,a.preis,a.icon));
         renderB();renderNav();updBdg(a.name);saveState();
       };
 
@@ -760,8 +751,7 @@ function renderArt(){
 }
 
 function updBdg(n){
-  // Count by exact name OR by baseName
-  const c=T[aktiv].filter(s=>s.name===n||(s.baseName&&s.baseName===n)).length;
+  const c=T[aktiv].filter(s=>s.name===n).length;
   const b=bdg[n];if(!b)return;
   b.textContent=c;
   c?b.classList.add('visible'):b.classList.remove('visible');
