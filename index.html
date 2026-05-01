@@ -466,7 +466,7 @@ document.addEventListener('touchmove', function(e) {
     <span class="header-title">⛷ Maifest 2026</span>
     <span class="header-dot">·</span>
     <span class="header-sub">Ski-Club Oppenau</span>
-    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 08:17</span>
+    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 15:25</span>
   </div>
   <div class="tisch-nav" id="tischNav"></div>
 </div>
@@ -514,7 +514,7 @@ document.addEventListener('touchmove', function(e) {
     <div class="confirm-sub" id="confirmSub"></div>
     <div class="confirm-btns">
       <button class="confirm-btn confirm-btn-ab" onclick="confirmAbbrechen()">Abbrechen</button>
-      <button class="confirm-btn confirm-btn-ok" onclick="confirmOk()">Ja, löschen</button>
+      <button class="confirm-btn confirm-btn-ok" id="confirmOkBtn" onclick="confirmOk()">Ok</button>
     </div>
   </div>
 </div>
@@ -814,8 +814,16 @@ function alleStatus(st){T[aktiv].forEach(s=>s.status=st);renderB();saveState();}
 function allesAbrechnen(){
   const t=T[aktiv];if(!t.length)return;
   const sum=t.reduce((s,a)=>s+a.preis,0);
-  logAbrechnung(aktiv+1, gruppiereArtikel(t), 'Gesamt', bedienungName);
-  notizLeeren();T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();showToast('Tisch '+(aktiv+1)+' bezahlt: '+fmt(sum));
+  zeigeConfirm(
+    'Tisch '+(aktiv+1)+' – '+fmt(sum),
+    'Der Tisch ist bezahlt und wird nun geschlossen.',
+    ()=>{
+      logAbrechnung(aktiv+1, gruppiereArtikel(t), 'Gesamt', bedienungName);
+      notizLeeren();T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
+      showToast('Tisch '+(aktiv+1)+' bezahlt: '+fmt(sum));
+    },
+    'Ok'
+  );
 }
 function tischLeeren(){
   if(!T[aktiv].length && !notizen[aktiv])return;
@@ -1025,9 +1033,10 @@ function notizAnzeigen() {
 // ── BESTÄTIGUNG ──
 let confirmCallback = null;
 
-function zeigeConfirm(titel, sub, callback) {
+function zeigeConfirm(titel, sub, callback, okLabel) {
   document.getElementById('confirmTitle').textContent = titel;
   document.getElementById('confirmSub').textContent = sub;
+  document.getElementById('confirmOkBtn').textContent = okLabel || 'Ok';
   confirmCallback = callback;
   document.getElementById('confirmOverlay').classList.add('open');
 }
