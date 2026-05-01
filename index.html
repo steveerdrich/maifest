@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -12,114 +13,115 @@
 
 /* Alle Farben explizit – keine Browser-Defaults */
 html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #141412;
-  color: #f0ede6;
-  font-family: 'DM Sans', sans-serif;
-  -webkit-text-size-adjust: 100%;
+width: 100%;
+height: 100%;
+overflow: hidden;
+background: #141412;
+color: #f0ede6;
+font-family: ‘DM Sans’, sans-serif;
+-webkit-text-size-adjust: 100%;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-action: manipulation; }
+
+- { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-action: manipulation; }
 
 #app {
-  position: fixed;
-  inset: 0;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  background: #141412;
+position: fixed;
+inset: 0;
+overflow-y: scroll;
+overflow-x: hidden;
+-webkit-overflow-scrolling: touch;
+background: #141412;
 }
 
 /* HEADER */
 .header {
-  background: #1e1e1b;
-  border-bottom: none;
-  padding: 3px 12px 2px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+background: #1e1e1b;
+border-bottom: none;
+padding: 3px 12px 2px;
+display: flex;
+align-items: center;
+gap: 6px;
 }
 .header-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 14px;
-  color: #e09020;
-  line-height: 1;
+font-family: ‘DM Serif Display’, serif;
+font-size: 14px;
+color: #e09020;
+line-height: 1;
 }
 .header-dot { font-size: 10px; color: #3a3a30; }
 .header-sub { font-size: 10px; color: #a0a090; }
 
 /* TISCH NAV */
 .tisch-nav {
-  display: flex;
-  gap: 7px;
-  padding: 5px 12px;
-  overflow-x: auto;
-  background: #1e1e1b;
-  border-bottom: 1px solid #3a3a30;
-  scrollbar-width: none;
+display: flex;
+gap: 7px;
+padding: 5px 12px;
+overflow-x: auto;
+background: #1e1e1b;
+border-bottom: 1px solid #3a3a30;
+scrollbar-width: none;
 }
 .tisch-nav::-webkit-scrollbar { display: none; }
 .tisch-btn {
-  flex-shrink: 0;
-  padding: 5px 13px;
-  border-radius: 20px;
-  border: 1.5px solid #4a4a40;
-  background: transparent;
-  color: #a0a090;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  position: relative;
+flex-shrink: 0;
+padding: 5px 13px;
+border-radius: 20px;
+border: 1.5px solid #4a4a40;
+background: transparent;
+color: #a0a090;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 12px;
+font-weight: 600;
+cursor: pointer;
+position: relative;
 }
 .tisch-btn.active {
-  background: #e09020;
-  border-color: #e09020;
-  color: #141412;
+background: #e09020;
+border-color: #e09020;
+color: #141412;
 }
 .tisch-btn .badge {
-  position: absolute;
-  top: -5px; right: -5px;
-  background: #d06020;
-  color: #fff;
-  font-size: 9px;
-  font-weight: 700;
-  min-width: 15px;
-  height: 15px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 3px;
+position: absolute;
+top: -5px; right: -5px;
+background: #d06020;
+color: #fff;
+font-size: 9px;
+font-weight: 700;
+min-width: 15px;
+height: 15px;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 0 3px;
 }
 
 /* BESTELLUNG PANEL */
 .bestellung-panel {
-  padding: 4px 12px;
-  border-bottom: 1px solid #3a3a30;
-  background: #141412;
-  padding-bottom: 80px;
+padding: 4px 12px;
+border-bottom: 1px solid #3a3a30;
+background: #141412;
+padding-bottom: 80px;
 }
 .bestellung-leer {
-  color: #6a6a60;
-  font-size: 12px;
-  text-align: center;
-  padding: 10px 0;
+color: #6a6a60;
+font-size: 12px;
+text-align: center;
+padding: 10px 0;
 }
 
 /* SCHNELL STATUS */
 .schnell-bar { display: none; gap: 5px; padding: 4px 0 6px; flex-wrap: wrap; }
 .schnell-bar.vis { display: flex; }
 .s-pill {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  border: 1.5px solid;
+font-size: 10px;
+font-weight: 700;
+padding: 3px 10px;
+border-radius: 20px;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+border: 1.5px solid;
 }
 .s-pill.o { border-color: #6a6a60; color: #b0b0a0; background: transparent; }
 .s-pill.b { border-color: #e09020; color: #e09020; background: rgba(224,144,32,0.12); }
@@ -127,46 +129,46 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
 
 /* BESTELLLISTE */
 .bl-kat-titel {
-  font-size: 9px;
-  font-weight: 700;
-  color: #e8b840;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  padding: 5px 0 2px;
-  border-bottom: 1px solid #2e2e28;
-  margin-bottom: 2px;
+font-size: 9px;
+font-weight: 700;
+color: #e8b840;
+text-transform: uppercase;
+letter-spacing: 1.2px;
+padding: 5px 0 2px;
+border-bottom: 1px solid #2e2e28;
+margin-bottom: 2px;
 }
 .bl-gruppe {
-  display: flex;
-  align-items: flex-start;
-  gap: 5px;
-  padding: 3px 0;
-  border-bottom: 1px solid #1e1e1a;
+display: flex;
+align-items: flex-start;
+gap: 5px;
+padding: 3px 0;
+border-bottom: 1px solid #1e1e1a;
 }
 .bl-gruppe:last-child { border-bottom: none; }
 .bl-icon { font-size: 13px; width: 20px; text-align: center; flex-shrink: 0; margin-top: 2px; }
 .bl-name-pills {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 3px;
-  min-width: 0;
-  justify-content: space-between;
+flex: 1;
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+gap: 3px;
+min-width: 0;
+justify-content: space-between;
 }
 .bl-name { font-size: 12px; font-weight: 600; line-height: 1.3; color: #f0ede6; white-space: nowrap; }
 .bl-status-row { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; margin-left: auto; }
 .mini-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px; height: 20px;
-  border-radius: 5px;
-  font-size: 9px;
-  font-weight: 700;
-  cursor: pointer;
-  border: 1.5px solid;
-  flex-shrink: 0;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 20px; height: 20px;
+border-radius: 5px;
+font-size: 9px;
+font-weight: 700;
+cursor: pointer;
+border: 1.5px solid;
+flex-shrink: 0;
 }
 .mini-pill.offen   { background: transparent; border-color: #5a5a50; color: #9a9a88; }
 .mini-pill.bestellt { background: rgba(224,144,32,0.2); border-color: #e09020; color: #e09020; }
@@ -176,173 +178,173 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
 .bl-del:active { color: #c04848; }
 .bl-quick-row { display: flex; gap: 3px; padding: 2px 0 3px; flex-wrap: wrap; }
 .bl-quick {
-  font-size: 9px; font-weight: 600; padding: 1px 7px;
-  border-radius: 20px; border: 1px solid #3a3a30;
-  background: #252520; color: #909080;
-  cursor: pointer; font-family: 'DM Sans', sans-serif;
+font-size: 9px; font-weight: 600; padding: 1px 7px;
+border-radius: 20px; border: 1px solid #3a3a30;
+background: #252520; color: #909080;
+cursor: pointer; font-family: ‘DM Sans’, sans-serif;
 }
 
 /* STATUS LEGENDE */
 .status-legend {
-  display: flex;
-  gap: 12px;
-  padding: 3px 12px;
-  background: #1a1a16;
-  border-bottom: 1px solid #3a3a30;
-  font-size: 9px;
-  color: #909080;
+display: flex;
+gap: 12px;
+padding: 3px 12px;
+background: #1a1a16;
+border-bottom: 1px solid #3a3a30;
+font-size: 9px;
+color: #909080;
 }
 .status-legend span { display: flex; align-items: center; gap: 3px; }
 
 /* SUMME */
 .summen-bar {
-  padding: 5px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #1e1e1b;
-  border-bottom: 1px solid #3a3a30;
+padding: 5px 14px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: #1e1e1b;
+border-bottom: 1px solid #3a3a30;
 }
 .summen-bar .label { font-size: 11px; color: #c0bdb0; }
-.summen-bar .betrag { font-size: 20px; font-family: 'DM Serif Display', serif; color: #f5c040; }
+.summen-bar .betrag { font-size: 20px; font-family: ‘DM Serif Display’, serif; color: #f5c040; }
 
 /* ABRECHNUNG */
 .abrechnung-row {
-  display: flex;
-  gap: 6px;
-  padding: 6px 12px;
-  background: #1e1e1b;
-  border-bottom: 2px solid #3a3a30;
+display: flex;
+gap: 6px;
+padding: 6px 12px;
+background: #1e1e1b;
+border-bottom: 2px solid #3a3a30;
 }
 .btn-abrechnen {
-  flex: 1; padding: 8px;
-  border-radius: 10px; border: none;
-  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;
+flex: 1; padding: 16px 8px;
+border-radius: 10px; border: none;
+font-family: ‘DM Sans’, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer;
 }
 .btn-alles { background: #4a9e62; color: #fff; }
 .btn-auswahl { background: transparent; color: #e09020; border: 1.5px solid #e09020 !important; }
-.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 8px 13px; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; }
+.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 16px 13px; border-radius: 10px; font-family: ‘DM Sans’, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
 
 /* ARTIKEL */
 .artikel-section { padding-bottom: 6px; background: #141412; }
 .kategorie-titel {
-  padding: 8px 14px 4px;
-  font-size: 10px; font-weight: 700;
-  color: #808070;
-  text-transform: uppercase; letter-spacing: 1.3px;
-  background: #141412;
+padding: 8px 14px 4px;
+font-size: 10px; font-weight: 700;
+color: #808070;
+text-transform: uppercase; letter-spacing: 1.3px;
+background: #141412;
 }
 .artikel-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  padding: 0 12px 6px;
-  background: #141412;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 6px;
+padding: 0 12px 6px;
+background: #141412;
 }
 .artikel-btn {
-  background: #252520;
-  border: 1.5px solid #3a3a30;
-  border-radius: 10px;
-  padding: 8px 10px;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-  /* Verhindert hellen Safari-Default */
-  -webkit-appearance: none;
-  appearance: none;
-  color: #f0ede6;
-  font-family: 'DM Sans', sans-serif;
+background: #252520;
+border: 1.5px solid #3a3a30;
+border-radius: 10px;
+padding: 8px 10px;
+text-align: left;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 8px;
+position: relative;
+/* Verhindert hellen Safari-Default */
+-webkit-appearance: none;
+appearance: none;
+color: #f0ede6;
+font-family: ‘DM Sans’, sans-serif;
 }
 .artikel-btn:active { border-color: #e09020; background: #2e2e28; }
 .artikel-btn-icon { font-size: 20px; flex-shrink: 0; line-height: 1; }
 .artikel-btn-right { flex: 1; min-width: 0; }
 .artikel-btn-name {
-  font-size: 11px; font-weight: 600;
-  line-height: 1.25;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  color: #f0ede6;
+font-size: 11px; font-weight: 600;
+line-height: 1.25;
+white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+color: #f0ede6;
 }
 .artikel-btn-preis {
-  font-size: 14px; font-weight: 700;
-  color: #e8a030;
-  margin-top: 2px;
+font-size: 14px; font-weight: 700;
+color: #e8a030;
+margin-top: 2px;
 }
 .artikel-count-wrap {
-  position: absolute;
-  bottom: 4px; right: 4px;
-  display: none;
-  align-items: center;
-  gap: 3px;
-  z-index: 5;
+position: absolute;
+bottom: 4px; right: 4px;
+display: none;
+align-items: center;
+gap: 3px;
+z-index: 5;
 }
 .artikel-count-wrap.visible { display: flex; }
 .artikel-count {
-  background: #d06020;
-  color: #fff;
-  font-size: 12px; font-weight: 800;
-  min-width: 22px; height: 22px;
-  border-radius: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+background: #d06020;
+color: #fff;
+font-size: 12px; font-weight: 800;
+min-width: 22px; height: 22px;
+border-radius: 11px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 0 5px;
+box-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 .art-minus-btn {
-  background: #3a3028;
-  color: #e09020;
-  border: 1.5px solid #e09020;
-  border-radius: 8px;
-  font-size: 14px; font-weight: 700;
-  width: 22px; height: 22px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: DM Sans, sans-serif;
-  line-height: 1;
-  touch-action: manipulation;
+background: #3a3028;
+color: #e09020;
+border: 1.5px solid #e09020;
+border-radius: 8px;
+font-size: 14px; font-weight: 700;
+width: 22px; height: 22px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: DM Sans, sans-serif;
+line-height: 1;
+touch-action: manipulation;
 }
 
 /* MODALS */
 .modal-overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.85);
-  z-index: 999;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: stretch;
+display: none;
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(0,0,0,0.85);
+z-index: 999;
+flex-direction: column;
+justify-content: flex-end;
+align-items: stretch;
 }
 .modal-overlay.open { display: flex; }
 .modal {
-  background: #1e1e1b;
-  border-radius: 18px 18px 0 0;
-  border-top: 1px solid #3a3a30;
-  padding: 12px 14px 36px;
-  max-height: 80vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  color: #f0ede6;
+background: #1e1e1b;
+border-radius: 18px 18px 0 0;
+border-top: 1px solid #3a3a30;
+padding: 12px 14px 36px;
+max-height: 80vh;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+color: #f0ede6;
 }
-.modal-titel { font-family: 'DM Serif Display', serif; font-size: 17px; color: #e09020; margin-bottom: 2px; }
+.modal-titel { font-family: ‘DM Serif Display’, serif; font-size: 17px; color: #e09020; margin-bottom: 2px; }
 .modal-sub { font-size: 10px; color: #808070; margin-bottom: 8px; }
 .modal-gruppe { border-bottom: 1px solid #2e2e28; padding: 8px 0; }
 .modal-gruppe:last-child { border-bottom: none; }
 .modal-gruppe-name { font-size: 13px; font-weight: 700; color: #f0ede6; margin-bottom: 5px; }
 .modal-gruppe-actions { display: flex; gap: 4px; margin-bottom: 3px; }
-.modal-quick-btn { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid #3a3a30; background: #252520; color: #909080; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.modal-quick-btn { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid #3a3a30; background: #252520; color: #909080; cursor: pointer; font-family: ‘DM Sans’, sans-serif; }
 .modal-stueck-row { display: flex; align-items: center; gap: 6px; padding: 3px 0; flex-wrap: wrap; }
 .modal-check {
-  width: 32px; height: 28px; border-radius: 6px;
-  border: 2px solid #4a4a40; background: #252520;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; flex-direction: column; gap: 1px;
-  font-size: 9px; color: #808070; transition: all 0.1s;
+width: 32px; height: 28px; border-radius: 6px;
+border: 2px solid #4a4a40; background: #252520;
+cursor: pointer; display: flex; align-items: center; justify-content: center;
+flex-shrink: 0; flex-direction: column; gap: 1px;
+font-size: 9px; color: #808070; transition: all 0.1s;
 }
 .modal-check.checked { background: #4a9e62; border-color: #4a9e62; color: #fff; }
 .modal-check.checked .mchk-num { color: #fff; }
@@ -357,28 +359,28 @@ button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-acti
 .modal-gruppe:last-child { border-bottom: none; }
 .modal-summe { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 10px; border-top: 1px solid #2e2e28; margin-top: 4px; }
 .modal-summe span { font-size: 14px; font-weight: 700; color: #f0ede6; }
-.modal-summe .betrag { font-family: 'DM Serif Display', serif; font-size: 24px; color: #f5c040; }
+.modal-summe .betrag { font-family: ‘DM Serif Display’, serif; font-size: 24px; color: #f5c040; }
 .modal-buttons { display: flex; gap: 8px; }
-.modal-btn { flex: 1; padding: 13px; border-radius: 10px; border: none; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
+.modal-btn { flex: 1; padding: 13px; border-radius: 10px; border: none; font-family: ‘DM Sans’, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
 .modal-btn-ok { background: #4a9e62; color: #fff; }
 .modal-btn-ab { background: #252520; color: #909080; border: 1.5px solid #3a3a30; }
 
 .sonstiges-input {
-  background: #252520; border: 1.5px solid #3a3a30; border-radius: 10px;
-  padding: 11px 13px; color: #f0ede6; font-family: 'DM Sans', sans-serif;
-  font-size: 15px; width: 100%; outline: none; margin-bottom: 10px; display: block;
-  -webkit-appearance: none; appearance: none;
+background: #252520; border: 1.5px solid #3a3a30; border-radius: 10px;
+padding: 11px 13px; color: #f0ede6; font-family: ‘DM Sans’, sans-serif;
+font-size: 15px; width: 100%; outline: none; margin-bottom: 10px; display: block;
+-webkit-appearance: none; appearance: none;
 }
 .sonstiges-input:focus { border-color: #e09020; }
 .sonstiges-input::placeholder { color: #5a5a50; }
 
 .toast {
-  position: fixed; bottom: 28px; left: 50%;
-  transform: translateX(-50%) translateY(70px);
-  background: #4a9e62; color: #fff;
-  padding: 9px 20px; border-radius: 30px;
-  font-weight: 700; font-size: 13px;
-  transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events: none;
+position: fixed; bottom: 28px; left: 50%;
+transform: translateX(-50%) translateY(70px);
+background: #4a9e62; color: #fff;
+padding: 9px 20px; border-radius: 30px;
+font-weight: 700; font-size: 13px;
+transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events: none;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
@@ -394,6 +396,7 @@ document.addEventListener('touchend', function(e) {
   lastTap = now;
 }, { passive: false });
 </script>
+
 </head>
 <body>
 <div id="app">
@@ -403,7 +406,7 @@ document.addEventListener('touchend', function(e) {
     <span class="header-title">⛷ Maifest 2026</span>
     <span class="header-dot">·</span>
     <span class="header-sub">Ski-Club Oppenau</span>
-    <span style="margin-left:auto;font-size:9px;color:#505048;white-space:nowrap;">v 30.04.2026 07:13</span>
+    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 07:04</span>
   </div>
   <div class="tisch-nav" id="tischNav"></div>
 </div>
@@ -440,7 +443,22 @@ document.addEventListener('touchend', function(e) {
 
 </div>
 
+<!-- Modal Name -->
+
+<div class="modal-overlay open" id="nameOverlay" style="z-index:9998;">
+  <div class="modal" style="padding-bottom:36px;">
+    <div class="modal-titel">👋 Wer bist du?</div>
+    <div class="modal-sub">Bitte Namen eingeben (mind. 3 Zeichen)</div>
+    <input class="sonstiges-input" id="nameInput" type="text" placeholder="Dein Name" maxlength="30" autocomplete="off">
+    <div id="nameError" style="color:#c04848;font-size:11px;margin-top:-6px;margin-bottom:8px;display:none;">Bitte mindestens 3 Zeichen eingeben.</div>
+    <div class="modal-buttons">
+      <button class="modal-btn modal-btn-ok" onclick="nameSpeichern()">Weiter →</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal Rechnung splitten -->
+
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-titel">Rechnung splitten</div>
@@ -458,6 +476,7 @@ document.addEventListener('touchend', function(e) {
 </div>
 
 <!-- Modal Sonstiges -->
+
 <div class="modal-overlay" id="sonstigesOverlay">
   <div class="modal">
     <div class="modal-titel">✏️ Sonstiges</div>
@@ -876,6 +895,24 @@ function gruppiereArtikel(stuecke) {
   return [...map.values()];
 }
 
+function nameSpeichern(){
+  const val = document.getElementById('nameInput').value.trim();
+  if(val.length < 3){
+    document.getElementById('nameError').style.display='block';
+    return;
+  }
+  bedienungName = val;
+  localStorage.setItem('maifest_bedienung', val);
+  document.getElementById('nameOverlay').classList.remove('open');
+  document.getElementById('nameDisplay').textContent = val;
+}
+
+function nameBearbeiten(){
+  document.getElementById('nameInput').value = bedienungName;
+  document.getElementById('nameError').style.display='none';
+  document.getElementById('nameOverlay').classList.add('open');
+}
+
 function showToast(m){
   const t=document.getElementById('toast');
   t.textContent=m;t.classList.add('show');
@@ -883,14 +920,18 @@ function showToast(m){
 }
 
 
-// Bedienungsname abfragen
 let bedienungName = localStorage.getItem('maifest_bedienung') || '';
-if(!bedienungName){
-  bedienungName = prompt('Bitte Namen eingeben', '') || 'Unbekannt';
-  localStorage.setItem('maifest_bedienung', bedienungName);
-}
 
+if(bedienungName && bedienungName.length >= 3){
+  document.getElementById('nameOverlay').classList.remove('open');
+  document.getElementById('nameDisplay').textContent = bedienungName;
+} else {
+  bedienungName = '';
+  setTimeout(()=>document.getElementById('nameInput').focus(), 300);
+  document.getElementById('nameInput').addEventListener('keydown', e => { if(e.key==='Enter') nameSpeichern(); });
+}
 loadState();init();
 </script>
+
 </body>
 </html>
