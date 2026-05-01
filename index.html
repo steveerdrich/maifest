@@ -3,7 +3,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="color-scheme" content="dark">
@@ -23,7 +23,7 @@ font-family: ‘DM Sans’, sans-serif;
 }
 
 - { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-action: manipulation; }
+  button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-action: manipulation; user-select: none; -webkit-user-select: none; }
 
 #app {
 position: fixed;
@@ -128,15 +128,18 @@ border: 1.5px solid;
 .s-pill.g { border-color: #4a9e62; color: #4a9e62; background: rgba(74,158,98,0.12); }
 
 /* BESTELLLISTE */
+.bl-kat-header {
+padding: 5px 0 0;
+border-bottom: 1px solid #2e2e28;
+margin-bottom: 2px;
+}
 .bl-kat-titel {
-font-size: 9px;
+font-size: 14px;
 font-weight: 700;
 color: #e8b840;
 text-transform: uppercase;
 letter-spacing: 1.2px;
-padding: 5px 0 2px;
-border-bottom: 1px solid #2e2e28;
-margin-bottom: 2px;
+margin-bottom: 3px;
 }
 .bl-gruppe {
 display: flex;
@@ -156,7 +159,7 @@ gap: 3px;
 min-width: 0;
 justify-content: space-between;
 }
-.bl-name { font-size: 12px; font-weight: 600; line-height: 1.3; color: #f0ede6; white-space: nowrap; }
+.bl-name { font-size: 14px; font-weight: 600; line-height: 1.3; color: #f0ede6; white-space: nowrap; }
 .bl-status-row { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; margin-left: auto; }
 .mini-pill {
 display: inline-flex;
@@ -173,16 +176,13 @@ flex-shrink: 0;
 .mini-pill.offen   { background: transparent; border-color: #5a5a50; color: #9a9a88; }
 .mini-pill.bestellt { background: rgba(224,144,32,0.2); border-color: #e09020; color: #e09020; }
 .mini-pill.geliefert { background: rgba(74,158,98,0.2); border-color: #4a9e62; color: #4a9e62; }
-.bl-preis { font-size: 12px; color: #e8b840; font-weight: 700; min-width: 46px; text-align: right; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+.bl-preis { font-size: 14px; color: #e8b840; font-weight: 700; min-width: 52px; text-align: right; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
 .bl-del { color: #5a5a50; font-size: 15px; cursor: pointer; padding: 0 2px; background: none; border: none; flex-shrink: 0; }
 .bl-del:active { color: #c04848; }
-.bl-quick-row { display: flex; gap: 3px; padding: 2px 0 3px; flex-wrap: wrap; }
-.bl-quick {
-font-size: 9px; font-weight: 600; padding: 1px 7px;
-border-radius: 20px; border: 1px solid #3a3a30;
-background: #252520; color: #909080;
-cursor: pointer; font-family: ‘DM Sans’, sans-serif;
-}
+.bl-quick-row { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-start; margin-bottom: 3px; }
+.bl-quick.o { font-size:8px;font-weight:600;padding:1px 6px;border-radius:20px;cursor:pointer;font-family:‘DM Sans’,sans-serif;border:1.5px solid #6a6a60;color:#b0b0a0;background:transparent; }
+.bl-quick.b { font-size:8px;font-weight:600;padding:1px 6px;border-radius:20px;cursor:pointer;font-family:‘DM Sans’,sans-serif;border:1.5px solid #e09020;color:#e09020;background:rgba(224,144,32,0.1); }
+.bl-quick.g { font-size:8px;font-weight:600;padding:1px 6px;border-radius:20px;cursor:pointer;font-family:‘DM Sans’,sans-serif;border:1.5px solid #4a9e62;color:#4a9e62;background:rgba(74,158,98,0.1); }
 
 /* STATUS LEGENDE */
 .status-legend {
@@ -215,15 +215,18 @@ gap: 6px;
 padding: 6px 12px;
 background: #1e1e1b;
 border-bottom: 2px solid #3a3a30;
+position: relative;
+z-index: 10;
 }
 .btn-abrechnen {
 flex: 1; padding: 16px 8px;
 border-radius: 10px; border: none;
-font-family: ‘DM Sans’, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer;
+font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer;
+touch-action: manipulation; position: relative; z-index: 10;
 }
 .btn-alles { background: #4a9e62; color: #fff; }
 .btn-auswahl { background: transparent; color: #e09020; border: 1.5px solid #e09020 !important; }
-.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 16px 13px; border-radius: 10px; font-family: ‘DM Sans’, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
+.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 16px 13px; border-radius: 10px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; touch-action: manipulation; position: relative; z-index: 10; user-select: none; -webkit-user-select: none; }
 
 /* ARTIKEL */
 .artikel-section { padding-bottom: 6px; background: #141412; }
@@ -262,13 +265,13 @@ font-family: ‘DM Sans’, sans-serif;
 .artikel-btn-icon { font-size: 20px; flex-shrink: 0; line-height: 1; }
 .artikel-btn-right { flex: 1; min-width: 0; }
 .artikel-btn-name {
-font-size: 11px; font-weight: 600;
+font-size: 13px; font-weight: 600;
 line-height: 1.25;
 white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 color: #f0ede6;
 }
 .artikel-btn-preis {
-font-size: 14px; font-weight: 700;
+font-size: 12px; font-weight: 700;
 color: #e8a030;
 margin-top: 2px;
 }
@@ -374,6 +377,58 @@ font-size: 15px; width: 100%; outline: none; margin-bottom: 10px; display: block
 .sonstiges-input:focus { border-color: #e09020; }
 .sonstiges-input::placeholder { color: #5a5a50; }
 
+.notiz-wrap {
+padding: 6px 12px 8px;
+background: #1a1a16;
+border-bottom: 1px solid #3a3a30;
+}
+.notiz-input {
+width: 100%;
+background: #252520;
+border: 1.5px solid #3a3a30;
+border-radius: 8px;
+padding: 7px 10px;
+color: #f0ede6;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 16px;
+outline: none;
+resize: none;
+display: block;
+-webkit-appearance: none;
+touch-action: manipulation;
+}
+.notiz-input:focus { border-color: #e09020; }
+.notiz-input::placeholder { color: #4a4a40; }
+
+.confirm-overlay {
+display: none;
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(0,0,0,0.88);
+z-index: 9997;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 24px;
+pointer-events: none;
+}
+.confirm-overlay.open { display: flex; pointer-events: all; }
+.confirm-box {
+background: #1e1e1b;
+border: 1px solid #3a3a30;
+border-radius: 16px;
+padding: 24px 20px;
+width: 100%;
+max-width: 320px;
+text-align: center;
+}
+.confirm-title { font-family: ‘DM Serif Display’, serif; font-size: 18px; color: #f0ede6; margin-bottom: 8px; }
+.confirm-sub { font-size: 13px; color: #808070; margin-bottom: 20px; }
+.confirm-btns { display: flex; gap: 10px; }
+.confirm-btn { flex: 1; padding: 12px; border-radius: 10px; border: none; font-family: ‘DM Sans’, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.confirm-btn-ok { background: #c04848; color: #fff; }
+.confirm-btn-ab { background: #252520; color: #909080; border: 1.5px solid #3a3a30; }
+
 .toast {
 position: fixed; bottom: 28px; left: 50%;
 transform: translateX(-50%) translateY(70px);
@@ -390,10 +445,15 @@ transition: transform 0.28s; z-index: 9999; white-space: nowrap; pointer-events:
 var lastTap = 0;
 document.addEventListener('touchend', function(e) {
   var now = Date.now();
-  if (now - lastTap < 300) {
+  var delta = now - lastTap;
+  if (delta < 400 && delta > 0) {
     e.preventDefault();
   }
   lastTap = now;
+}, { passive: false });
+// Also prevent pinch zoom
+document.addEventListener('touchmove', function(e) {
+  if (e.touches.length > 1) e.preventDefault();
 }, { passive: false });
 </script>
 
@@ -406,12 +466,15 @@ document.addEventListener('touchend', function(e) {
     <span class="header-title">⛷ Maifest 2026</span>
     <span class="header-dot">·</span>
     <span class="header-sub">Ski-Club Oppenau</span>
-    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 07:04</span>
+    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 08:08</span>
   </div>
   <div class="tisch-nav" id="tischNav"></div>
 </div>
 
 <div class="artikel-section" id="artikelSection"></div>
+<div class="notiz-wrap" id="notizWrap">
+  <textarea class="notiz-input" id="notizInput" rows="2" placeholder="Notizen zu Tisch..." oninput="notizSpeichern()"></textarea>
+</div>
 
 <div class="bestellung-panel">
   <div class="schnell-bar" id="schnellBar">
@@ -443,9 +506,22 @@ document.addEventListener('touchend', function(e) {
 
 </div>
 
+<!-- Modal Bestätigung -->
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-title" id="confirmTitle">Sicher?</div>
+    <div class="confirm-sub" id="confirmSub"></div>
+    <div class="confirm-btns">
+      <button class="confirm-btn confirm-btn-ab" onclick="confirmAbbrechen()">Abbrechen</button>
+      <button class="confirm-btn confirm-btn-ok" onclick="confirmOk()">Ja, löschen</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal Name -->
 
-<div class="modal-overlay open" id="nameOverlay" style="z-index:9998;">
+<div class="modal-overlay open" id="nameOverlay" style="z-index:9998;background:rgba(0,0,0,0.97);pointer-events:all;">
   <div class="modal" style="padding-bottom:36px;">
     <div class="modal-titel">👋 Wer bist du?</div>
     <div class="modal-sub">Bitte Namen eingeben (mind. 3 Zeichen)</div>
@@ -503,36 +579,36 @@ const ARTIKEL=[
   {kat:"Alkoholfrei",icon:"💧",name:"Sprudel süß",preis:3.00},
   {kat:"Alkoholfrei",icon:"🥤",name:"Fanta",preis:3.00},
   {kat:"Alkoholfrei",icon:"🥤",name:"Cola",preis:3.00},
-  {kat:"Alkoholfrei",icon:"🍋",name:"Paulaner Spezi",preis:3.00},
-  {kat:"Alkoholfrei",icon:"🍎",name:"Apfelsaftschorle",preis:3.00},
+  {kat:"Alkoholfrei",icon:"🍋",name:"Spezi",preis:3.00},
+  {kat:"Alkoholfrei",icon:"🍎",name:"Apfelschorle",preis:3.00},
   {kat:"Bier",icon:"🍺",name:"Bier vom Fass",preis:3.50},
   {kat:"Bier",icon:"🍺",name:"Radler süß",preis:3.50},
   {kat:"Bier",icon:"🍺",name:"Radler sauer",preis:3.50},
   {kat:"Bier",icon:"🍺",name:"Weizen",preis:3.50},
   {kat:"Bier",icon:"🍺",name:"Colaweizen",preis:3.50},
-  {kat:"Bier",icon:"🍺",name:"Alkoholfreies Weizen",preis:3.50},
+  {kat:"Bier",icon:"🍺",name:"Alko. fr. Weizen",preis:3.50},
   {kat:"Wein",icon:"🥂",name:"Weißwein",preis:3.00},
-  {kat:"Wein",icon:"🥂",name:"Weißwein Flasche",preis:11.00},
+  {kat:"Wein",icon:"🥂",name:"Weißwein Fl.",preis:11.00},
   {kat:"Wein",icon:"🍷",name:"Rotwein",preis:3.50},
-  {kat:"Wein",icon:"🍷",name:"Rotwein Flasche",preis:13.00},
+  {kat:"Wein",icon:"🍷",name:"Rotwein Fl.",preis:13.00},
   {kat:"Wein",icon:"🥂",name:"Weinschorle weiß",preis:3.00},
   {kat:"Wein",icon:"🍷",name:"Weinschorle rot",preis:3.00},
   {kat:"Weitere alkohol.",icon:"🍊",name:"Aperol",preis:5.00},
   {kat:"Weitere alkohol.",icon:"🌿",name:"Lillet",preis:5.00},
   {kat:"Weitere alkohol.",icon:"🥃",name:"Schnaps",preis:2.00},
   {kat:"Speisen",icon:"🥗",name:"Salatteller",preis:5.50},
-  {kat:"Speisen",icon:"🍟",name:"Portion Pommes",preis:3.00},
-  {kat:"Speisen",icon:"🌭",name:"Bratwurst mit Weck",preis:4.00},
-  {kat:"Speisen",icon:"🌭",name:"Bratwurst mit Pommes",preis:6.50},
-  {kat:"Speisen",icon:"curry",name:"Currywurst mit Weck",preis:4.50},
-  {kat:"Speisen",icon:"curry",name:"Currywurst mit Pommes",preis:7.00},
-  {kat:"Speisen",icon:"🥩",name:"Steak mit Weck",preis:6.50},
-  {kat:"Speisen",icon:"🥩",name:"Steak mit Pommes",preis:9.00},
-  {kat:"Speisen",icon:"🍗",name:"Putensteak mit Weck",preis:6.50},
-  {kat:"Speisen",icon:"🍗",name:"Putensteak mit Pommes",preis:9.00},
+  {kat:"Speisen",icon:"🍟",name:"Pommes",preis:3.00},
+  {kat:"Speisen",icon:"🌭",name:"Bratwurst / Weck",preis:4.00},
+  {kat:"Speisen",icon:"🌭",name:"Bratwurst / Pommes",preis:6.50},
+  {kat:"Speisen",icon:"curry",name:"Currywurst / Weck",preis:4.50},
+  {kat:"Speisen",icon:"curry",name:"Currywurst / Pommes",preis:7.00},
+  {kat:"Speisen",icon:"🥩",name:"Steak / Weck",preis:6.50},
+  {kat:"Speisen",icon:"🥩",name:"Steak / Pommes",preis:9.00},
+  {kat:"Speisen",icon:"🍗",name:"Putensteak / Weck",preis:6.50},
+  {kat:"Speisen",icon:"🍗",name:"Putensteak / Pommes",preis:9.00},
   {kat:"Kaffee & Kuchen",icon:"☕",name:"Tasse Kaffee",preis:2.00},
-  {kat:"Kaffee & Kuchen",icon:"🎂",name:"Torte",preis:3.00},
-  {kat:"Kaffee & Kuchen",icon:"🍰",name:"Kuchen",preis:2.00},
+  {kat:"Kaffee & Kuchen",icon:"🎂",name:"Torte",preis:3.00,prompt:true},
+  {kat:"Kaffee & Kuchen",icon:"🍰",name:"Kuchen",preis:2.00,prompt:true},
   {kat:"Sonstiges",icon:"✏️",name:"Sonstiges",preis:0,sx:true},
 ];
 
@@ -550,40 +626,40 @@ function fmt(v){return v.toFixed(2).replace('.',',')+' €';}
 
 const SVG_ICONS = {
   "Sprudel sauer": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#3060a0"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#b8d8f0"/><circle cx="18" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/><circle cx="21" cy="20" r="0.9" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="17" r="1" fill="rgba(255,255,255,0.5)"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#e8f4ff" opacity="0.85"/></svg>`,
-  "Sprudel s\u00fc\u00df": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#c03030"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#f0c8c8"/><circle cx="18" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/><circle cx="21" cy="20" r="0.9" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="17" r="1" fill="rgba(255,255,255,0.5)"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#fff0f0" opacity="0.85"/></svg>`,
+  "Sprudel süß": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#c03030"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#f0c8c8"/><circle cx="18" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/><circle cx="21" cy="20" r="0.9" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="17" r="1" fill="rgba(255,255,255,0.5)"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#fff0f0" opacity="0.85"/></svg>`,
   "Fanta": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#c05000"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#f08010"/><circle cx="18" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/><circle cx="21" cy="20" r="0.9" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="17" r="1" fill="rgba(255,255,255,0.5)"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#fff8e0" opacity="0.85"/></svg>`,
   "Cola": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#100000"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#200c04"/><circle cx="18" cy="24" r="1.2" fill="rgba(255,255,255,0.6)"/><circle cx="21" cy="20" r="0.9" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="17" r="1" fill="rgba(255,255,255,0.5)"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#c0302e" opacity="0.85"/></svg>`,
-  "Apfelsaftschorle": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#5a8020"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#d4c830"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#fffff0" opacity="0.85"/></svg>`,
-  "Paulaner Spezi": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 24 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 24 Z" fill="#280c04"/><path d="M10.8 14 L11.2 24 L25.2 24 L25.6 14 Z" fill="#f08010"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Apfelschorle": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="4" width="8" height="8" rx="2" fill="#d0cfc0"/><rect x="13" y="2" width="10" height="5" rx="2" fill="#5a8020"/><path d="M10 12 Q8 16 8 22 L8 36 Q8 40 12 40 L24 40 Q28 40 28 36 L28 22 Q28 16 26 12 Z" fill="#e8e4d0"/><path d="M10 18 Q8.5 20 8.5 22 L8.5 36 Q8.5 39.5 12 39.5 L24 39.5 Q27.5 39.5 27.5 36 L27.5 22 Q27.5 20 26 18 Z" fill="#d4c830"/><rect x="11" y="22" width="14" height="10" rx="2" fill="#fffff0" opacity="0.85"/></svg>`,
+  "Spezi": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 24 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 24 Z" fill="#280c04"/><path d="M10.8 14 L11.2 24 L25.2 24 L25.6 14 Z" fill="#f08010"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
   "Bier vom Fass": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 14 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 14 Z" fill="#e8a020"/><ellipse cx="18" cy="13" rx="8" ry="3.5" fill="#f5f0e0"/><ellipse cx="15" cy="11.5" rx="3" ry="2" fill="#fff"/><ellipse cx="21" cy="11" rx="2.5" ry="1.8" fill="#fff"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
-  "Radler s\u00fc\u00df": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 14 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 14 Z" fill="#e8c840"/><ellipse cx="18" cy="13" rx="8" ry="3.5" fill="#f5f0e0"/><ellipse cx="15" cy="11.5" rx="3" ry="2" fill="#fff"/><ellipse cx="21" cy="11" rx="2.5" ry="1.8" fill="#fff"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Radler süß": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 14 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 14 Z" fill="#e8c840"/><ellipse cx="18" cy="13" rx="8" ry="3.5" fill="#f5f0e0"/><ellipse cx="15" cy="11.5" rx="3" ry="2" fill="#fff"/><ellipse cx="21" cy="11" rx="2.5" ry="1.8" fill="#fff"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
   "Radler sauer": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 L11 38 Q11 40 13 40 L23 40 Q25 40 25 38 L26 10 Z" fill="#d8d0b0"/><path d="M10.8 14 L11.5 38 Q11.5 39.5 13 39.5 L23 39.5 Q24.5 39.5 24.5 38 L25.2 14 Z" fill="#d4b428"/><ellipse cx="18" cy="13" rx="8" ry="3.5" fill="#f5f0e0"/><ellipse cx="15" cy="11.5" rx="3" ry="2" fill="#fff"/><ellipse cx="21" cy="11" rx="2.5" ry="1.8" fill="#fff"/><path d="M10 10 L26 10" stroke="#b0a880" stroke-width="1.5" fill="none"/><path d="M25 15 Q32 15 32 22 Q32 29 25 29" stroke="#b0a880" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
   "Weizen": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 38 Q12 40 11 42 L25 42 Q24 40 23 38 L22 14 Q22 10 18 10 Q14 10 14 14 Z" fill="#d8d0b0"/><path d="M13.3 38 Q12.5 39.5 11.5 41.5 L24.5 41.5 Q23.5 39.5 22.7 38 L21.7 14.5 Q21.5 11 18 11 Q14.5 11 14.3 14.5 Z" fill="#e8c050"/><ellipse cx="18" cy="9" rx="6" ry="3" fill="#f5f0e0"/><ellipse cx="15" cy="7.5" rx="2.5" ry="1.8" fill="#fff"/><ellipse cx="21" cy="7" rx="2" ry="1.5" fill="#fff"/><ellipse cx="18" cy="10" rx="8" ry="2" stroke="#b0a880" stroke-width="1.2" fill="none"/></svg>`,
   "Colaweizen": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 38 Q12 40 11 42 L25 42 Q24 40 23 38 L22 14 Q22 10 18 10 Q14 10 14 14 Z" fill="#d8d0b0"/><path d="M13.3 38 Q12.5 39.5 11.5 41.5 L24.5 41.5 Q23.5 39.5 22.7 38 L21.7 14.5 Q21.5 11 18 11 Q14.5 11 14.3 14.5 Z" fill="#280c04"/><ellipse cx="18" cy="9" rx="6" ry="3" fill="#f5f0e0"/><ellipse cx="15" cy="7.5" rx="2.5" ry="1.8" fill="#fff"/><ellipse cx="21" cy="7" rx="2" ry="1.5" fill="#fff"/><ellipse cx="18" cy="10" rx="8" ry="2" stroke="#b0a880" stroke-width="1.2" fill="none"/></svg>`,
-  "Alkoholfreies Weizen": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 38 Q12 40 11 42 L25 42 Q24 40 23 38 L22 14 Q22 10 18 10 Q14 10 14 14 Z" fill="#d8d0b0"/><path d="M13.3 38 Q12.5 39.5 11.5 41.5 L24.5 41.5 Q23.5 39.5 22.7 38 L21.7 14.5 Q21.5 11 18 11 Q14.5 11 14.3 14.5 Z" fill="#f0e080"/><ellipse cx="18" cy="10" rx="8" ry="2" stroke="#b0a880" stroke-width="1.2" fill="none"/></svg>`,
-  "Wei\u00dfwein": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f0f8e0" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#e8e060"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
-  "Wei\u00dfwein Flasche": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="6" width="6" height="9" rx="1" fill="#7a9840"/><rect x="14" y="3" width="8" height="5" rx="2" fill="#3a5010"/><path d="M11 16 Q10 18 10 21 L10 36 Q10 40 18 40 Q26 40 26 36 L26 21 Q26 18 25 16 Z" fill="#7a9840"/><path d="M11.5 22 L11.5 36 Q11.5 39 18 39 Q24.5 39 24.5 36 L24.5 22 Z" fill="#ccc030"/><rect x="13" y="24" width="10" height="10" rx="2" fill="rgba(255,255,255,0.7)"/></svg>`,
+  "Alko. fr. Weizen": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 38 Q12 40 11 42 L25 42 Q24 40 23 38 L22 14 Q22 10 18 10 Q14 10 14 14 Z" fill="#d8d0b0"/><path d="M13.3 38 Q12.5 39.5 11.5 41.5 L24.5 41.5 Q23.5 39.5 22.7 38 L21.7 14.5 Q21.5 11 18 11 Q14.5 11 14.3 14.5 Z" fill="#f0e080"/><ellipse cx="18" cy="10" rx="8" ry="2" stroke="#b0a880" stroke-width="1.2" fill="none"/></svg>`,
+  "Weißwein": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f0f8e0" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#e8e060"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
+  "Weißwein Fl.": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="6" width="6" height="9" rx="1" fill="#7a9840"/><rect x="14" y="3" width="8" height="5" rx="2" fill="#3a5010"/><path d="M11 16 Q10 18 10 21 L10 36 Q10 40 18 40 Q26 40 26 36 L26 21 Q26 18 25 16 Z" fill="#7a9840"/><path d="M11.5 22 L11.5 36 Q11.5 39 18 39 Q24.5 39 24.5 36 L24.5 22 Z" fill="#ccc030"/><rect x="13" y="24" width="10" height="10" rx="2" fill="rgba(255,255,255,0.7)"/></svg>`,
   "Rotwein": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f8f0f4" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#880818"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
-  "Rotwein Flasche": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="6" width="6" height="9" rx="1" fill="#1e1028"/><rect x="14" y="3" width="8" height="5" rx="2" fill="#180008"/><path d="M11 16 Q10 18 10 21 L10 36 Q10 40 18 40 Q26 40 26 36 L26 21 Q26 18 25 16 Z" fill="#1e1028"/><path d="M11.5 22 L11.5 36 Q11.5 39 18 39 Q24.5 39 24.5 36 L24.5 22 Z" fill="#580010"/><rect x="13" y="24" width="10" height="10" rx="2" fill="rgba(255,255,255,0.7)"/></svg>`,
-  "Weinschorle wei\u00df": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f0f8e0" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#c8d840"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
+  "Rotwein Fl.": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="6" width="6" height="9" rx="1" fill="#1e1028"/><rect x="14" y="3" width="8" height="5" rx="2" fill="#180008"/><path d="M11 16 Q10 18 10 21 L10 36 Q10 40 18 40 Q26 40 26 36 L26 21 Q26 18 25 16 Z" fill="#1e1028"/><path d="M11.5 22 L11.5 36 Q11.5 39 18 39 Q24.5 39 24.5 36 L24.5 22 Z" fill="#580010"/><rect x="13" y="24" width="10" height="10" rx="2" fill="rgba(255,255,255,0.7)"/></svg>`,
+  "Weinschorle weiß": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f0f8e0" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#c8d840"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
   "Weinschorle rot": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="7" fill="#c0bca0"/><ellipse cx="18" cy="41" rx="7" ry="2" fill="#c0bca0"/><path d="M10 8 Q10 28 18 34 Q26 28 26 8 Z" fill="#f8f0f4" opacity="0.7"/><path d="M11 20 Q11 28 18 33 Q25 28 25 20 Z" fill="#a83050"/><path d="M10 8 L26 8" stroke="#b0a888" stroke-width="1.2" fill="none"/></svg>`,
   "Aperol": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M9 10 Q9 30 18 36 Q27 30 27 10 Z" fill="#ffe0b0" opacity="0.4"/><path d="M10 22 Q10 30 18 35 Q26 30 26 22 Z" fill="#f06010"/><rect x="13" y="18" width="5" height="5" rx="1" fill="rgba(255,255,255,0.55)" transform="rotate(-15 15.5 20.5)"/><line x1="22" y1="10" x2="26" y2="36" stroke="#f0a030" stroke-width="2" stroke-linecap="round"/><path d="M9 10 L27 10" stroke="#c0a070" stroke-width="1.2" fill="none"/><circle cx="25" cy="12" r="4" fill="#f07818" opacity="0.9"/><circle cx="25" cy="12" r="2" fill="#f5a040" opacity="0.7"/></svg>`,
   "Lillet": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="6" fill="#c0bca0"/><ellipse cx="18" cy="40" rx="6" ry="1.5" fill="#c0bca0"/><path d="M11 10 Q11 28 18 33 Q25 28 25 10 Z" fill="#e8d870" opacity="0.55"/><path d="M12 20 Q12 28 18 32 Q24 28 24 20 Z" fill="#d0bc28"/><path d="M11 10 L25 10" stroke="#b0a870" stroke-width="1.2" fill="none"/></svg>`,
   "Schnaps": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 20 L14 34 Q14 36 18 36 Q22 36 22 34 L23 20 Z" fill="#d8d0b0" opacity="0.7"/><path d="M13.5 24 L14.3 34 Q14.3 35.5 18 35.5 Q21.7 35.5 21.7 34 L22.5 24 Z" fill="#f0e870" opacity="0.85"/><path d="M13 20 L23 20" stroke="#b0a880" stroke-width="1.5" fill="none"/><ellipse cx="18" cy="20" rx="5" ry="1.5" fill="#d0c8a0"/></svg>`,
   "Salatteller": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="30" rx="14" ry="5" fill="#d0c8a0"/><ellipse cx="18" cy="26" rx="12" ry="9" fill="#e8e4d0"/><ellipse cx="18" cy="23" rx="10" ry="7" fill="#4a8830"/><ellipse cx="13" cy="21" rx="4" ry="3" fill="#6aaa40" transform="rotate(-20 13 21)"/><ellipse cx="22" cy="22" rx="3.5" ry="2.5" fill="#3a7820" transform="rotate(15 22 22)"/><circle cx="16" cy="19" r="2.5" fill="#e03030"/><circle cx="22" cy="18" r="2" fill="#e84040"/><ellipse cx="18" cy="20" rx="2" ry="1.5" fill="#f0e030" transform="rotate(10 18 20)"/></svg>`,
-  "Portion Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M11 22 L13 40 L23 40 L25 22 Z" fill="#e03030"/><path d="M11 22 L25 22 L23 20 L13 20 Z" fill="#c02020"/><path d="M13 22 L14 40" stroke="#fff" stroke-width="2" opacity="0.35"/><path d="M20 22 L21.5 40" stroke="#fff" stroke-width="2" opacity="0.35"/><rect x="14" y="8" width="3" height="16" rx="1.5" fill="#f0c030"/><rect x="18" y="6" width="3" height="18" rx="1.5" fill="#e8b820"/><rect x="22" y="9" width="3" height="15" rx="1.5" fill="#f0c030"/><rect x="10" y="10" width="3" height="14" rx="1.5" fill="#e8b820"/></svg>`,
-  "Bratwurst mit Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 28 Q6 36 18 36 Q30 36 30 28 Z" fill="#d4a050"/><path d="M6 26 Q6 18 18 18 Q30 18 30 26 Z" fill="#e8b860"/><ellipse cx="13" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-20 13 21)"/><ellipse cx="20" cy="20" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(10 20 20)"/><ellipse cx="25" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-10 25 21)"/><path d="M7 26 Q7 30 18 30 Q29 30 29 26" stroke="#c06020" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M9 25 Q13 23 18 23" stroke="#d88040" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
-  "Bratwurst mit Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><!-- Brötchen --><path d="M2 30 Q2 36 11 36 Q20 36 20 30 Z" fill="#d4a050"/><path d="M2 28 Q2 22 11 22 Q20 22 20 28 Z" fill="#e8b860"/><ellipse cx="7" cy="24" rx="1.2" ry="0.7" fill="#c8a040" transform="rotate(-20 7 24)"/><ellipse cx="12" cy="23" rx="1.2" ry="0.7" fill="#c8a040"/><ellipse cx="17" cy="24" rx="1.2" ry="0.7" fill="#c8a040" transform="rotate(15 17 24)"/><!-- Wurst --><path d="M3 28 Q3 32 11 32 Q19 32 19 28" stroke="#c06020" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M5 27 Q8 25.5 11 25.5" stroke="#d88040" stroke-width="1.2" fill="none" stroke-linecap="round"/><!-- Pommes rechts --><path d="M21 24 L22.5 38 L33 38 L34.5 24 Z" fill="#d02828"/><path d="M21 24 L34.5 24 L33.5 22 L22 22 Z" fill="#b01818"/><rect x="23" y="10" width="2.5" height="15" rx="1.2" fill="#f0c030"/><rect x="26.5" y="8" width="2.5" height="17" rx="1.2" fill="#e8b820"/><rect x="30" y="11" width="2.5" height="14" rx="1.2" fill="#f0c030"/></svg>`,
-  "Currywurst mit Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 30 L8 42 L28 42 L30 30 Z" fill="#e8d0a0"/><ellipse cx="12" cy="30" rx="5" ry="3" fill="#c05820"/><ellipse cx="18" cy="29" rx="5" ry="3" fill="#b84818"/><ellipse cx="24" cy="30" rx="5" ry="3" fill="#c05820"/><path d="M8 28 Q12 24 18 25 Q24 24 28 28" stroke="#e08010" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M9 30 Q14 27 19 28 Q24 27 27 30" stroke="#f09020" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="13" cy="26" r="1" fill="#d4a000"/><circle cx="19" cy="25" r="1.2" fill="#c89000"/><circle cx="24" cy="26" r="0.9" fill="#d4a000"/></svg>`,
-  "Currywurst mit Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><!-- Schale --><path d="M2 28 L4 40 L18 40 L20 28 Z" fill="#e8d0a0"/><!-- Wurst in Scheiben --><ellipse cx="7" cy="28" rx="4" ry="2.5" fill="#c05820"/><ellipse cx="11" cy="27" rx="4" ry="2.5" fill="#b84818"/><ellipse cx="15" cy="28" rx="4" ry="2.5" fill="#c05820"/><!-- Sauce --><path d="M4 26 Q8 22 11 23 Q15 22 18 26" stroke="#e08010" stroke-width="2.5" fill="none" stroke-linecap="round"/><!-- Curry dots --><circle cx="7" cy="24" r="0.9" fill="#d4a000"/><circle cx="12" cy="23" r="1" fill="#c89000"/><circle cx="16" cy="24" r="0.8" fill="#d4a000"/><!-- Pommes rechts --><path d="M21 24 L22.5 40 L33 40 L34.5 24 Z" fill="#d02828"/><path d="M21 24 L34.5 24 L33.5 22 L22 22 Z" fill="#b01818"/><rect x="23" y="10" width="2.5" height="15" rx="1.2" fill="#f0c030"/><rect x="26.5" y="8" width="2.5" height="17" rx="1.2" fill="#e8b820"/><rect x="30" y="11" width="2.5" height="14" rx="1.2" fill="#f0c030"/></svg>`,
-  "Steak mit Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="38" rx="14" ry="3.5" fill="#c8c0a0"/><path d="M7 18 Q6 24 7 30 Q9 36 18 36 Q27 36 29 30 Q30 24 29 18 Q26 12 18 12 Q10 12 7 18 Z" fill="#7a2808"/><path d="M9 17 Q10 20 9 26 Q9 31 12 34" stroke="#501404" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M16 14 Q17 18 16 24 Q16 30 17 34" stroke="#501404" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M23 16 Q24 20 23 26 Q23 31 25 34" stroke="#501404" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M8 18 Q12 14 18 13 Q24 14 28 18" stroke="#c04020" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
-  "Steak mit Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><!-- Steak halb --><path d="M3 18 Q2 24 3 30 Q5 35 12 35 Q19 35 20 30 Q21 24 20 18 Q17 12 12 12 Q6 12 3 18 Z" fill="#7a2808"/><path d="M5 17 Q6 21 5 27 Q5.5 31 8 33" stroke="#501404" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M12 13 Q13 17 12 23 Q12 29 13 33" stroke="#501404" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M18 18 Q18.5 22 18 27 Q18 31 19 33" stroke="#501404" stroke-width="2" fill="none" stroke-linecap="round"/><!-- Pommes rechts --><path d="M22 24 L23 38 L33 38 L34 24 Z" fill="#d02828"/><path d="M22 24 L34 24 L33 22 L23 22 Z" fill="#b01818"/><rect x="24" y="10" width="2.5" height="15" rx="1.2" fill="#f0c030"/><rect x="27.5" y="8" width="2.5" height="17" rx="1.2" fill="#e8b820"/><rect x="31" y="11" width="2.5" height="14" rx="1.2" fill="#f0c030"/></svg>`,
-  "Putensteak mit Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="38" rx="14" ry="3.5" fill="#c8c0a0"/><path d="M7 18 Q6 24 7 30 Q9 36 18 36 Q27 36 29 30 Q30 24 29 18 Q26 13 18 13 Q10 13 7 18 Z" fill="#d08840"/><path d="M9 18 Q10 22 9 27 Q9.5 32 12 34" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M16 15 Q17 19 16 25 Q16 30 17 34" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M24 17 Q25 21 24 27 Q24 32 25 34" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M8 18 Q12 15 18 14 Q24 15 28 18" stroke="#e0a050" stroke-width="1.5" fill="none" stroke-linecap="round"/><text x="18" y="27" text-anchor="middle" font-size="7" fill="#fff" font-family="sans-serif" opacity="0.7">PUTE</text></svg>`,
-  "Putensteak mit Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M3 18 Q2 24 3 30 Q5 35 12 35 Q19 35 20 30 Q21 24 20 18 Q17 13 12 13 Q6 13 3 18 Z" fill="#d08840"/><path d="M5 18 Q6 22 5 27 Q5.5 31 8 33" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M12 15 Q13 19 12 24 Q12 29 13 33" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M18 18 Q18.5 22 18 27 Q18 31 19 33" stroke="#a86020" stroke-width="2" fill="none" stroke-linecap="round"/><text x="11" y="26" text-anchor="middle" font-size="6" fill="#fff" font-family="sans-serif" opacity="0.7">PUTE</text><!-- Pommes --><path d="M22 24 L23 38 L33 38 L34 24 Z" fill="#d02828"/><path d="M22 24 L34 24 L33 22 L23 22 Z" fill="#b01818"/><rect x="24" y="10" width="2.5" height="15" rx="1.2" fill="#f0c030"/><rect x="27.5" y="8" width="2.5" height="17" rx="1.2" fill="#e8b820"/><rect x="31" y="11" width="2.5" height="14" rx="1.2" fill="#f0c030"/></svg>`,
+  "Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M11 22 L13 40 L23 40 L25 22 Z" fill="#e03030"/><path d="M11 22 L25 22 L23 20 L13 20 Z" fill="#c02020"/><path d="M13 22 L14 40" stroke="#fff" stroke-width="2" opacity="0.35"/><path d="M20 22 L21.5 40" stroke="#fff" stroke-width="2" opacity="0.35"/><rect x="14" y="8" width="3" height="16" rx="1.5" fill="#f0c030"/><rect x="18" y="6" width="3" height="18" rx="1.5" fill="#e8b820"/><rect x="22" y="9" width="3" height="15" rx="1.5" fill="#f0c030"/><rect x="10" y="10" width="3" height="14" rx="1.5" fill="#e8b820"/></svg>`,
+  "Bratwurst / Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 28 Q6 36 18 36 Q30 36 30 28 Z" fill="#d4a050"/><path d="M6 26 Q6 18 18 18 Q30 18 30 26 Z" fill="#e8b860"/><ellipse cx="13" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-20 13 21)"/><ellipse cx="20" cy="20" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(10 20 20)"/><ellipse cx="25" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-10 25 21)"/><path d="M7 26 Q7 30 18 30 Q29 30 29 26" stroke="#c06020" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M9 25 Q13 23 18 23" stroke="#d88040" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Bratwurst / Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><!-- Brötchen --><path d="M2 30 Q2 36 11 36 Q20 36 20 30 Z" fill="#d4a050"/><path d="M2 28 Q2 22 11 22 Q20 22 20 28 Z" fill="#e8b860"/><ellipse cx="7" cy="24" rx="1.2" ry="0.7" fill="#c8a040" transform="rotate(-20 7 24)"/><ellipse cx="12" cy="23" rx="1.2" ry="0.7" fill="#c8a040"/><ellipse cx="17" cy="24" rx="1.2" ry="0.7" fill="#c8a040" transform="rotate(15 17 24)"/><!-- Wurst --><path d="M3 28 Q3 32 11 32 Q19 32 19 28" stroke="#c06020" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M5 27 Q8 25.5 11 25.5" stroke="#d88040" stroke-width="1.2" fill="none" stroke-linecap="round"/><!-- Pommes rechts --><path d="M21 24 L22.5 38 L33 38 L34.5 24 Z" fill="#d02828"/><path d="M21 24 L34.5 24 L33.5 22 L22 22 Z" fill="#b01818"/><rect x="23" y="10" width="2.5" height="15" rx="1.2" fill="#f0c030"/><rect x="26.5" y="8" width="2.5" height="17" rx="1.2" fill="#e8b820"/><rect x="30" y="11" width="2.5" height="14" rx="1.2" fill="#f0c030"/></svg>`,
+  "Currywurst / Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 30 L8 42 L28 42 L30 30 Z" fill="#e8d0a0"/><ellipse cx="12" cy="30" rx="5" ry="3" fill="#c05820"/><ellipse cx="18" cy="29" rx="5" ry="3" fill="#b84818"/><ellipse cx="24" cy="30" rx="5" ry="3" fill="#c05820"/><path d="M8 28 Q12 24 18 25 Q24 24 28 28" stroke="#e08010" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M9 30 Q14 27 19 28 Q24 27 27 30" stroke="#f09020" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="13" cy="26" r="1" fill="#d4a000"/><circle cx="19" cy="25" r="1.2" fill="#c89000"/><circle cx="24" cy="26" r="0.9" fill="#d4a000"/></svg>`,
+  "Currywurst / Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><!-- Schale --><path d="M2 28 L4 40 L18 40 L20 28 Z" fill="#e8d0a0"/><!-- Wurst in Scheiben --><ellipse cx="7" cy="28" rx="4" ry="2.5" fill="#c05820"/><ellipse cx="11" cy="27" rx="4" ry="2.5" fill="#b84818"/><ellipse cx="15" cy="28" rx="4" ry="2.5" fill="#c05820"/><!-- Sauce --><path d="M4 26 Q8 22 11 23 Q15 22 18 26" stroke="#e08010" stroke-width="2.5" fill="none" stroke-linecap="round"/><!-- Curry dots --><circle cx="7" cy="24" r="0.9" fill="#d4a000"/><circle cx="12" cy="23" r="1" fill="#c89000"/><circle cx="16" cy="24" r="0.8" fill="#d4a000"/><!-- Pommes rechts --><path d="M21 24 L22.5 40 L33 40 L34.5 24 Z" fill="#d02828"/><path d="M21 24 L34.5 24 L33.5 22 L22 22 Z" fill="#b01818"/><rect x="23" y="10" width="2.5" height="15" rx="1.2" fill="#f0c030"/><rect x="26.5" y="8" width="2.5" height="17" rx="1.2" fill="#e8b820"/><rect x="30" y="11" width="2.5" height="14" rx="1.2" fill="#f0c030"/></svg>`,
+  "Steak / Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="38" rx="14" ry="3.5" fill="#c8c0a0"/><path d="M7 18 Q6 24 7 30 Q9 36 18 36 Q27 36 29 30 Q30 24 29 18 Q26 12 18 12 Q10 12 7 18 Z" fill="#7a2808"/><path d="M9 17 Q10 20 9 26 Q9 31 12 34" stroke="#501404" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M16 14 Q17 18 16 24 Q16 30 17 34" stroke="#501404" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M23 16 Q24 20 23 26 Q23 31 25 34" stroke="#501404" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M8 18 Q12 14 18 13 Q24 14 28 18" stroke="#c04020" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Steak / Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><!-- Steak halb --><path d="M3 18 Q2 24 3 30 Q5 35 12 35 Q19 35 20 30 Q21 24 20 18 Q17 12 12 12 Q6 12 3 18 Z" fill="#7a2808"/><path d="M5 17 Q6 21 5 27 Q5.5 31 8 33" stroke="#501404" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M12 13 Q13 17 12 23 Q12 29 13 33" stroke="#501404" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M18 18 Q18.5 22 18 27 Q18 31 19 33" stroke="#501404" stroke-width="2" fill="none" stroke-linecap="round"/><!-- Pommes rechts --><path d="M22 24 L23 38 L33 38 L34 24 Z" fill="#d02828"/><path d="M22 24 L34 24 L33 22 L23 22 Z" fill="#b01818"/><rect x="24" y="10" width="2.5" height="15" rx="1.2" fill="#f0c030"/><rect x="27.5" y="8" width="2.5" height="17" rx="1.2" fill="#e8b820"/><rect x="31" y="11" width="2.5" height="14" rx="1.2" fill="#f0c030"/></svg>`,
+  "Putensteak / Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="38" rx="14" ry="3.5" fill="#c8c0a0"/><path d="M7 18 Q6 24 7 30 Q9 36 18 36 Q27 36 29 30 Q30 24 29 18 Q26 13 18 13 Q10 13 7 18 Z" fill="#d08840"/><path d="M9 18 Q10 22 9 27 Q9.5 32 12 34" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M16 15 Q17 19 16 25 Q16 30 17 34" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M24 17 Q25 21 24 27 Q24 32 25 34" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M8 18 Q12 15 18 14 Q24 15 28 18" stroke="#e0a050" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+  "Putensteak / Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M3 18 Q2 24 3 30 Q5 35 12 35 Q19 35 20 30 Q21 24 20 18 Q17 13 12 13 Q6 13 3 18 Z" fill="#d08840"/><path d="M5 18 Q6 22 5 27 Q5.5 31 8 33" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M12 15 Q13 19 12 24 Q12 29 13 33" stroke="#a86020" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M18 18 Q18.5 22 18 27 Q18 31 19 33" stroke="#a86020" stroke-width="2" fill="none" stroke-linecap="round"/><!-- Pommes --><path d="M22 24 L23 38 L33 38 L34 24 Z" fill="#d02828"/><path d="M22 24 L34 24 L33 22 L23 22 Z" fill="#b01818"/><rect x="24" y="10" width="2.5" height="15" rx="1.2" fill="#f0c030"/><rect x="27.5" y="8" width="2.5" height="17" rx="1.2" fill="#e8b820"/><rect x="31" y="11" width="2.5" height="14" rx="1.2" fill="#f0c030"/></svg>`,
   "Tasse Kaffee": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 8 Q11 4 13 2" stroke="#c0b8a0" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M18 8 Q16 3 18 1" stroke="#c0b8a0" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M23 8 Q21 4 23 2" stroke="#c0b8a0" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="18" cy="38" rx="13" ry="3.5" fill="#e0d8c0"/><path d="M10 20 L11 36 Q11 38 18 38 Q25 38 25 36 L26 20 Z" fill="#f0ece0"/><ellipse cx="18" cy="22" rx="7" ry="2.5" fill="#5a3010"/><path d="M11.5 22 L12 36 Q12 37.5 18 37.5 Q24 37.5 24 36 L24.5 22 Z" fill="#4a2808"/><path d="M25 24 Q31 24 31 29 Q31 34 25 34" stroke="#d0c8b0" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
   "Torte": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M5 32 Q5 40 18 40 Q31 40 31 32 L31 28 Q31 22 18 22 Q5 22 5 28 Z" fill="#c8803a"/><path d="M5 28 Q5 34 18 34 Q31 34 31 28" fill="#f5f0e0"/><path d="M5 25 Q5 29 18 29 Q31 29 31 25 L31 22 Q31 18 18 18 Q5 18 5 22 Z" fill="#d09040"/><rect x="16.5" y="10" width="3" height="10" rx="1.5" fill="#f5c030"/><path d="M18 10 Q16 7 18 5 Q20 7 18 10 Z" fill="#f08010"/><circle cx="10" cy="20" r="1.2" fill="#e03030"/><circle cx="16" cy="19" r="1" fill="#3050e0"/><circle cx="22" cy="19" r="1.2" fill="#e0a000"/><circle cx="27" cy="20" r="1" fill="#30a030"/></svg>`,
   "Kuchen": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M18 18 L6 40 L30 40 Z" fill="#d09040"/><path d="M18 18 L6 40 L30 40 Z" fill="none" stroke="#c07830" stroke-width="1"/><path d="M9 33 L27 33" stroke="#f5e8c0" stroke-width="2.5"/><path d="M7.5 37 L28.5 37" stroke="#f5e8c0" stroke-width="2"/><circle cx="18" cy="16" r="3" fill="#d02020"/><path d="M18 13 Q20 9 22 10" stroke="#508030" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
-  "Sonstiges": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="20" height="28" rx="3" fill="#3a3a30"/><line x1="12" y1="16" x2="24" y2="16" stroke="#e09020" stroke-width="2"/><line x1="12" y1="21" x2="24" y2="21" stroke="#e09020" stroke-width="2"/><line x1="12" y1="26" x2="20" y2="26" stroke="#e09020" stroke-width="2"/><circle cx="26" cy="32" r="6" fill="#e09020"/><text x="26" y="36" text-anchor="middle" font-size="9" font-weight="bold" fill="#141412">+</text></svg>`,
+  "Sonstiges": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="20" height="28" rx="3" fill="#3a3a30"/><line x1="12" y1="16" x2="24" y2="16" stroke="#e09020" stroke-width="2"/><line x1="12" y1="21" x2="24" y2="21" stroke="#e09020" stroke-width="2"/><line x1="12" y1="26" x2="20" y2="26" stroke="#e09020" stroke-width="2"/><circle cx="26" cy="32" r="6" fill="#e09020"/></svg>`,
 };
 
 function iEl(name, sz) {
@@ -599,8 +675,8 @@ function iEl(name, sz) {
       svgEl.style.display = 'block';
     }
   } else {
-    s.style.fontSize = sz + 'px';
-    s.textContent = name;
+    // No icon found - show empty placeholder, never render name as text
+    s.style.cssText += 'background:rgba(255,255,255,0.05);border-radius:4px;';
   }
   return s;
 }
@@ -612,7 +688,7 @@ function renderNav(){
   for(let i=0;i<TISCHE;i++){
     const b=document.createElement('button');
     b.className='tisch-btn'+(i===aktiv?' active':'');
-    b.onclick=()=>{aktiv=i;renderNav();renderB();updAllBdg();};
+    b.onclick=()=>{aktiv=i;renderNav();renderB();updAllBdg();notizAnzeigen();};
     b.appendChild(document.createTextNode('Tisch '+(i+1)));
     if(T[i].length){const bd=document.createElement('span');bd.className='badge';bd.textContent=T[i].length>9?'9+':T[i].length;b.appendChild(bd);}
     nav.appendChild(b);
@@ -640,7 +716,16 @@ function renderArt(){
 
       btn.onclick=()=>{
         if(a.sx){sonstAuf();return;}
-        T[aktiv].push(ns(a.name,a.preis,a.icon));
+        if(a.prompt){
+          const detail=prompt(a.name+' – welche Sorte?','');
+          const finalName=detail&&detail.trim().length>0?a.name+' - '+detail.trim():a.name;
+          const s=ns(finalName,a.preis,a.icon);
+          s.baseName=a.name;
+          T[aktiv].push(s);
+          N2K[finalName]=a.kat;
+        } else {
+          T[aktiv].push(ns(a.name,a.preis,a.icon));
+        }
         renderB();renderNav();updBdg(a.name);saveState();
       };
 
@@ -675,11 +760,11 @@ function renderArt(){
 }
 
 function updBdg(n){
-  const c=T[aktiv].filter(s=>s.name===n).length;
+  // Count by exact name OR by baseName
+  const c=T[aktiv].filter(s=>s.name===n||(s.baseName&&s.baseName===n)).length;
   const b=bdg[n];if(!b)return;
   b.textContent=c;
   c?b.classList.add('visible'):b.classList.remove('visible');
-  // Show/hide count+minus widget
   const ww=bdg['__wrap__'+n];
   if(ww){ww.classList.toggle('visible',c>0);}
 }
@@ -697,20 +782,22 @@ function renderB(){
   KAT_ORDER.forEach(k=>{
     const st=tisch.filter(s=>(N2K[s.name]||'Sonstiges')===k);if(!st.length)return;
     const kb=document.createElement('div');
-    const kt=document.createElement('div');kt.className='bl-kat-titel';kt.textContent=KAT_LABEL[k]||k;kb.appendChild(kt);
-    // Kategorie-level quick buttons
+    // Header row: titel + quick buttons in same line
+    const katHeader=document.createElement('div');katHeader.className='bl-kat-header';
+    const kt=document.createElement('div');kt.className='bl-kat-titel';kt.textContent=KAT_LABEL[k]||k;
     const katQr=document.createElement('div');katQr.className='bl-quick-row';
-    [['Alle offen','offen'],['Alle bestellt','bestellt'],['Alle geliefert','geliefert']].forEach(([l,st2])=>{
-      const b=document.createElement('button');b.className='bl-quick';b.textContent=l;
+    [['Alle offen','offen','o'],['Alle bestellt','bestellt','b'],['Alle geliefert','geliefert','g']].forEach(([l,st2,cls])=>{
+      const b=document.createElement('button');b.className='bl-quick '+cls;b.textContent=l;
       b.onclick=()=>{st.forEach(s=>s.status=st2);renderB();saveState();};katQr.appendChild(b);
     });
-    kb.appendChild(katQr);
+    katHeader.appendChild(kt);katHeader.appendChild(katQr);
+    kb.appendChild(katHeader);
 
     const gm=new Map();st.forEach(s=>{if(!gm.has(s.name))gm.set(s.name,[]);gm.get(s.name).push(s);});
     gm.forEach((gs,nm)=>{
       const row=document.createElement('div');row.className='bl-gruppe';
       const ic=iEl(gs[0].name,20);ic.style.cssText='width:20px;text-align:center;flex-shrink:0;';
-      const nmEl=document.createElement('div');nmEl.className='bl-name';nmEl.textContent=gs.length>1?`${nm} ×${gs.length}`:nm;
+      const nmEl=document.createElement('div');nmEl.className='bl-name';nmEl.textContent=gs.length>1?`${gs.length}× ${nm}`:nm;
       const pills=document.createElement('div');pills.className='bl-status-row';
       gs.forEach(s=>{
         const p=document.createElement('div');p.className=`mini-pill ${s.status}`;p.textContent=SL[s.status];
@@ -738,13 +825,14 @@ function allesAbrechnen(){
   const t=T[aktiv];if(!t.length)return;
   const sum=t.reduce((s,a)=>s+a.preis,0);
   logAbrechnung(aktiv+1, gruppiereArtikel(t), 'Gesamt', bedienungName);
-  T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
-  showToast('Tisch '+(aktiv+1)+' bezahlt: '+fmt(sum));
+  notizLeeren();T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();showToast('Tisch '+(aktiv+1)+' bezahlt: '+fmt(sum));
 }
 function tischLeeren(){
-  if(!T[aktiv].length)return;
-  if(!confirm('Tisch '+(aktiv+1)+' wirklich leeren?'))return;
-  T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
+  if(!T[aktiv].length && !notizen[aktiv])return;
+  zeigeConfirm('Tisch '+(aktiv+1)+' leeren?', 'Alle Bestellungen werden gelöscht.', ()=>{
+    notizLeeren();T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
+    showToast('Tisch '+(aktiv+1)+' geleert');
+  });
 }
 
 function teilAuf(){if(!T[aktiv].length)return;mAuswahl=new Set();renderMod();document.getElementById('modalOverlay').classList.add('open');}
@@ -815,6 +903,7 @@ function teilBezahlen(){
   const bezahlteItems=T[aktiv].filter(s=>mAuswahl.has(s.id));
   logAbrechnung(aktiv+1, gruppiereArtikel(bezahlteItems), 'Teilzahlung', bedienungName);
   T[aktiv]=T[aktiv].filter(s=>!mAuswahl.has(s.id));
+  if(T[aktiv].length===0){notizLeeren();}
   teilZu();renderB();renderNav();updAllBdg();saveState();
   showToast('Teilzahlung: '+fmt(sum));
 }
@@ -913,6 +1002,56 @@ function nameBearbeiten(){
   document.getElementById('nameOverlay').classList.add('open');
 }
 
+
+// ── NOTIZEN ──
+let notizen = Array.from({length: TISCHE}, () => '');
+
+function notizLaden() {
+  try {
+    const saved = localStorage.getItem('maifest_notizen');
+    if (saved) notizen = JSON.parse(saved);
+  } catch(e) {}
+}
+
+function notizSpeichern(val) {
+  if(val !== undefined) notizen[aktiv] = val;
+  else notizen[aktiv] = document.getElementById('notizInput').value;
+  try { localStorage.setItem('maifest_notizen', JSON.stringify(notizen)); } catch(e) {}
+}
+
+function notizLeeren() {
+  notizen[aktiv] = '';
+  try { localStorage.setItem('maifest_notizen', JSON.stringify(notizen)); } catch(e) {}
+  const el = document.getElementById('notizInput');
+  if(el) el.value = '';
+}
+
+function notizAnzeigen() {
+  const el = document.getElementById('notizInput');
+  if (el) el.value = notizen[aktiv] || '';
+}
+
+
+// ── BESTÄTIGUNG ──
+let confirmCallback = null;
+
+function zeigeConfirm(titel, sub, callback) {
+  document.getElementById('confirmTitle').textContent = titel;
+  document.getElementById('confirmSub').textContent = sub;
+  confirmCallback = callback;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+
+function confirmOk() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if (confirmCallback) { confirmCallback(); confirmCallback = null; }
+}
+
+function confirmAbbrechen() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback = null;
+}
+
 function showToast(m){
   const t=document.getElementById('toast');
   t.textContent=m;t.classList.add('show');
@@ -930,7 +1069,7 @@ if(bedienungName && bedienungName.length >= 3){
   setTimeout(()=>document.getElementById('nameInput').focus(), 300);
   document.getElementById('nameInput').addEventListener('keydown', e => { if(e.key==='Enter') nameSpeichern(); });
 }
-loadState();init();
+notizLaden();loadState();init();notizAnzeigen();
 </script>
 
 </body>
