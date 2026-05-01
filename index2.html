@@ -23,7 +23,7 @@ font-family: ‘DM Sans’, sans-serif;
 }
 
 - { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-action: manipulation; }
+  button, .mini-pill, .modal-check, .bl-del, .tisch-btn, .artikel-btn { touch-action: manipulation; user-select: none; -webkit-user-select: none; }
 
 #app {
 position: fixed;
@@ -215,15 +215,18 @@ gap: 6px;
 padding: 6px 12px;
 background: #1e1e1b;
 border-bottom: 2px solid #3a3a30;
+position: relative;
+z-index: 10;
 }
 .btn-abrechnen {
 flex: 1; padding: 16px 8px;
 border-radius: 10px; border: none;
 font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer;
+touch-action: manipulation; position: relative; z-index: 10;
 }
 .btn-alles { background: #4a9e62; color: #fff; }
 .btn-auswahl { background: transparent; color: #e09020; border: 1.5px solid #e09020 !important; }
-.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 16px 13px; border-radius: 10px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; }
+.btn-reset { background: transparent; color: #c04848; border: 1.5px solid #c04848; padding: 16px 13px; border-radius: 10px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; touch-action: manipulation; position: relative; z-index: 10; user-select: none; -webkit-user-select: none; }
 
 /* ARTIKEL */
 .artikel-section { padding-bottom: 6px; background: #141412; }
@@ -268,7 +271,7 @@ white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 color: #f0ede6;
 }
 .artikel-btn-preis {
-font-size: 15px; font-weight: 700;
+font-size: 12px; font-weight: 700;
 color: #e8a030;
 margin-top: 2px;
 }
@@ -374,6 +377,58 @@ font-size: 15px; width: 100%; outline: none; margin-bottom: 10px; display: block
 .sonstiges-input:focus { border-color: #e09020; }
 .sonstiges-input::placeholder { color: #5a5a50; }
 
+.notiz-wrap {
+padding: 6px 12px 8px;
+background: #1a1a16;
+border-bottom: 1px solid #3a3a30;
+}
+.notiz-input {
+width: 100%;
+background: #252520;
+border: 1.5px solid #3a3a30;
+border-radius: 8px;
+padding: 7px 10px;
+color: #f0ede6;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 16px;
+outline: none;
+resize: none;
+display: block;
+-webkit-appearance: none;
+touch-action: manipulation;
+}
+.notiz-input:focus { border-color: #e09020; }
+.notiz-input::placeholder { color: #4a4a40; }
+
+.confirm-overlay {
+display: none;
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(0,0,0,0.88);
+z-index: 9997;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 24px;
+pointer-events: none;
+}
+.confirm-overlay.open { display: flex; pointer-events: all; }
+.confirm-box {
+background: #1e1e1b;
+border: 1px solid #3a3a30;
+border-radius: 16px;
+padding: 24px 20px;
+width: 100%;
+max-width: 320px;
+text-align: center;
+}
+.confirm-title { font-family: ‘DM Serif Display’, serif; font-size: 18px; color: #f0ede6; margin-bottom: 8px; }
+.confirm-sub { font-size: 13px; color: #808070; margin-bottom: 20px; }
+.confirm-btns { display: flex; gap: 10px; }
+.confirm-btn { flex: 1; padding: 12px; border-radius: 10px; border: none; font-family: ‘DM Sans’, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.confirm-btn-ok { background: #c04848; color: #fff; }
+.confirm-btn-ab { background: #252520; color: #909080; border: 1.5px solid #3a3a30; }
+
 .toast {
 position: fixed; bottom: 28px; left: 50%;
 transform: translateX(-50%) translateY(70px);
@@ -411,12 +466,15 @@ document.addEventListener('touchmove', function(e) {
     <span class="header-title">⛷ Maifest 2026</span>
     <span class="header-dot">·</span>
     <span class="header-sub">Ski-Club Oppenau</span>
-    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 07:43</span>
+    <span id="nameDisplay" onclick="nameBearbeiten()" style="font-size:10px;color:#a0a090;cursor:pointer;white-space:nowrap;margin-left:auto;border-bottom:1px dotted #505048;" title="Tippen zum Ändern"></span><span style="font-size:9px;color:#505048;white-space:nowrap;margin-left:6px;">v 01.05.2026 15:21</span>
   </div>
   <div class="tisch-nav" id="tischNav"></div>
 </div>
 
 <div class="artikel-section" id="artikelSection"></div>
+<div class="notiz-wrap" id="notizWrap">
+  <textarea class="notiz-input" id="notizInput" rows="2" placeholder="Notizen zu Tisch..." oninput="notizSpeichern()"></textarea>
+</div>
 
 <div class="bestellung-panel">
   <div class="schnell-bar" id="schnellBar">
@@ -448,9 +506,22 @@ document.addEventListener('touchmove', function(e) {
 
 </div>
 
+<!-- Modal Bestätigung -->
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-title" id="confirmTitle">Sicher?</div>
+    <div class="confirm-sub" id="confirmSub"></div>
+    <div class="confirm-btns">
+      <button class="confirm-btn confirm-btn-ab" onclick="confirmAbbrechen()">Abbrechen</button>
+      <button class="confirm-btn confirm-btn-ok" id="confirmOkBtn" onclick="confirmOk()">Ok</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal Name -->
 
-<div class="modal-overlay open" id="nameOverlay" style="z-index:9998;background:rgba(0,0,0,0.97);">
+<div class="modal-overlay open" id="nameOverlay" style="z-index:9998;background:rgba(0,0,0,0.97);pointer-events:all;">
   <div class="modal" style="padding-bottom:36px;">
     <div class="modal-titel">👋 Wer bist du?</div>
     <div class="modal-sub">Bitte Namen eingeben (mind. 3 Zeichen)</div>
@@ -526,7 +597,7 @@ const ARTIKEL=[
   {kat:"Weitere alkohol.",icon:"🌿",name:"Lillet",preis:5.00},
   {kat:"Weitere alkohol.",icon:"🥃",name:"Schnaps",preis:2.00},
   {kat:"Speisen",icon:"🥗",name:"Salatteller",preis:5.50},
-  {kat:"Speisen",icon:"🍟",name:"Portion Pommes",preis:3.00},
+  {kat:"Speisen",icon:"🍟",name:"Pommes",preis:3.00},
   {kat:"Speisen",icon:"🌭",name:"Bratwurst / Weck",preis:4.00},
   {kat:"Speisen",icon:"🌭",name:"Bratwurst / Pommes",preis:6.50},
   {kat:"Speisen",icon:"curry",name:"Currywurst / Weck",preis:4.50},
@@ -576,7 +647,7 @@ const SVG_ICONS = {
   "Lillet": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><rect x="16.5" y="34" width="3" height="6" fill="#c0bca0"/><ellipse cx="18" cy="40" rx="6" ry="1.5" fill="#c0bca0"/><path d="M11 10 Q11 28 18 33 Q25 28 25 10 Z" fill="#e8d870" opacity="0.55"/><path d="M12 20 Q12 28 18 32 Q24 28 24 20 Z" fill="#d0bc28"/><path d="M11 10 L25 10" stroke="#b0a870" stroke-width="1.2" fill="none"/></svg>`,
   "Schnaps": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M13 20 L14 34 Q14 36 18 36 Q22 36 22 34 L23 20 Z" fill="#d8d0b0" opacity="0.7"/><path d="M13.5 24 L14.3 34 Q14.3 35.5 18 35.5 Q21.7 35.5 21.7 34 L22.5 24 Z" fill="#f0e870" opacity="0.85"/><path d="M13 20 L23 20" stroke="#b0a880" stroke-width="1.5" fill="none"/><ellipse cx="18" cy="20" rx="5" ry="1.5" fill="#d0c8a0"/></svg>`,
   "Salatteller": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><ellipse cx="18" cy="30" rx="14" ry="5" fill="#d0c8a0"/><ellipse cx="18" cy="26" rx="12" ry="9" fill="#e8e4d0"/><ellipse cx="18" cy="23" rx="10" ry="7" fill="#4a8830"/><ellipse cx="13" cy="21" rx="4" ry="3" fill="#6aaa40" transform="rotate(-20 13 21)"/><ellipse cx="22" cy="22" rx="3.5" ry="2.5" fill="#3a7820" transform="rotate(15 22 22)"/><circle cx="16" cy="19" r="2.5" fill="#e03030"/><circle cx="22" cy="18" r="2" fill="#e84040"/><ellipse cx="18" cy="20" rx="2" ry="1.5" fill="#f0e030" transform="rotate(10 18 20)"/></svg>`,
-  "Portion Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M11 22 L13 40 L23 40 L25 22 Z" fill="#e03030"/><path d="M11 22 L25 22 L23 20 L13 20 Z" fill="#c02020"/><path d="M13 22 L14 40" stroke="#fff" stroke-width="2" opacity="0.35"/><path d="M20 22 L21.5 40" stroke="#fff" stroke-width="2" opacity="0.35"/><rect x="14" y="8" width="3" height="16" rx="1.5" fill="#f0c030"/><rect x="18" y="6" width="3" height="18" rx="1.5" fill="#e8b820"/><rect x="22" y="9" width="3" height="15" rx="1.5" fill="#f0c030"/><rect x="10" y="10" width="3" height="14" rx="1.5" fill="#e8b820"/></svg>`,
+  "Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M11 22 L13 40 L23 40 L25 22 Z" fill="#e03030"/><path d="M11 22 L25 22 L23 20 L13 20 Z" fill="#c02020"/><path d="M13 22 L14 40" stroke="#fff" stroke-width="2" opacity="0.35"/><path d="M20 22 L21.5 40" stroke="#fff" stroke-width="2" opacity="0.35"/><rect x="14" y="8" width="3" height="16" rx="1.5" fill="#f0c030"/><rect x="18" y="6" width="3" height="18" rx="1.5" fill="#e8b820"/><rect x="22" y="9" width="3" height="15" rx="1.5" fill="#f0c030"/><rect x="10" y="10" width="3" height="14" rx="1.5" fill="#e8b820"/></svg>`,
   "Bratwurst / Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 28 Q6 36 18 36 Q30 36 30 28 Z" fill="#d4a050"/><path d="M6 26 Q6 18 18 18 Q30 18 30 26 Z" fill="#e8b860"/><ellipse cx="13" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-20 13 21)"/><ellipse cx="20" cy="20" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(10 20 20)"/><ellipse cx="25" cy="21" rx="1.5" ry="0.8" fill="#c8a040" transform="rotate(-10 25 21)"/><path d="M7 26 Q7 30 18 30 Q29 30 29 26" stroke="#c06020" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M9 25 Q13 23 18 23" stroke="#d88040" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
   "Bratwurst / Pommes": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><!-- Brötchen --><path d="M2 30 Q2 36 11 36 Q20 36 20 30 Z" fill="#d4a050"/><path d="M2 28 Q2 22 11 22 Q20 22 20 28 Z" fill="#e8b860"/><ellipse cx="7" cy="24" rx="1.2" ry="0.7" fill="#c8a040" transform="rotate(-20 7 24)"/><ellipse cx="12" cy="23" rx="1.2" ry="0.7" fill="#c8a040"/><ellipse cx="17" cy="24" rx="1.2" ry="0.7" fill="#c8a040" transform="rotate(15 17 24)"/><!-- Wurst --><path d="M3 28 Q3 32 11 32 Q19 32 19 28" stroke="#c06020" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M5 27 Q8 25.5 11 25.5" stroke="#d88040" stroke-width="1.2" fill="none" stroke-linecap="round"/><!-- Pommes rechts --><path d="M21 24 L22.5 38 L33 38 L34.5 24 Z" fill="#d02828"/><path d="M21 24 L34.5 24 L33.5 22 L22 22 Z" fill="#b01818"/><rect x="23" y="10" width="2.5" height="15" rx="1.2" fill="#f0c030"/><rect x="26.5" y="8" width="2.5" height="17" rx="1.2" fill="#e8b820"/><rect x="30" y="11" width="2.5" height="14" rx="1.2" fill="#f0c030"/></svg>`,
   "Currywurst / Weck": `<svg viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg"><path d="M6 30 L8 42 L28 42 L30 30 Z" fill="#e8d0a0"/><ellipse cx="12" cy="30" rx="5" ry="3" fill="#c05820"/><ellipse cx="18" cy="29" rx="5" ry="3" fill="#b84818"/><ellipse cx="24" cy="30" rx="5" ry="3" fill="#c05820"/><path d="M8 28 Q12 24 18 25 Q24 24 28 28" stroke="#e08010" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M9 30 Q14 27 19 28 Q24 27 27 30" stroke="#f09020" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="13" cy="26" r="1" fill="#d4a000"/><circle cx="19" cy="25" r="1.2" fill="#c89000"/><circle cx="24" cy="26" r="0.9" fill="#d4a000"/></svg>`,
@@ -617,7 +688,7 @@ function renderNav(){
   for(let i=0;i<TISCHE;i++){
     const b=document.createElement('button');
     b.className='tisch-btn'+(i===aktiv?' active':'');
-    b.onclick=()=>{aktiv=i;renderNav();renderB();updAllBdg();};
+    b.onclick=()=>{aktiv=i;renderNav();renderB();updAllBdg();notizAnzeigen();};
     b.appendChild(document.createTextNode('Tisch '+(i+1)));
     if(T[i].length){const bd=document.createElement('span');bd.className='badge';bd.textContent=T[i].length>9?'9+':T[i].length;b.appendChild(bd);}
     nav.appendChild(b);
@@ -684,7 +755,6 @@ function updBdg(n){
   const b=bdg[n];if(!b)return;
   b.textContent=c;
   c?b.classList.add('visible'):b.classList.remove('visible');
-  // Show/hide count+minus widget
   const ww=bdg['__wrap__'+n];
   if(ww){ww.classList.toggle('visible',c>0);}
 }
@@ -745,13 +815,14 @@ function allesAbrechnen(){
   const t=T[aktiv];if(!t.length)return;
   const sum=t.reduce((s,a)=>s+a.preis,0);
   logAbrechnung(aktiv+1, gruppiereArtikel(t), 'Gesamt', bedienungName);
-  T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
-  showToast('Tisch '+(aktiv+1)+' bezahlt: '+fmt(sum));
+  notizLeeren();T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();showToast('Tisch '+(aktiv+1)+' bezahlt: '+fmt(sum));
 }
 function tischLeeren(){
-  if(!T[aktiv].length)return;
-  if(!confirm('Tisch '+(aktiv+1)+' wirklich leeren?'))return;
-  T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
+  if(!T[aktiv].length && !notizen[aktiv])return;
+  zeigeConfirm('Tisch '+(aktiv+1)+' leeren?', 'Alle Bestellungen werden gelöscht.', ()=>{
+    notizLeeren();T[aktiv]=[];renderB();renderNav();updAllBdg();saveState();
+    showToast('Tisch '+(aktiv+1)+' geleert');
+  });
 }
 
 function teilAuf(){if(!T[aktiv].length)return;mAuswahl=new Set();renderMod();document.getElementById('modalOverlay').classList.add('open');}
@@ -822,6 +893,7 @@ function teilBezahlen(){
   const bezahlteItems=T[aktiv].filter(s=>mAuswahl.has(s.id));
   logAbrechnung(aktiv+1, gruppiereArtikel(bezahlteItems), 'Teilzahlung', bedienungName);
   T[aktiv]=T[aktiv].filter(s=>!mAuswahl.has(s.id));
+  if(T[aktiv].length===0){notizLeeren();}
   teilZu();renderB();renderNav();updAllBdg();saveState();
   showToast('Teilzahlung: '+fmt(sum));
 }
@@ -920,6 +992,57 @@ function nameBearbeiten(){
   document.getElementById('nameOverlay').classList.add('open');
 }
 
+
+// ── NOTIZEN ──
+let notizen = Array.from({length: TISCHE}, () => '');
+
+function notizLaden() {
+  try {
+    const saved = localStorage.getItem('maifest_notizen');
+    if (saved) notizen = JSON.parse(saved);
+  } catch(e) {}
+}
+
+function notizSpeichern(val) {
+  if(val !== undefined) notizen[aktiv] = val;
+  else notizen[aktiv] = document.getElementById('notizInput').value;
+  try { localStorage.setItem('maifest_notizen', JSON.stringify(notizen)); } catch(e) {}
+}
+
+function notizLeeren() {
+  notizen[aktiv] = '';
+  try { localStorage.setItem('maifest_notizen', JSON.stringify(notizen)); } catch(e) {}
+  const el = document.getElementById('notizInput');
+  if(el) el.value = '';
+}
+
+function notizAnzeigen() {
+  const el = document.getElementById('notizInput');
+  if (el) el.value = notizen[aktiv] || '';
+}
+
+
+// ── BESTÄTIGUNG ──
+let confirmCallback = null;
+
+function zeigeConfirm(titel, sub, callback, okLabel) {
+  document.getElementById('confirmTitle').textContent = titel;
+  document.getElementById('confirmSub').textContent = sub;
+  document.getElementById('confirmOkBtn').textContent = okLabel || 'Ok';
+  confirmCallback = callback;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+
+function confirmOk() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if (confirmCallback) { confirmCallback(); confirmCallback = null; }
+}
+
+function confirmAbbrechen() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback = null;
+}
+
 function showToast(m){
   const t=document.getElementById('toast');
   t.textContent=m;t.classList.add('show');
@@ -937,7 +1060,7 @@ if(bedienungName && bedienungName.length >= 3){
   setTimeout(()=>document.getElementById('nameInput').focus(), 300);
   document.getElementById('nameInput').addEventListener('keydown', e => { if(e.key==='Enter') nameSpeichern(); });
 }
-loadState();init();
+notizLaden();loadState();init();notizAnzeigen();
 </script>
 
 </body>
